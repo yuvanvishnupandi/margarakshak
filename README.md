@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Traffic Violation Management System
 
 **Tier-1 Government/Law Enforcement Portal with Biometric Authentication**
@@ -412,3 +413,7 @@ Built as a Tier-1 Government/Law Enforcement Traffic Violation Management System
 - FastAPI for high-performance async framework
 - MySQL for advanced database features
 - React ecosystem for modern frontend development
+=======
+# Traffic-Violation-Management-System
+updating soon...
+>>>>>>> 0bb3de486307a045553c1b0705472e4c26d97ebb
