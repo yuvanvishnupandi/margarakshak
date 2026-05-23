@@ -1,0 +1,135 @@
+const express = require('express');
+const db = require('../db');
+const { authenticateToken, requirePolice } = require('../middleware/auth');
+
+const router = express.Router();
+
+// GET /api/police/pending - Fetch pending reports dashboard view
+router.get('/pending', authenticateToken, requirePolice, async (req, res) => {
+  try {
+    const [rows] = await db.execute('SELECT * FROM Pending_Reports_Dashboard');
+    res.json(rows);
+  } catch (err) {
+    console.error('Fetch pending reports error:', err);
+    res.status(500).json({ error: 'Failed to fetch pending reports.' });
+  }
+});
+
+// PATCH /api/police/verify/:id - Verify a report (fires trust_score trigger)
+router.patch('/verify/:id', authenticateToken, requirePolice, async (req, res) => {
+  const report_id = req.params.id;
+  const badge_no = req.user.id;
+  const { rule_id } = req.body;
+
+  if (!rule_id) {
+    return res.status(400).json({ error: 'rule_id is required to issue challan.' });
+  }
+
+  let connection;
+  try {
+    connection = await db.getConnection();
+    await connection.beginTransaction();
+
+    // Get report details first (including plate_no)
+    const [reportRows] = await connection.execute(
+      `SELECT citizen_id, plate_no FROM REPORTS WHERE report_id = ? AND status = 'Pending' FOR UPDATE`,
+      [report_id]
+    );
+
+    if (reportRows.length === 0) {
+      await connection.rollback();
+      connection.release();
+      return res.status(404).json({ error: 'Report not found or already processed.' });
+    }
+
+    const { citizen_id, plate_no } = reportRows[0];
+
+    // Verify rule exists
+    const [ruleRows] = await connection.execute(
+      `SELECT base_fine_amount, rule_name FROM VIOLATION_RULES WHERE rule_id = ? AND is_active = TRUE`,
+      [rule_id]
+    );
+
+    if (ruleRows.length === 0) {
+      await connection.rollback();
+      connection.release();
+      return res.status(400).json({ error: 'Invalid or inactive violation rule.' });
+    }
+
+    // Update report status to Verified (triggers trust score increase)
+    const [updateResult] = await connection.execute(
+      `UPDATE REPORTS SET status = 'Verified', reviewed_by = ?, reviewed_at = NOW() WHERE report_id = ?`,
+      [badge_no, report_id]
+    );
+
+    if (updateResult.affectedRows === 0) {
+      await connection.rollback();
+      connection.release();
+      return res.status(404).json({ error: 'Report not found or already processed.' });
+    }
+
+    // Create violation event
+    const [eventResult] = await connection.execute(
+      `INSERT INTO VIOLATION_EVENTS (report_id, rule_id, plate_no, notes) VALUES (?, ?, ?, CONCAT('Violation: ', ?))`,
+      [report_id, rule_id, plate_no, ruleRows[0].rule_name]
+    );
+    const event_id = eventResult.insertId;
+
+    // Create challan
+    const [challanResult] = await connection.execute(
+      `INSERT INTO CHALLANS (event_id, citizen_id, badge_no, total_amount, issue_date, due_date) VALUES (?, ?, ?, ?, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 30 DAY))`,
+      [event_id, citizen_id, badge_no, ruleRows[0].base_fine_amount]
+    );
+
+    await connection.commit();
+    connection.release();
+
+    res.json({ 
+      message: 'Report verified and challan issued successfully.',
+      challan_id: challanResult.insertId,
+      amount: ruleRows[0].base_fine_amount
+    });
+  } catch (err) {
+    if (connection) {
+      await connection.rollback();
+      connection.release();
+    }
+    console.error('Verify report error:', err);
+    res.status(500).json({ error: 'Failed to verify report.' });
+  }
+});
+
+// PATCH /api/police/reject/:id - Reject a report (fires trust_score trigger)
+router.patch('/reject/:id', authenticateToken, requirePolice, async (req, res) => {
+  const report_id = req.params.id;
+
+  try {
+    const [result] = await db.execute(
+      `UPDATE REPORTS SET status = 'Rejected' WHERE report_id = ? AND status = 'Pending'`,
+      [report_id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Report not found or already processed.' });
+    }
+
+    res.json({ message: 'Report rejected successfully.' });
+  } catch (err) {
+    console.error('Reject report error:', err);
+    res.status(500).json({ error: 'Failed to reject report.' });
+  }
+});
+
+// GET /api/police/officer-performance — officer_performance_view equivalent (JOIN visualizer)
+router.get('/officer-performance', async (req, res) => {
+  try {
+    // Use the existing Officer_Performance_View which is already defined in schema
+    const [rows] = await db.execute('SELECT * FROM Officer_Performance_View ORDER BY verified_count DESC LIMIT 5');
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    console.error('Officer performance error:', err);
+    res.status(500).json({ success: false, data: [], error: 'Officer performance unavailable' });
+  }
+});
+
+module.exports = router;

@@ -1,0 +1,1 @@
+const db = require('./backend/db'); db.execute('SELECT TRIGGER_NAME, ACTION_TIMING, EVENT_MANIPULATION, ACTION_STATEMENT FROM information_schema.TRIGGERS WHERE EVENT_OBJECT_TABLE = \'challans\'').then(([rows]) => console.log(JSON.stringify(rows, null, 2))).catch(console.error).finally(() => process.exit());

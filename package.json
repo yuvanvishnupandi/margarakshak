@@ -1,0 +1,20 @@
+{
+  "name": "traffic-violation-system",
+  "version": "1.0.0",
+  "description": "Traffic Violation Management System - DBMS Mini Project",
+  "private": true,
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "setup:db": "mysql -u root -p traffic_violation < db/schema.sql"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "react-leaflet": "^5.0.0",
+    "recharts": "^3.8.1"
+  }
+}

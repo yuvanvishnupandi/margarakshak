@@ -1,0 +1,318 @@
+import { useState, useEffect, useRef } from 'react'
+
+function NotificationWidget({ user }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [notifications, setNotifications] = useState([])
+  const [unreadCount, setUnreadCount] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const widgetRef = useRef(null)
+
+  // Fetch notifications
+  const fetchNotifications = async () => {
+    if (!user?.id) return
+    
+    try {
+      setLoading(true)
+      
+      let url
+      if (user.role === 'citizen') {
+        url = `http://localhost:5000/api/citizen/notifications/${user.id}`
+      } else {
+        // Police - get all notifications
+        url = `http://localhost:5000/api/citizen/notifications/police/all`
+      }
+      
+      const res = await fetch(url)
+      
+      if (res.ok) {
+        const data = await res.json()
+        
+        // Validate and filter notifications
+        if (data && Array.isArray(data.notifications)) {
+          const validNotifications = data.notifications.filter(n => 
+            n && n.notif_id && n.message && n.message.trim() !== ''
+          )
+          setNotifications(validNotifications)
+          setUnreadCount(data.unread_count || 0)
+        } else {
+          setNotifications([])
+          setUnreadCount(0)
+        }
+      } else if (res.status === 404) {
+        console.warn('Notifications API not found')
+        setNotifications([])
+        setUnreadCount(0)
+      }
+    } catch (err) {
+      console.error('Failed to fetch notifications:', err)
+      setNotifications([])
+      setUnreadCount(0)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Fetch on mount and when user changes
+  useEffect(() => {
+    fetchNotifications()
+    
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(fetchNotifications, 30000)
+    return () => clearInterval(interval)
+  }, [user])
+
+  // Close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (widgetRef.current && !widgetRef.current.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  // Mark as read
+  const markAsRead = async (notificationId) => {
+    try {
+      let url
+      if (user.role === 'citizen') {
+        url = `http://localhost:5000/api/citizen/notifications/${notificationId}/read`
+      } else {
+        url = `http://localhost:5000/api/citizen/notifications/police/${notificationId}/read`
+      }
+      
+      await fetch(url, { method: 'PUT' })
+      
+      // Update local state
+      setNotifications(prev => 
+        prev.map(n => 
+          n.notif_id === notificationId 
+            ? { ...n, is_read: true }
+            : n
+        )
+      )
+      setUnreadCount(prev => Math.max(0, prev - 1))
+    } catch (err) {
+      console.error('Failed to mark as read:', err)
+    }
+  }
+
+  // Mark all as read
+  const markAllAsRead = async () => {
+    try {
+      let url
+      if (user.role === 'citizen') {
+        url = `http://localhost:5000/api/citizen/notifications/read-all/${user.id}`
+      } else {
+        // For police, mark each notification individually (no bulk endpoint)
+        for (const notif of notifications) {
+          if (!notif.is_read) {
+            await fetch(`http://localhost:5000/api/citizen/notifications/police/${notif.notif_id}/read`, { 
+              method: 'PUT' 
+            })
+          }
+        }
+        setNotifications(prev => 
+          prev.map(n => ({ ...n, is_read: true }))
+        )
+        setUnreadCount(0)
+        return
+      }
+      
+      await fetch(url, { method: 'PUT' })
+      
+      setNotifications(prev => 
+        prev.map(n => ({ ...n, is_read: true }))
+      )
+      setUnreadCount(0)
+    } catch (err) {
+      console.error('Failed to mark all as read:', err)
+    }
+  }
+
+  // Get notification icon based on type
+  const getNotificationIcon = (type) => {
+    const icons = {
+      'Account Suspended': (
+        <svg className="w-5 h-5 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+        </svg>
+      ),
+      'Trust Score Warning': (
+        <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      ),
+      'Report Verified': (
+        <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      'Report Rejected': (
+        <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      ),
+      'New Appeal': (
+        <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+        </svg>
+      ),
+      'Challan Issued': (
+        <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      ),
+      'Appeal Status': (
+        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    }
+    return icons[type] || icons['Appeal Status']
+  }
+
+  // Get notification background color
+  const getNotificationBg = (type) => {
+    const colors = {
+      'Account Suspended': 'bg-red-100 border-red-300',
+      'Trust Score Warning': 'bg-yellow-50 border-yellow-200',
+      'Report Verified': 'bg-green-50 border-green-200',
+      'Report Rejected': 'bg-red-50 border-red-200',
+      'New Appeal': 'bg-purple-50 border-purple-200',
+      'Challan Issued': 'bg-orange-50 border-orange-200',
+      'Appeal Status': 'bg-blue-50 border-blue-200'
+    }
+    return colors[type] || colors['Appeal Status']
+  }
+
+  // Format time ago
+  const timeAgo = (dateString) => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const seconds = Math.floor((now - date) / 1000)
+    
+    if (seconds < 60) return 'Just now'
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`
+    return `${Math.floor(seconds / 86400)}d ago`
+  }
+
+  if (!user) return null
+
+  return (
+    <div ref={widgetRef} className="fixed bottom-6 right-6 z-50">
+      {/* Notification Panel */}
+      {isOpen && (
+        <div className="absolute bottom-16 right-0 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden animate-slide-up">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold">Notifications</h3>
+                <p className="text-sm text-blue-100">
+                  {unreadCount > 0 ? `${unreadCount} unread` : 'All caught up!'}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                {unreadCount > 0 && (
+                  <button
+                    onClick={markAllAsRead}
+                    className="px-3 py-1 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-medium transition"
+                  >
+                    Mark all read
+                  </button>
+                )}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1 hover:bg-white/20 rounded-lg transition"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Notifications List */}
+          <div className="max-h-96 overflow-y-auto">
+            {loading ? (
+              <div className="p-8 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="text-sm text-gray-600 mt-2">Loading notifications...</p>
+              </div>
+            ) : notifications.length === 0 ? (
+              <div className="p-8 text-center">
+                <svg className="w-16 h-16 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <p className="text-sm text-gray-600">No notifications yet</p>
+                <p className="text-xs text-gray-500 mt-1">We'll notify you when something happens</p>
+              </div>
+            ) : (
+              notifications.map((notif) => (
+                <div
+                  key={notif.notif_id}
+                  className={`p-4 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer ${getNotificationBg(notif.notif_type)} ${
+                    !notif.is_read ? 'border-l-4 border-l-blue-600' : ''
+                  }`}
+                  onClick={() => !notif.is_read && markAsRead(notif.notif_id)}
+                >
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0 mt-1">
+                      {getNotificationIcon(notif.notif_type)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <h4 className="text-sm font-semibold text-gray-900 truncate">
+                          {notif.notif_type || 'Notification'}
+                        </h4>
+                        {!notif.is_read && (
+                          <span className="w-2 h-2 bg-blue-600 rounded-full flex-shrink-0 mt-1.5"></span>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-700 mt-1 line-clamp-2">
+                        {notif.message}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2">
+                        {timeAgo(notif.created_at)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Floating Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="relative w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center group"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+        
+        {/* Unread Badge */}
+        {unreadCount > 0 && (
+          <span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white animate-pulse">
+            {unreadCount > 9 ? '9+' : unreadCount}
+          </span>
+        )}
+        
+        {/* Hover Tooltip */}
+        <span className="absolute right-full mr-3 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          Notifications
+          {unreadCount > 0 && ` (${unreadCount} unread)`}
+        </span>
+      </button>
+    </div>
+  )
+}
+
+export default NotificationWidget
