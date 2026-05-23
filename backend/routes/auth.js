@@ -1,10 +1,265 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const db = require('../db');
 const { JWT_SECRET } = require('../middleware/auth');
 
 const router = express.Router();
+
+const TOKEN_EXPIRY = '8h';
+const PASSWORD_MIN_LENGTH = 6;
+const VEHICLE_TYPES = new Set(['Car', 'Motorcycle', 'Truck', 'Bus', 'Auto-Rickshaw', 'Bicycle', 'Other']);
+
+function normalizeEmail(email) {
+  return String(email || '').trim().toLowerCase();
+}
+
+function normalizePlate(plateNo) {
+  return String(plateNo || '').trim().toUpperCase().replace(/\s+/g, '');
+}
+
+function normalizeVehicleType(vehicleType) {
+  const value = String(vehicleType || '').trim();
+  return VEHICLE_TYPES.has(value) ? value : 'Other';
+}
+
+function validatePassword(password, confirmPassword) {
+  if (!password || password.length < PASSWORD_MIN_LENGTH) {
+    return `Password must be at least ${PASSWORD_MIN_LENGTH} characters long.`;
+  }
+
+  if (confirmPassword && password !== confirmPassword) {
+    return 'Passwords do not match.';
+  }
+
+  return null;
+}
+
+async function createBadgeNo(conn) {
+  for (let i = 0; i < 8; i += 1) {
+    const badgeNo = `POL-${crypto.randomInt(100000, 999999)}`;
+    const [[existing]] = await conn.execute(
+      'SELECT badge_no FROM POLICE_OFFICERS WHERE badge_no = ?',
+      [badgeNo]
+    );
+    if (!existing) return badgeNo;
+  }
+
+  return `POL-${Date.now().toString().slice(-10)}`;
+}
+
+async function createAuthPayload(conn, user, role, req) {
+  const idField = role === 'citizen' ? 'citizen_id' : 'badge_no';
+  const sessionId = crypto.randomBytes(32).toString('hex');
+  const token = jwt.sign(
+    {
+      id: user[idField],
+      email: user.email,
+      full_name: user.full_name,
+      role,
+      session_id: sessionId
+    },
+    JWT_SECRET,
+    { expiresIn: TOKEN_EXPIRY }
+  );
+
+  try {
+    const expiresAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
+    await conn.execute(
+      `INSERT INTO ACTIVE_SESSIONS (session_id, user_id, user_role, ip_address, expires_at, is_active)
+       VALUES (?, ?, ?, ?, ?, 1)`,
+      [
+        sessionId,
+        String(user[idField]),
+        role === 'citizen' ? 'Citizen' : 'Police',
+        req.ip || req.connection.remoteAddress || null,
+        expiresAt
+      ]
+    );
+  } catch (se) {
+    console.warn('Session insert skipped:', se.message);
+  }
+
+  return {
+    token,
+    user: {
+      id: user[idField],
+      full_name: user.full_name,
+      name: user.full_name,
+      email: user.email,
+      role,
+      trust_score: role === 'citizen' ? user.trust_score : undefined,
+      reward_points: role === 'citizen' ? user.reward_points : undefined,
+      badge_number: role === 'police' ? user.badge_no : undefined,
+      station: role === 'police' ? user.station_code : undefined
+    }
+  };
+}
+
+// POST /api/auth/citizen/register
+router.post('/citizen/register', async (req, res) => {
+  const {
+    full_name,
+    phone_no,
+    password,
+    confirm_password,
+    plate_no,
+    vehicle_type,
+    vehicle_model
+  } = req.body;
+  const email = normalizeEmail(req.body.email);
+  const fullName = String(full_name || '').trim();
+  const phoneNo = phone_no ? String(phone_no).trim() : null;
+  const plateNo = normalizePlate(plate_no);
+
+  if (!fullName || !email || !password || !plateNo || !vehicle_type) {
+    return res.status(400).json({
+      error: 'full_name, email, password, plate_no, and vehicle_type are required.'
+    });
+  }
+
+  const passwordError = validatePassword(password, confirm_password);
+  if (passwordError) return res.status(400).json({ error: passwordError });
+
+  let conn;
+  try {
+    conn = await db.getConnection();
+    await conn.beginTransaction();
+
+    const [[existingCitizen]] = await conn.execute(
+      'SELECT citizen_id FROM CITIZENS WHERE email = ?',
+      [email]
+    );
+    if (existingCitizen) {
+      await conn.rollback();
+      return res.status(409).json({ error: 'Email already registered.' });
+    }
+
+    const [[existingVehicle]] = await conn.execute(
+      'SELECT plate_no FROM VEHICLES WHERE plate_no = ?',
+      [plateNo]
+    );
+    if (existingVehicle) {
+      await conn.rollback();
+      return res.status(409).json({ error: 'Vehicle already registered.', plate_no: plateNo });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 12);
+    const [citizenResult] = await conn.execute(
+      `INSERT INTO CITIZENS (full_name, email, phone_no, password_hash, trust_score, reward_points, account_status)
+       VALUES (?, ?, ?, ?, 50, 0, 'Active')`,
+      [fullName, email, phoneNo, passwordHash]
+    );
+
+    const citizenId = citizenResult.insertId;
+    const [[citizenIdColumn]] = await conn.execute(
+      `SHOW COLUMNS FROM VEHICLES LIKE 'citizen_id'`
+    );
+
+    if (citizenIdColumn) {
+      await conn.execute(
+        `INSERT INTO VEHICLES (plate_no, vehicle_model, vehicle_type, owner_name, owner_type, citizen_id)
+         VALUES (?, ?, ?, ?, 'Individual', ?)`,
+        [plateNo, vehicle_model || 'Unknown', normalizeVehicleType(vehicle_type), fullName, citizenId]
+      );
+    } else {
+      await conn.execute(
+        `INSERT INTO VEHICLES (plate_no, vehicle_model, vehicle_type, owner_name, owner_type)
+         VALUES (?, ?, ?, ?, 'Individual')`,
+        [plateNo, vehicle_model || 'Unknown', normalizeVehicleType(vehicle_type), fullName]
+      );
+    }
+
+    const user = {
+      citizen_id: citizenId,
+      full_name: fullName,
+      email,
+      trust_score: 50,
+      reward_points: 0
+    };
+    const payload = await createAuthPayload(conn, user, 'citizen', req);
+
+    await conn.commit();
+    res.status(201).json({
+      message: 'Registration successful',
+      ...payload
+    });
+  } catch (err) {
+    if (conn) await conn.rollback();
+    console.error('Citizen registration error:', err);
+    res.status(500).json({ error: 'Server error during citizen registration.' });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
+// POST /api/auth/police/register
+router.post('/police/register', async (req, res) => {
+  const {
+    full_name,
+    phone_no,
+    password,
+    confirm_password,
+    officer_rank,
+    station_code
+  } = req.body;
+  const email = normalizeEmail(req.body.email);
+  const fullName = String(full_name || '').trim();
+  const phoneNo = phone_no ? String(phone_no).trim() : null;
+  const rank = String(officer_rank || '').trim() || 'Constable';
+  const station = String(station_code || '').trim() || 'HQ001';
+
+  if (!fullName || !email || !password) {
+    return res.status(400).json({ error: 'full_name, email, and password are required.' });
+  }
+
+  const passwordError = validatePassword(password, confirm_password);
+  if (passwordError) return res.status(400).json({ error: passwordError });
+
+  let conn;
+  try {
+    conn = await db.getConnection();
+    await conn.beginTransaction();
+
+    const [[existingOfficer]] = await conn.execute(
+      'SELECT badge_no FROM POLICE_OFFICERS WHERE email = ?',
+      [email]
+    );
+    if (existingOfficer) {
+      await conn.rollback();
+      return res.status(409).json({ error: 'Email already registered.' });
+    }
+
+    const badgeNo = await createBadgeNo(conn);
+    const passwordHash = await bcrypt.hash(password, 12);
+    await conn.execute(
+      `INSERT INTO POLICE_OFFICERS (badge_no, full_name, email, phone_no, password_hash, officer_rank, station_code, is_active)
+       VALUES (?, ?, ?, ?, ?, ?, ?, 1)`,
+      [badgeNo, fullName, email, phoneNo, passwordHash, rank, station]
+    );
+
+    const user = {
+      badge_no: badgeNo,
+      full_name: fullName,
+      email,
+      station_code: station
+    };
+    const payload = await createAuthPayload(conn, user, 'police', req);
+
+    await conn.commit();
+    res.status(201).json({
+      message: 'Registration successful',
+      ...payload
+    });
+  } catch (err) {
+    if (conn) await conn.rollback();
+    console.error('Police registration error:', err);
+    res.status(500).json({ error: 'Server error during police registration.' });
+  } finally {
+    if (conn) conn.release();
+  }
+});
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
