@@ -575,7 +575,7 @@ Citizens: (created during testing)
 
 ### API Base URL
 ```
-Backend: http://localhost:5000
+Backend: https://margarakshak-backend.onrender.com
 Frontend: http://localhost:5173
 ```
 

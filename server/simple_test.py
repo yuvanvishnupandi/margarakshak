@@ -2,7 +2,7 @@ import requests
 
 print("Testing simple endpoint...")
 try:
-    r = requests.get('http://localhost:5000/api/health', timeout=5)
+    r = requests.get('https://margarakshak-backend.onrender.com/api/health', timeout=5)
     print(f"Health check: {r.status_code} - {r.json()}")
 except Exception as e:
     print(f"Health check failed: {e}")
@@ -10,7 +10,7 @@ except Exception as e:
 print("\nTesting registration...")
 try:
     r = requests.post(
-        'http://localhost:5000/api/auth/citizen/register',
+        'https://margarakshak-backend.onrender.com/api/auth/citizen/register',
         json={
             "full_name": "Test User",
             "email": "test123@example.com",

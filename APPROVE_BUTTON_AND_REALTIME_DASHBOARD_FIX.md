@@ -287,7 +287,7 @@ const fetchDashboardStats = async () => {
     setLoading(true)
     
     // Fetch real-time stats from police-summary endpoint
-    const res = await fetch('http://localhost:5000/api/analytics/police-summary')
+    const res = await fetch('https://margarakshak-backend.onrender.com/api/analytics/police-summary')
     
     if (!res.ok) {
       console.error(`Failed to fetch stats: ${res.status}`)

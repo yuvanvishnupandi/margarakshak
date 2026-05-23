@@ -203,7 +203,7 @@ if (score >= 70) return 'text-blue-600'
 const API_BASE_URL = 'http://localhost:8000'
 
 // AFTER (correct FastAPI port)
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 ```
 
 ---
@@ -315,7 +315,7 @@ const API_BASE_URL = 'http://localhost:5000'
 - [x] Table: `bg-white` with `border-gray-200`
 - [x] Trust score colors: Dark variants (green-600, blue-600)
 - [x] Avatar gradient: `from-blue-500 to-indigo-600`
-- [x] API port: `http://localhost:5000`
+- [x] API port: `https://margarakshak-backend.onrender.com`
 
 ### Hero.jsx:
 - [x] Hero container: `pt-28` for navbar clearance

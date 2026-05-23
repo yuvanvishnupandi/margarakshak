@@ -90,7 +90,7 @@ Backend queries: SELECT evidence_path FROM REPORTS
     ↓
 Frontend receives: evidence_path="/uploads/evidence/report_270_20260426_143022.jpg"
     ↓
-Frontend displays: <img src="http://localhost:5000/uploads/evidence/report_270_20260426_143022.jpg" />
+Frontend displays: <img src="https://margarakshak-backend.onrender.com/uploads/evidence/report_270_20260426_143022.jpg" />
     ↓
 Photo appears in table ✅
 ```
@@ -162,7 +162,7 @@ SELECT report_id, evidence_path FROM REPORTS WHERE evidence_path IS NOT NULL;
 
 **Test direct URL:**
 ```
-http://localhost:5000/uploads/evidence/report_270_20260426_143022.jpg
+https://margarakshak-backend.onrender.com/uploads/evidence/report_270_20260426_143022.jpg
 ```
 
 If this doesn't show the image, the file path or static serving is wrong.

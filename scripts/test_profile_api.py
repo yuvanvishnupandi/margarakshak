@@ -12,7 +12,7 @@ login_data = {
 }
 
 print("\n[1] Logging in...")
-login_res = requests.post("http://localhost:5000/api/auth/citizen/login", json=login_data)
+login_res = requests.post("https://margarakshak-backend.onrender.com/api/auth/citizen/login", json=login_data)
 
 if login_res.status_code != 200:
     print(f"❌ Login failed: {login_res.json()}")
@@ -31,7 +31,7 @@ print(f"Role from token: {payload.get('role')}")
 # Test GET profile endpoint
 print("\n[2] Fetching profile from /api/auth/profile...")
 headers = {"Authorization": f"Bearer {token}"}
-profile_res = requests.get("http://localhost:5000/api/auth/profile", headers=headers)
+profile_res = requests.get("https://margarakshak-backend.onrender.com/api/auth/profile", headers=headers)
 
 if profile_res.status_code == 200:
     profile = profile_res.json()

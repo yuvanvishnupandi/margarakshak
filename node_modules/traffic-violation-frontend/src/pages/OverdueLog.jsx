@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API = 'http://localhost:5000'
+const API = 'https://margarakshak-backend.onrender.com'
 
 export default function OverdueLog() {
   const [log, setLog] = useState([])

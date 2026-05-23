@@ -201,7 +201,7 @@ Press **Ctrl + F5** to clear cache and load new code.
 **If no markers appear**:
 - Make sure you have verified reports with coordinates
 - Check browser console for errors
-- Verify backend endpoint: `http://localhost:5000/api/analytics/heatmap-data`
+- Verify backend endpoint: `https://margarakshak-backend.onrender.com/api/analytics/heatmap-data`
 
 ---
 
@@ -265,7 +265,7 @@ After testing, verify all items:
 1. Make sure you're logged in as **police** (citizens don't see it)
 2. Check if you have verified reports with coordinates
 3. Check browser console: F12 → Console tab
-4. Verify backend endpoint: Open `http://localhost:5000/api/analytics/heatmap-data` in browser
+4. Verify backend endpoint: Open `https://margarakshak-backend.onrender.com/api/analytics/heatmap-data` in browser
 
 ### Issue: Notifications not appearing
 **Solutions**:
@@ -358,7 +358,7 @@ If you encounter any issues:
 
 ```bash
 # Check if backend is running
-curl http://localhost:5000/docs
+curl https://margarakshak-backend.onrender.com/docs
 
 # Check if frontend is running
 curl http://localhost:5173

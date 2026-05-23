@@ -87,7 +87,7 @@ Expected output:
 ### Police Views Reports:
 1. Police clicks "Review Reports"
 2. Backend queries: `SELECT ... r.evidence_path ... FROM REPORTS`
-3. Frontend displays thumbnail: `<img src="http://localhost:5000{evidence_path}" />`
+3. Frontend displays thumbnail: `<img src="https://margarakshak-backend.onrender.com{evidence_path}" />`
 4. Police clicks thumbnail → Opens full-size image in new tab
 
 ---
@@ -155,7 +155,7 @@ SELECT evidence_path FROM REPORTS WHERE report_id = 1;
 ### 2. Backend API Test:
 ```bash
 # Check pending reports endpoint
-curl http://localhost:5000/api/reports/police/pending
+curl https://margarakshak-backend.onrender.com/api/reports/police/pending
 ```
 
 Expected: No column error, returns reports with evidence_path field

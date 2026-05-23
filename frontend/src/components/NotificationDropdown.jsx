@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 function NotificationDropdown({ user }) {
   const navigate = useNavigate()

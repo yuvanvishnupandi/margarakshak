@@ -66,14 +66,14 @@ if (!user) return null  // Shows for both citizens and police
 #### **B. Correct API Endpoints**
 ```javascript
 // BEFORE:
-const res = await fetch(`http://localhost:5000/api/reports/notifications/${user.id}`)
+const res = await fetch(`https://margarakshak-backend.onrender.com/api/reports/notifications/${user.id}`)
 
 // AFTER:
 let url
 if (user.role === 'citizen') {
-  url = `http://localhost:5000/api/citizen/notifications/${user.id}`
+  url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/${user.id}`
 } else {
-  url = `http://localhost:5000/api/citizen/notifications/police/all`
+  url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/police/all`
 }
 const res = await fetch(url)
 ```
@@ -126,21 +126,21 @@ getNotificationIcon(notif.notif_type)
 // Mark single notification as read:
 let url
 if (user.role === 'citizen') {
-  url = `http://localhost:5000/api/citizen/notifications/${notificationId}/read`
+  url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/${notificationId}/read`
 } else {
-  url = `http://localhost:5000/api/citizen/notifications/police/${notificationId}/read`
+  url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/police/${notificationId}/read`
 }
 await fetch(url, { method: 'PUT' })
 
 // Mark all as read:
 let url
 if (user.role === 'citizen') {
-  url = `http://localhost:5000/api/citizen/notifications/read-all/${user.id}`
+  url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/read-all/${user.id}`
 } else {
   // Police: mark each individually (no bulk endpoint)
   for (const notif of notifications) {
     if (!notif.is_read) {
-      await fetch(`http://localhost:5000/api/citizen/notifications/police/${notif.notif_id}/read`, { 
+      await fetch(`https://margarakshak-backend.onrender.com/api/citizen/notifications/police/${notif.notif_id}/read`, { 
         method: 'PUT' 
       })
     }
@@ -157,7 +157,7 @@ if (user.role === 'citizen') {
 **Root Cause**: The backend server is NOT running on port 5000!
 
 **Why "Not Found"**:
-- Frontend tries to POST to `http://localhost:5000/api/appeals/submit`
+- Frontend tries to POST to `https://margarakshak-backend.onrender.com/api/appeals/submit`
 - Backend is not running → Connection refused
 - Error message gets displayed incorrectly
 
@@ -168,7 +168,7 @@ if (user.role === 'citizen') {
 cd server
 python main.py
 
-# Backend will start on http://localhost:5000
+# Backend will start on https://margarakshak-backend.onrender.com
 ```
 
 **The appeal endpoint is correct**:

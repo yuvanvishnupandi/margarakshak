@@ -18,7 +18,7 @@ test_user = {
 
 try:
     response = requests.post(
-        'http://localhost:5000/api/auth/citizen/register',
+        'https://margarakshak-backend.onrender.com/api/auth/citizen/register',
         json=test_user,
         timeout=10
     )

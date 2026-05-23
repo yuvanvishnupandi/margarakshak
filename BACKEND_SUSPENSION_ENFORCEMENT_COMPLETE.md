@@ -142,7 +142,7 @@ if (trust_score <= 0 || account_status === 'Suspended') {
 #### **Layer 2: Frontend API Call** (SubmitReport.jsx)
 ```javascript
 // Fetches fresh profile data from API
-const res = await fetch('http://localhost:5000/api/auth/profile')
+const res = await fetch('https://margarakshak-backend.onrender.com/api/auth/profile')
 const profile = await res.json()
 // Updates localStorage with fresh data
 ```
@@ -221,7 +221,7 @@ python test_suspension_enforcement.py
 
 **Option B - Manual Test**:
 1. Open Postman or use curl
-2. Send POST request to `http://localhost:5000/api/reports/create`
+2. Send POST request to `https://margarakshak-backend.onrender.com/api/reports/create`
 3. Body:
 ```json
 {

@@ -362,7 +362,7 @@ ORDER BY date_reported DESC
    WHERE status = 'Verified' LIMIT 5;
    ```
 3. Backend returns data:
-   - Open: `http://localhost:5000/api/analytics/heatmap-data`
+   - Open: `https://margarakshak-backend.onrender.com/api/analytics/heatmap-data`
    - Should see JSON with `data` array
 
 ### **Issue: "Invalid Date" still showing**

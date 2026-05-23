@@ -276,24 +276,24 @@ WHERE TRIGGER_SCHEMA = 'traffic_violation_db';
 
 ### Test Police Process (Verify Report):
 ```bash
-curl -X PUT http://localhost:5000/api/reports/police/process/1 \
+curl -X PUT https://margarakshak-backend.onrender.com/api/reports/police/process/1 \
   -H "Content-Type: application/json" \
   -d '{"status": "Verified", "rule_id": 1, "badge_no": "MH01POL123"}'
 ```
 
 ### Test Citizen Challans:
 ```bash
-curl http://localhost:5000/api/challans/citizen/1
+curl https://margarakshak-backend.onrender.com/api/challans/citizen/1
 ```
 
 ### Test Payment:
 ```bash
-curl -X PUT http://localhost:5000/api/challans/pay/1
+curl -X PUT https://margarakshak-backend.onrender.com/api/challans/pay/1
 ```
 
 ### Test Vehicle Search:
 ```bash
-curl http://localhost:5000/api/vehicles/search/KA01AB1234
+curl https://margarakshak-backend.onrender.com/api/vehicles/search/KA01AB1234
 ```
 
 ---

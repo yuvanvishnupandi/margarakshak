@@ -223,7 +223,7 @@ mysql -u root -pyvpandi@11 -e "USE traffic_violation_db; SELECT * FROM POLICE_OF
 
 ## 6. TESTING CHECKLIST
 
-- [ ] Backend server running on `http://localhost:5000`
+- [ ] Backend server running on `https://margarakshak-backend.onrender.com`
 - [ ] Police account exists: `ravi.kumar@police.gov.in`
 - [ ] 3 Citizen accounts exist
 - [ ] Citizen can login successfully

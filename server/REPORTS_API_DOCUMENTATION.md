@@ -319,7 +319,7 @@ ORDER BY
 
 ### Test Citizen Submit Report
 ```bash
-curl -X POST http://localhost:5000/api/reports/citizen/submit \
+curl -X POST https://margarakshak-backend.onrender.com/api/reports/citizen/submit \
   -H "Authorization: Bearer YOUR_CITIZEN_TOKEN" \
   -F "plate_no=TN-09-QR-4567" \
   -F "violation_type=Speeding" \
@@ -332,7 +332,7 @@ curl -X POST http://localhost:5000/api/reports/citizen/submit \
 
 ### Test Citizen Update (Should Fail if not Pending)
 ```bash
-curl -X PUT http://localhost:5000/api/reports/citizen/1 \
+curl -X PUT https://margarakshak-backend.onrender.com/api/reports/citizen/1 \
   -H "Authorization: Bearer YOUR_CITIZEN_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -342,13 +342,13 @@ curl -X PUT http://localhost:5000/api/reports/citizen/1 \
 
 ### Test Police Get All Reports
 ```bash
-curl -X GET http://localhost:5000/api/reports/police/all \
+curl -X GET https://margarakshak-backend.onrender.com/api/reports/police/all \
   -H "Authorization: Bearer YOUR_POLICE_TOKEN"
 ```
 
 ### Test Police Update Status
 ```bash
-curl -X PUT http://localhost:5000/api/reports/police/1/status \
+curl -X PUT https://margarakshak-backend.onrender.com/api/reports/police/1/status \
   -H "Authorization: Bearer YOUR_POLICE_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{

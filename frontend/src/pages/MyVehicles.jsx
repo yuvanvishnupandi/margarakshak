@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '../context/ToastContext'
 
-const API = 'http://localhost:5000'
+const API = 'https://margarakshak-backend.onrender.com'
 
 export default function MyVehicles() {
   const { success, error: showError } = useToast()

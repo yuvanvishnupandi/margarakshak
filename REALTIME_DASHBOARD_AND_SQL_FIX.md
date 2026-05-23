@@ -216,13 +216,13 @@ const fetchDashboardStats = async () => {
     setLoading(true)
     
     // Fetch pending reports count
-    const pendingRes = await fetch('http://localhost:5000/api/reports/police/pending')
+    const pendingRes = await fetch('https://margarakshak-backend.onrender.com/api/reports/police/pending')
     if (pendingRes.ok) {
       const pendingData = await pendingRes.json()
       const pendingCount = (pendingData.reports || []).length
       
       // Fetch all reports to calculate other stats
-      const allRes = await fetch('http://localhost:5000/api/reports/citizen/all')
+      const allRes = await fetch('https://margarakshak-backend.onrender.com/api/reports/citizen/all')
       if (allRes.ok) {
         const allData = await allRes.json()
         const allReports = allData.reports || []
@@ -256,7 +256,7 @@ const fetchDashboardStats = async () => {
     setLoading(true)
     
     // Fetch real-time stats from police-summary endpoint
-    const res = await fetch('http://localhost:5000/api/analytics/police-summary')
+    const res = await fetch('https://margarakshak-backend.onrender.com/api/analytics/police-summary')
     
     if (!res.ok) {
       console.error(`Failed to fetch stats: ${res.status}`)

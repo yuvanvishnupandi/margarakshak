@@ -57,7 +57,7 @@ print(f"\n[2] Logging in to get JWT token...")
 print("Enter your password:")
 password = input("> ").strip()
 
-login_res = requests.post("http://localhost:5000/api/auth/citizen/login", json={
+login_res = requests.post("https://margarakshak-backend.onrender.com/api/auth/citizen/login", json={
     "email": email,
     "password": password
 })
@@ -78,7 +78,7 @@ print(f"   Role in token: {payload.get('role')}")
 # Step 3: Call profile API
 print(f"\n[3] Calling GET /api/auth/profile...")
 headers = {"Authorization": f"Bearer {token}"}
-profile_res = requests.get("http://localhost:5000/api/auth/profile", headers=headers)
+profile_res = requests.get("https://margarakshak-backend.onrender.com/api/auth/profile", headers=headers)
 
 if profile_res.status_code == 200:
     profile = profile_res.json()

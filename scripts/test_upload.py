@@ -4,7 +4,7 @@ Test script to verify evidence upload is working
 import requests
 import os
 
-API_BASE = "http://localhost:5000"
+API_BASE = "https://margarakshak-backend.onrender.com"
 
 print("=" * 80)
 print("Testing Evidence Upload System")

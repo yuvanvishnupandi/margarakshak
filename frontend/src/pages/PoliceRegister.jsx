@@ -35,7 +35,7 @@ function PoliceRegister() {
     if (!validate()) return
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:5000/api/auth/police/register', {
+      const res = await fetch('https://margarakshak-backend.onrender.com/api/auth/police/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

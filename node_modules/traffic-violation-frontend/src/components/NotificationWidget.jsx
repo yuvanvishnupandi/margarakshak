@@ -16,10 +16,10 @@ function NotificationWidget({ user }) {
       
       let url
       if (user.role === 'citizen') {
-        url = `http://localhost:5000/api/citizen/notifications/${user.id}`
+        url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/${user.id}`
       } else {
         // Police - get all notifications
-        url = `http://localhost:5000/api/citizen/notifications/police/all`
+        url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/police/all`
       }
       
       const res = await fetch(url)
@@ -78,9 +78,9 @@ function NotificationWidget({ user }) {
     try {
       let url
       if (user.role === 'citizen') {
-        url = `http://localhost:5000/api/citizen/notifications/${notificationId}/read`
+        url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/${notificationId}/read`
       } else {
-        url = `http://localhost:5000/api/citizen/notifications/police/${notificationId}/read`
+        url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/police/${notificationId}/read`
       }
       
       await fetch(url, { method: 'PUT' })
@@ -104,12 +104,12 @@ function NotificationWidget({ user }) {
     try {
       let url
       if (user.role === 'citizen') {
-        url = `http://localhost:5000/api/citizen/notifications/read-all/${user.id}`
+        url = `https://margarakshak-backend.onrender.com/api/citizen/notifications/read-all/${user.id}`
       } else {
         // For police, mark each notification individually (no bulk endpoint)
         for (const notif of notifications) {
           if (!notif.is_read) {
-            await fetch(`http://localhost:5000/api/citizen/notifications/police/${notif.notif_id}/read`, { 
+            await fetch(`https://margarakshak-backend.onrender.com/api/citizen/notifications/police/${notif.notif_id}/read`, { 
               method: 'PUT' 
             })
           }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 const CrownIcon = ({ size = 22, color = '#f59e0b' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>

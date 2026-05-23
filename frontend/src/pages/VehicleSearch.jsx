@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 // Example plates known to be in the database
 const EXAMPLE_PLATES = [

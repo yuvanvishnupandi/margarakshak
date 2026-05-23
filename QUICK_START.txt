@@ -31,8 +31,8 @@ INFO:     Uvicorn running on http://0.0.0.0:5000
 INFO:     Application startup complete.
 
 Test endpoints:
-http://localhost:5000/docs (Swagger UI)
-http://localhost:5000/api/analytics/summary (Should return real data)
+https://margarakshak-backend.onrender.com/docs (Swagger UI)
+https://margarakshak-backend.onrender.com/api/analytics/summary (Should return real data)
 
 
 STEP 3: START FRONTEND
@@ -114,32 +114,32 @@ Police:
 ================================================================================
 
 Real-Time Dashboard:
-GET http://localhost:5000/api/analytics/summary
+GET https://margarakshak-backend.onrender.com/api/analytics/summary
 
 Leaderboard:
-GET http://localhost:5000/api/analytics/leaderboard
+GET https://margarakshak-backend.onrender.com/api/analytics/leaderboard
 
 Citizen Challans:
-GET http://localhost:5000/api/challans/citizen/1
+GET https://margarakshak-backend.onrender.com/api/challans/citizen/1
 
 Pay Challan:
-PUT http://localhost:5000/api/challans/pay/1
+PUT https://margarakshak-backend.onrender.com/api/challans/pay/1
 
 Police Pending Reports:
-GET http://localhost:5000/api/reports/police/pending
+GET https://margarakshak-backend.onrender.com/api/reports/police/pending
 
 Verify Report:
-PUT http://localhost:5000/api/reports/police/process/1
+PUT https://margarakshak-backend.onrender.com/api/reports/police/process/1
 Body: {"status": "Verified", "rule_id": 1, "badge_no": "TEST001"}
 
 Vehicle Search:
-GET http://localhost:5000/api/vehicles/search/KA01AB1234
+GET https://margarakshak-backend.onrender.com/api/vehicles/search/KA01AB1234
 
 All Rules:
-GET http://localhost:5000/api/rules/all
+GET https://margarakshak-backend.onrender.com/api/rules/all
 
 Update Rule:
-PUT http://localhost:5000/api/rules/1
+PUT https://margarakshak-backend.onrender.com/api/rules/1
 Body: {"base_fine_amount": 1500.00}
 
 

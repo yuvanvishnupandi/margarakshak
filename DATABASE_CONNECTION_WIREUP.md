@@ -19,7 +19,7 @@ traffic_violation_db
 ```
 
 ### Configuration:
-- **Frontend API Base URL:** `http://localhost:5000` (all files)
+- **Frontend API Base URL:** `https://margarakshak-backend.onrender.com` (all files)
 - **Backend Database:** `traffic_violation_db` on `127.0.0.1:3306`
 - **Cursor Type:** `pymysql.cursors.DictCursor` (all routes)
 - **Transaction Handling:** `conn.commit()` on all DML operations
@@ -96,7 +96,7 @@ if not vehicle:
 const res = await fetch(`${API_BASE_URL}/api/vehicles/search/${plateNo.trim().toUpperCase()}`)
 ```
 
-**URL Pattern:** `http://localhost:5000/api/vehicles/search/{PLATE_NO}`
+**URL Pattern:** `https://margarakshak-backend.onrender.com/api/vehicles/search/{PLATE_NO}`
 
 **Complete Search Flow:**
 ```javascript
@@ -135,7 +135,7 @@ const handleSearch = async (e) => {
 ```
 
 **Verification Points:**
-- ✅ Fetches from exact endpoint: `http://localhost:5000/api/vehicles/search/{plate}`
+- ✅ Fetches from exact endpoint: `https://margarakshak-backend.onrender.com/api/vehicles/search/{plate}`
 - ✅ Displays real database values in Vehicle Information Profile
 - ✅ Shows "Vehicle Not Found" message on 404 response
 - ✅ Zero mock data removed (watchlist and stats eliminated)
@@ -319,7 +319,7 @@ const res = await fetch(`${API_BASE_URL}/api/reports/police/pending`, {
 })
 ```
 
-**URL:** `http://localhost:5000/api/reports/police/pending`
+**URL:** `https://margarakshak-backend.onrender.com/api/reports/police/pending`
 
 **Complete Fetch Function:**
 ```javascript
@@ -371,7 +371,7 @@ const res = await fetch(`${API_BASE_URL}/api/reports/police/process/${reportId}`
 })
 ```
 
-**URL:** `http://localhost:5000/api/reports/police/process/{reportId}`
+**URL:** `https://margarakshak-backend.onrender.com/api/reports/police/process/{reportId}`
 
 **Complete Process Function:**
 ```javascript
@@ -419,7 +419,7 @@ const res = await fetch(`${API_BASE_URL}/api/reports/${reportId}`, {
 })
 ```
 
-**URL:** `http://localhost:5000/api/reports/{reportId}`
+**URL:** `https://margarakshak-backend.onrender.com/api/reports/{reportId}`
 
 **Complete Delete Function:**
 ```javascript
@@ -622,25 +622,25 @@ cd server
 python main.py
 
 # Test vehicle search (exists)
-curl http://localhost:5000/api/vehicles/search/KA01AB1234
+curl https://margarakshak-backend.onrender.com/api/vehicles/search/KA01AB1234
 # Expected: Vehicle data JSON
 
 # Test vehicle search (not exists)
-curl http://localhost:5000/api/vehicles/search/ZZ99ZZ9999
+curl https://margarakshak-backend.onrender.com/api/vehicles/search/ZZ99ZZ9999
 # Expected: 404 error
 
 # Test pending reports
-curl http://localhost:5000/api/reports/police/pending
+curl https://margarakshak-backend.onrender.com/api/reports/police/pending
 # Expected: Array of pending reports
 
 # Test process report
-curl -X PUT http://localhost:5000/api/reports/police/process/1 \
+curl -X PUT https://margarakshak-backend.onrender.com/api/reports/police/process/1 \
   -H "Content-Type: application/json" \
   -d '{"status":"Verified","fine_amount":500.0}'
 # Expected: Success with event_id and challan_id
 
 # Test delete report
-curl -X DELETE http://localhost:5000/api/reports/2
+curl -X DELETE https://margarakshak-backend.onrender.com/api/reports/2
 # Expected: Success message
 ```
 
@@ -682,7 +682,7 @@ npm run dev
 - ✅ All connections properly closed in `finally` blocks
 
 ### Frontend Operations:
-- ✅ All fetch calls use `http://localhost:5000`
+- ✅ All fetch calls use `https://margarakshak-backend.onrender.com`
 - ✅ All CRUD operations update local state after success
 - ✅ Auto-refresh proves database state changes
 - ✅ Proper error handling with user feedback

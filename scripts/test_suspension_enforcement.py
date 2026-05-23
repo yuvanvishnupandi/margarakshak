@@ -4,7 +4,7 @@ Test that suspended users CANNOT submit reports
 import requests
 import json
 
-API_BASE_URL = "http://localhost:5000"
+API_BASE_URL = "https://margarakshak-backend.onrender.com"
 
 def test_suspended_user_blocked():
     """Verify that suspended users are blocked from submitting reports."""

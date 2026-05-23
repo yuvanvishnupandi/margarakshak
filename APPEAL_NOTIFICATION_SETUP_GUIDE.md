@@ -239,7 +239,7 @@ If you encounter any issues:
 mysql -u root -pyvpandi@11 -e "USE traffic_violation_db; SHOW TABLES;"
 
 # Check backend is running
-curl http://localhost:5000/docs
+curl https://margarakshak-backend.onrender.com/docs
 
 # Check frontend is running
 curl http://localhost:5173

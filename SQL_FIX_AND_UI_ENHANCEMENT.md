@@ -187,7 +187,7 @@ Dashboard shows when no vehicle is searched, hides when search results display:
 
 #### D. Additional Improvements
 - Removed all emojis (🔍, ⚠️, ✨, ₹ → Rs.)
-- Fixed API URL to `http://localhost:5000`
+- Fixed API URL to `https://margarakshak-backend.onrender.com`
 - Added owner_type field to vehicle profile
 - Added registered_date display
 - Clean professional styling throughout
@@ -292,7 +292,7 @@ cd server
 python main.py
 
 # Test pending reports endpoint
-curl http://localhost:5000/api/reports/police/pending
+curl https://margarakshak-backend.onrender.com/api/reports/police/pending
 
 # Expected: JSON response with pending reports (no SQL error)
 ```

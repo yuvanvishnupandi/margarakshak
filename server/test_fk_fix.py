@@ -1,7 +1,7 @@
 import requests
 import json
 
-BASE_URL = 'http://localhost:5000'
+BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 print("=" * 70)
 print("🧪 TESTING FOREIGN KEY FIX - Auto Vehicle Creation")

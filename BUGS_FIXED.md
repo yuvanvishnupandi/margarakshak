@@ -101,7 +101,7 @@ The hero banner "Safer Roads. Smarter Enforcement." was sitting too high on the 
 Dashboard threw "Failed to fetch" error on load with no helpful debugging information.
 
 ### **Root Causes**:
-1. **Wrong API Port**: Using `http://localhost:8000` instead of `http://localhost:5000`
+1. **Wrong API Port**: Using `http://localhost:8000` instead of `https://margarakshak-backend.onrender.com`
 2. **No Error Handling**: Missing try/catch block around fetch
 3. **No Debug Logging**: Couldn't see what URL was being called
 4. **No Fallback State**: Page crashed instead of showing friendly error
@@ -114,7 +114,7 @@ Dashboard threw "Failed to fetch" error on load with no helpful debugging inform
 const API_BASE_URL = 'http://localhost:8000'  // ❌ Wrong port
 
 // AFTER
-const API_BASE_URL = 'http://localhost:5000'  // ✅ Correct FastAPI port
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'  // ✅ Correct FastAPI port
 ```
 
 #### **2. Added Comprehensive Error Handling**:
@@ -195,7 +195,7 @@ useEffect(() => {
 ### **Debug Information**:
 Console now logs:
 ```
-Fetching challans from: http://localhost:5000/api/challans/citizen/123
+Fetching challans from: https://margarakshak-backend.onrender.com/api/challans/citizen/123
 Challans response: {message: "success", challans: [...]}
 ```
 
@@ -262,7 +262,7 @@ Challans response: {message: "success", challans: [...]}
 ### Test BUG 3 Fix:
 1. Open browser console (F12)
 2. Navigate to `/dashboard`
-3. Check console for: `Fetching challans from: http://localhost:5000/api/challans/citizen/{id}`
+3. Check console for: `Fetching challans from: https://margarakshak-backend.onrender.com/api/challans/citizen/{id}`
 4. If server is running: Challans load successfully
 5. If server is down: Friendly error message appears with retry button
 

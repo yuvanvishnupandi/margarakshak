@@ -23,7 +23,7 @@ useEffect(() => {
     const token = localStorage.getItem('token')
     
     // 2. Fetch FRESH data from API
-    const res = await fetch('http://localhost:5000/api/auth/profile', {
+    const res = await fetch('https://margarakshak-backend.onrender.com/api/auth/profile', {
       headers: { Authorization: `Bearer ${token}` }
     })
     

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useToast } from '../context/ToastContext'
 import { Card, Button } from '../components/ui/BaseComponents'
 
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 function RewardsRedeem() {
   const navigate = useNavigate()

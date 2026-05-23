@@ -489,7 +489,7 @@ npm run dev
 
 ## 📞 SUPPORT
 
-- **API Documentation**: `http://localhost:5000/docs`
+- **API Documentation**: `https://margarakshak-backend.onrender.com/docs`
 - **Backend Logs**: Check terminal output
 - **Database**: MySQL Workbench or command line
 - **Frontend**: React DevTools in browser

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useToast } from '../context/ToastContext'
 
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 // Parse evidence_path which is stored as a JSON array (multi-photo support)
 const getEvidencePaths = (evidencePath) => {
@@ -262,9 +262,9 @@ function ChallanCreation() {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
                   {getEvidencePaths(report.evidence_path).map((path, pi) => (
                     <div key={pi} style={{ position: 'relative', cursor: 'pointer' }}
-                      onClick={() => window.open(`http://localhost:5000${path}`, '_blank')}>
+                      onClick={() => window.open(`https://margarakshak-backend.onrender.com${path}`, '_blank')}>
                       <img
-                        src={`http://localhost:5000${path}`}
+                        src={`https://margarakshak-backend.onrender.com${path}`}
                         alt={`Evidence ${pi + 1}`}
                         style={{ width: '180px', height: '180px', objectFit: 'cover', borderRadius: '10px', border: '2px solid #93c5fd', boxShadow: '0 2px 8px rgba(0,0,0,0.12)', transition: 'all 0.2s' }}
                         onMouseEnter={e => { e.currentTarget.style.border = '2px solid #3b82f6'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(59,130,246,0.25)' }}

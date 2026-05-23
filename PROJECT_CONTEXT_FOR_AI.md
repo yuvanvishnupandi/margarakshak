@@ -461,8 +461,8 @@ npm run dev
 
 ### Access
 - Frontend: http://localhost:5173
-- Backend API: http://localhost:5000
-- API Docs: http://localhost:5000/docs
+- Backend API: https://margarakshak-backend.onrender.com
+- API Docs: https://margarakshak-backend.onrender.com/docs
 
 ---
 
@@ -592,7 +592,7 @@ function PageName() {
   }, [])
   
   const fetchData = async () => {
-    const res = await fetch('http://localhost:5000/api/...')
+    const res = await fetch('https://margarakshak-backend.onrender.com/api/...')
     const data = await res.json()
     setState(data)
     setLoading(false)
@@ -689,8 +689,8 @@ MySQL: 3306
 ### Key URLs
 ```
 Frontend: http://localhost:5173
-Backend API: http://localhost:5000
-API Docs: http://localhost:5000/docs
+Backend API: https://margarakshak-backend.onrender.com
+API Docs: https://margarakshak-backend.onrender.com/docs
 ```
 
 ---

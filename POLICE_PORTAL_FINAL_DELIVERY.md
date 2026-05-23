@@ -88,7 +88,7 @@ const isPolice = user?.role === 'police'
 ### 3. **frontend/src/pages/VehicleSearch.jsx** - Detailed UI
 
 **Changes Made:**
-- Fixed API URL from `http://localhost:8000` → `http://localhost:5000`
+- Fixed API URL from `http://localhost:8000` → `https://margarakshak-backend.onrender.com`
 - Removed all emojis (🔍, ⚠️, ✨, ₹)
 - Created comprehensive "Vehicle Information Profile" with two sections:
   1. **Owner Details** - Plate, Name, Contact, Address (mocked), License No
@@ -123,7 +123,7 @@ Vehicle Information Profile
 
 **Key Code:**
 ```javascript
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 // Mocked address fallback
 <p className="text-lg font-semibold text-gray-900">
@@ -306,7 +306,7 @@ finally:
 All frontend files now use correct backend port:
 
 ```javascript
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 ```
 
 **Files Updated:**
@@ -353,10 +353,10 @@ cd server
 python main.py
 
 # Test rules endpoints
-curl http://localhost:5000/api/rules/all
-curl -X POST http://localhost:5000/api/rules/create -H "Content-Type: application/json" -d '{"rule_code":"MV207","rule_name":"Test","description":"Test rule","base_fine_amount":1000,"severity":"Minor","violation_time":"Anytime"}'
-curl -X PUT http://localhost:5000/api/rules/1 -H "Content-Type: application/json" -d '{"base_fine_amount":1500}'
-curl -X DELETE http://localhost:5000/api/rules/1
+curl https://margarakshak-backend.onrender.com/api/rules/all
+curl -X POST https://margarakshak-backend.onrender.com/api/rules/create -H "Content-Type: application/json" -d '{"rule_code":"MV207","rule_name":"Test","description":"Test rule","base_fine_amount":1000,"severity":"Minor","violation_time":"Anytime"}'
+curl -X PUT https://margarakshak-backend.onrender.com/api/rules/1 -H "Content-Type: application/json" -d '{"base_fine_amount":1500}'
+curl -X DELETE https://margarakshak-backend.onrender.com/api/rules/1
 ```
 
 ### Frontend Tests:

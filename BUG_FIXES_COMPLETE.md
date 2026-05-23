@@ -6,7 +6,7 @@
 **Problem:** Frontend was calling `/api/reports/citizen/submit` but backend route was `/api/reports/create`
 
 **Fix Applied:**
-- ✅ Updated `SubmitReport.jsx` to call correct endpoint: `http://localhost:5000/api/reports/create`
+- ✅ Updated `SubmitReport.jsx` to call correct endpoint: `https://margarakshak-backend.onrender.com/api/reports/create`
 - ✅ Changed from FormData to JSON payload with `citizen_id` from localStorage
 - ✅ Backend `reports.py` now accepts `violation_type` field in the payload
 

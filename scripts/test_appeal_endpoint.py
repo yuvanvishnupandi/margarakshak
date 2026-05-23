@@ -2,7 +2,7 @@
 import requests
 import json
 
-API_BASE_URL = "http://localhost:5000"
+API_BASE_URL = "https://margarakshak-backend.onrender.com"
 
 # Test appeal submission
 appeal_data = {

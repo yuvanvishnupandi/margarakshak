@@ -248,7 +248,7 @@ function SubmitReport() {
         description: formData.description.trim()
       }
 
-      const res = await fetch('http://localhost:5000/api/reports/create', {
+      const res = await fetch('https://margarakshak-backend.onrender.com/api/reports/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(reportData)
@@ -381,7 +381,7 @@ export default SubmitReport
 import { useState, useEffect } from 'react'
 import { useToast } from '../context/ToastContext'
 
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 function MyReports() {
   const { success, error: showError } = useToast()
@@ -583,7 +583,7 @@ export default MyReports
 import { useState, useEffect } from 'react'
 import { useToast } from '../context/ToastContext'
 
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 function ReviewReports() {
   const { success, error: showError } = useToast()
@@ -1689,8 +1689,8 @@ npm run dev
 ## Access the Application
 
 - **Frontend:** http://localhost:5173
-- **Backend API:** http://localhost:5000
-- **API Docs:** http://localhost:5000/docs
+- **Backend API:** https://margarakshak-backend.onrender.com
+- **API Docs:** https://margarakshak-backend.onrender.com/docs
 
 ---
 

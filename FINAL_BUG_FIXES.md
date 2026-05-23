@@ -106,7 +106,7 @@ conn.commit()
 **Before (INCORRECT):**
 ```javascript
 // Wrong endpoint
-const reportsRes = await fetch('http://localhost:5000/api/reports/police/all', {
+const reportsRes = await fetch('https://margarakshak-backend.onrender.com/api/reports/police/all', {
   headers: { Authorization: `Bearer ${token}` }
 })
 
@@ -116,7 +116,7 @@ const pending = allReports.filter(r => r.status === 'Pending')
 setPendingReports(pending)
 
 // Wrong process endpoint
-const res = await fetch(`http://localhost:5000/api/reports/police/${reportId}/status`, {
+const res = await fetch(`https://margarakshak-backend.onrender.com/api/reports/police/${reportId}/status`, {
   method: 'PUT',
   body: JSON.stringify({
     status: 'Challan Issued',  // ❌ Wrong status value
@@ -128,14 +128,14 @@ const res = await fetch(`http://localhost:5000/api/reports/police/${reportId}/st
 **After (CORRECT):**
 ```javascript
 // Correct endpoint - SAME as ReviewReports
-const reportsRes = await fetch('http://localhost:5000/api/reports/police/pending')
+const reportsRes = await fetch('https://margarakshak-backend.onrender.com/api/reports/police/pending')
 
 // Direct assignment - no filtering needed
 const reportsData = await reportsRes.json()
 setPendingReports(reportsData.reports || [])
 
 // Correct process endpoint
-const res = await fetch(`http://localhost:5000/api/reports/police/process/${reportId}`, {
+const res = await fetch(`https://margarakshak-backend.onrender.com/api/reports/police/process/${reportId}`, {
   method: 'PUT',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
@@ -416,7 +416,7 @@ cd server
 python main.py
 
 # Test process report
-curl -X PUT http://localhost:5000/api/reports/police/process/1 \
+curl -X PUT https://margarakshak-backend.onrender.com/api/reports/police/process/1 \
   -H "Content-Type: application/json" \
   -d '{"status":"Verified","rule_id":1,"badge_no":"POL001"}'
 
@@ -497,7 +497,7 @@ All components follow strict professional light theme:
 - ✅ All errors use `conn.rollback()`
 
 ### Frontend Operations:
-- ✅ All fetch calls use `http://localhost:5000`
+- ✅ All fetch calls use `https://margarakshak-backend.onrender.com`
 - ✅ Auto-refresh after CRUD operations
 - ✅ Professional light theme throughout
 - ✅ Zero mock data - 100% database-driven

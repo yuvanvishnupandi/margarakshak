@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '../context/ToastContext'
 
-const API_BASE_URL = 'http://localhost:5000'
+const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
 
 // MV Act 2019 seed rules shown when DB is empty
 const SEED_RULES = [
