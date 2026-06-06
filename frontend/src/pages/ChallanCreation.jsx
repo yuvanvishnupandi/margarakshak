@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useToast } from '../context/ToastContext'
 
-const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
+import { API_BASE_URL } from '../config';
+const API = API_BASE_URL;
+// Replaced by automated script
 
 // Parse evidence_path which is stored as a JSON array (multi-photo support)
 const getEvidencePaths = (evidencePath) => {

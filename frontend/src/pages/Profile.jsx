@@ -34,7 +34,7 @@ function Profile({ user }) {
       // Fetch profile data
       let profile = {}
       try {
-        const profileRes = await fetch('https://margarakshak-backend.onrender.com/api/auth/profile', {
+        const profileRes = await fetch(`${API_BASE_URL}/api/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` },
           cache: 'no-store'
         })
@@ -48,7 +48,7 @@ function Profile({ user }) {
       // Fetch reports
       let reports = { reports: [] }
       try {
-        const reportsRes = await fetch(`https://margarakshak-backend.onrender.com/api/reports/my-reports/${user?.id}`, {
+        const reportsRes = await fetch(`${API_BASE_URL}/api/reports/my-reports/${user?.id}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         if (reportsRes.ok) {
@@ -61,7 +61,7 @@ function Profile({ user }) {
       // Fetch challans
       let challans = { challans: [] }
       try {
-        const challansRes = await fetch(`https://margarakshak-backend.onrender.com/api/challans/citizen/${user?.id}`, {
+        const challansRes = await fetch(`${API_BASE_URL}/api/challans/citizen/${user?.id}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         if (challansRes.ok) {
@@ -154,7 +154,7 @@ function Profile({ user }) {
     try {
       const token = localStorage.getItem('token')
       
-      const response = await fetch('https://margarakshak-backend.onrender.com/api/auth/profile', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
+import { API_BASE_URL } from '../config';
+const API = API_BASE_URL;
+// Replaced by automated script
 
 // Example plates known to be in the database
 const EXAMPLE_PLATES = [

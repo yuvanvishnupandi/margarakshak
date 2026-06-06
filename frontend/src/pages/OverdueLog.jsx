@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 
-const API = 'https://margarakshak-backend.onrender.com'
+import { API_BASE_URL } from '../config';
+const API = API_BASE_URL;
+// Replaced by automated script
 
 export default function OverdueLog() {
   const [log, setLog] = useState([])

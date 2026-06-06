@@ -12,7 +12,9 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-const API = 'https://margarakshak-backend.onrender.com'
+import { API_BASE_URL } from '../config';
+const API = API_BASE_URL;
+// Replaced by automated script
 
 const COLORS = ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#f97316','#84cc16']
 

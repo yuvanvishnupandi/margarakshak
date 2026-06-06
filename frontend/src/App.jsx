@@ -45,7 +45,7 @@ function AppContent() {
         const parsedUser = JSON.parse(savedUser)
         setUser(parsedUser)
         // Refresh from server to get full_name and latest data
-        fetch('https://margarakshak-backend.onrender.com/api/auth/profile', {
+        fetch(`${API_BASE_URL}/api/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` },
           cache: 'no-store'
         }).then(r => r.ok ? r.json() : null).then(profile => {
@@ -86,7 +86,7 @@ const handleLogin = (data) => {
     const token = localStorage.getItem('token')
     if (token) {
       try {
-        await fetch('https://margarakshak-backend.onrender.com/api/auth/logout', {
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` }
         })

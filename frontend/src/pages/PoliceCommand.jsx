@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const API = 'https://margarakshak-backend.onrender.com'
+import { API_BASE_URL } from '../config';
+const API = API_BASE_URL;
+// Replaced by automated script
 
 // SVG icon set — no emojis
 const Icon = {

@@ -37,7 +37,7 @@ function SubmitReport() {
           return
         }
         const user = JSON.parse(userStr)
-        const res = await fetch('https://margarakshak-backend.onrender.com/api/auth/profile', {
+        const res = await fetch(`${API_BASE_URL}/api/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         if (!res.ok) {
@@ -89,7 +89,7 @@ function SubmitReport() {
         clearTimeout(window._locTimer)
         window._locTimer = setTimeout(async () => {
           try {
-            const res = await fetch(`https://margarakshak-backend.onrender.com/api/weather/geocode?q=${encodeURIComponent(value)}`)
+            const res = await fetch(`${API_BASE_URL}/api/weather/geocode?q=${encodeURIComponent(value)}`)
             const data = await res.json()
             if (data.success) { setLocationSuggestions(data.results); setShowSuggestions(true) }
           } catch (_) {}
@@ -107,7 +107,7 @@ function SubmitReport() {
     if (plate.length < 5) { showError('Enter a valid plate number first'); return }
     setVehicleLoading(true); setVehicleInfo(null)
     try {
-      const res = await fetch(`https://margarakshak-backend.onrender.com/api/weather/vehicle?plate=${plate}`)
+      const res = await fetch(`${API_BASE_URL}/api/weather/vehicle?plate=${plate}`)
       const data = await res.json()
       if (!res.ok) { showError(data.error || 'Lookup failed'); return }
       setVehicleInfo(data)
@@ -207,7 +207,7 @@ function SubmitReport() {
         location_coords: formData.location_coords,
         description: formData.incident_date ? `[Incident Time: ${formData.incident_date} ${formData.incident_time}]\n${formData.description.trim() || 'No additional description'}` : formData.description.trim() || 'No additional description'
       }
-      const res = await fetch('https://margarakshak-backend.onrender.com/api/reports/create', {
+      const res = await fetch(`${API_BASE_URL}/api/reports/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -222,7 +222,7 @@ function SubmitReport() {
         try {
           const fd = new FormData()
           fd.append('file', img)
-          await fetch(`https://margarakshak-backend.onrender.com/api/reports/upload-evidence/${reportId}`, {
+          await fetch(`${API_BASE_URL}/api/reports/upload-evidence/${reportId}`, {
             method: 'POST', body: fd
           })
         } catch (err) {

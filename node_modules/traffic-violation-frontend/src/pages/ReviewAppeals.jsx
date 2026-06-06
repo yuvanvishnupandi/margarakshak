@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '../context/ToastContext'
 
-const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
+import { API_BASE_URL } from '../config';
+const API = API_BASE_URL;
+// Replaced by automated script
 
 function ReviewAppeals({ user }) {
   const { success, error: showError } = useToast()

@@ -8,12 +8,14 @@ function createSelfHealingPool() {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'yvpandi@11',
     database: process.env.DB_NAME || 'traffic_violation_db',
+    port: process.env.DB_PORT || 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
-    timezone: '+05:30'
+    timezone: '+05:30',
+    ssl: process.env.DB_SSL === 'true' ? { minVersion: 'TLSv1.2', rejectUnauthorized: true } : undefined
   });
 
   // Attach auto-healing listeners to connections

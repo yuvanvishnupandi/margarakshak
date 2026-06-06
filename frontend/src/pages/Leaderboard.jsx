@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 
-const API_BASE_URL = 'https://margarakshak-backend.onrender.com'
+import { API_BASE_URL } from '../config';
+const API = API_BASE_URL;
+// Replaced by automated script
 
 const CrownIcon = ({ size = 22, color = '#f59e0b' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
