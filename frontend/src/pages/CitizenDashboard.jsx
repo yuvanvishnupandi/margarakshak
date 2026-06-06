@@ -160,6 +160,7 @@ function CitizenDashboard() {
     { icon: '📸', title: 'Submit a Report', desc: 'Report a traffic violation', path: '/submit-report' },
     { icon: '📋', title: 'My Reports', desc: 'Track all your submissions', path: '/my-reports' },
     { icon: '📑', title: 'My Challans', desc: 'View & pay pending fines', path: '/my-challans' },
+    { icon: '🏆', title: 'Leaderboard', desc: 'Top citizens by Trust Score', path: '/leaderboard' },
     { icon: '🚗', title: 'My Vehicles', desc: 'Manage registered vehicles', path: '/my-vehicles' },
     { icon: '💳', title: 'Payment History', desc: 'View all paid challans', path: '/payment-history' },
     { icon: '🌦️', title: 'Road Conditions', desc: 'Live Weather & Hazard API', path: '/road-conditions' }
