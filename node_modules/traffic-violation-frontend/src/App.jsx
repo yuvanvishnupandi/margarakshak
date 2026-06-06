@@ -1,3 +1,4 @@
+import { API_BASE_URL } from './config';
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ToastProvider } from './context/ToastContext'

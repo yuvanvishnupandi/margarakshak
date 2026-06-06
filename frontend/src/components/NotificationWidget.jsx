@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import { useState, useEffect, useRef } from 'react'
 
 function NotificationWidget({ user }) {

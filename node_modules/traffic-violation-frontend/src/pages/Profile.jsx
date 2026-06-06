@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config';
 import { useState, useEffect } from 'react'
 import { Card, Button, Input, Badge, Skeleton } from '../components/ui/BaseComponents'
 import { useToast } from '../context/ToastContext'
