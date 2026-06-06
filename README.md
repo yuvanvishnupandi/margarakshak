@@ -339,19 +339,6 @@ curl http://localhost:5000/api/health
 - View officer stats and system analytics
 - Monitor overdue challans
 
-## Current Status
-
-This project is suitable as a DBMS/full-stack academic project and demonstrates end-to-end workflows for traffic violation reporting, verification, challan generation, payment tracking, rewards, notifications, analytics, and role-based access.
-
-Before production use, the main recommended improvements are:
-
-- Move all database credentials to environment variables
-- Add stronger authentication middleware coverage across all protected routes
-- Add automated backend and frontend tests
-- Configure secure CORS origins instead of allowing all origins
-- Use a hosted MySQL database that is reachable from the deployed backend
-- Store uploaded evidence files in persistent object storage for production
-
 ## License
 
 This project is currently provided for academic and demonstration purposes. Add a license file before publishing for public reuse.
