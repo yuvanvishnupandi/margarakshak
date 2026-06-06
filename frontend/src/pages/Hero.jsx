@@ -261,55 +261,7 @@ function Hero() {
         </>
       )}
 
-      {/* ── 4. LEADERBOARD (white) ── */}
-      {showSubtitle && leaderboard.length > 0 && (
-        <section style={{ background: '#fff', padding: '80px 64px' }}>
-          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-            <div className="sr" style={{ textAlign: 'center', marginBottom: '48px' }}>
-              <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 900, color: '#111827', marginBottom: '10px' }}>Top Citizens</h2>
-              <p style={{ fontSize: '17px', color: '#6b7280' }}>Leaderboard ranked by Trust Score</p>
-            </div>
-            <div className="sr" style={{ background: '#fff', borderRadius: '20px', border: '1.5px solid #e5e7eb', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr style={{ background: '#f9fafb', borderBottom: '1.5px solid #e5e7eb' }}>
-                    {['Rank', 'Name', 'Trust Score', 'Reports'].map(h => (
-                      <th key={h} style={{ padding: '14px 20px', textAlign: h === 'Name' ? 'left' : 'center', fontSize: '11px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px', textTransform: 'uppercase' }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {leaderboard.slice(0, 10).map((c, i) => (
-                    <tr key={c.citizen_id} style={{ borderBottom: '1px solid #f3f4f6' }}
-                      onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
-                      onMouseLeave={e => e.currentTarget.style.background = '#fff'}
-                    >
-                      <td style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 900, color: i === 0 ? '#f59e0b' : i === 1 ? '#9ca3af' : i === 2 ? '#d97706' : '#374151' }}>#{i + 1}</td>
-                      <td style={{ padding: '14px 20px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e0e7ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#4f46e5' }}>
-                            {c.full_name?.[0] || 'U'}
-                          </div>
-                          <span style={{ fontSize: '14px', fontWeight: 600, color: '#111827' }}>{c.full_name}</span>
-                        </div>
-                      </td>
-                      <td style={{ padding: '14px 20px', textAlign: 'center', fontWeight: 800, fontSize: '16px', color: c.trust_score >= 90 ? '#10b981' : c.trust_score >= 70 ? '#6366f1' : '#f59e0b' }}>{c.trust_score}</td>
-                      <td style={{ padding: '14px 20px', textAlign: 'center', fontSize: '14px', color: '#6b7280', fontWeight: 500 }}>{c.reports_submitted || 0}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div style={{ padding: '20px', textAlign: 'center', borderTop: '1px solid #f3f4f6', background: '#fafafa' }}>
-                <button onClick={() => navigate('/leaderboard')} style={{
-                  padding: '10px 28px', background: '#111827', color: '#fff',
-                  borderRadius: '999px', border: 'none', cursor: 'pointer',
-                  fontWeight: 600, fontSize: '14px',
-                }}>View Full Leaderboard →</button>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+
 
       {/* ── FOOTER ── */}
       <footer style={{ background: '#fff', borderTop: '1px solid #e5e7eb' }}>
