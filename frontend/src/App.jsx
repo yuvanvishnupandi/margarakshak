@@ -108,9 +108,9 @@ const handleLogin = (data) => {
             !user ? (
               <Login onLogin={handleLogin} />
             ) : user.role === 'citizen' ? (
-              <Navigate to="/dashboard" replace />
+              <Navigate to="/hero" replace />
             ) : (
-              <Navigate to="/police" replace />
+              <Navigate to="/hero" replace />
             )
           }
         />
