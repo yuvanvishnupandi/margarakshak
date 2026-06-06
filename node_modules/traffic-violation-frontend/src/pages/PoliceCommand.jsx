@@ -178,7 +178,7 @@ function PoliceCommand({ user }) {
         </div>
 
         {/* ── Two Column: Quick Actions + Recent Reports ── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px', marginBottom:'20px' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px', marginBottom:'20px', animation: 'fadeInUp 0.6s ease-out 0.2s both' }}>
 
           {/* Quick Actions */}
           <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px' }}>
@@ -282,7 +282,7 @@ function PoliceCommand({ user }) {
         </div>
 
         {/* ── Top Violations + Duty Checklist ── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px', animation: 'fadeInUp 0.6s ease-out 0.3s both' }}>
 
           {/* Top Violations */}
           <div style={{ background: 'var(--bg-card)', border:'1.5px solid #e2e8f0', borderRadius:'18px', padding:'26px' }}>

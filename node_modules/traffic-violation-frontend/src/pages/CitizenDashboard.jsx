@@ -191,7 +191,7 @@ function CitizenDashboard() {
         </div>
 
         {/* Summary Cards */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'16px', marginBottom:'32px' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'16px', marginBottom:'32px', animation: 'fadeInUp 0.6s ease-out 0.1s both' }}>
           {[
             { label:'Total Challans', value: challans.length, color:'var(--text-secondary)', bg:'var(--bg-card)', border:'var(--border)' },
             { label:'Unpaid Challans', value: unpaidChallans.length, color:'var(--danger)', bg:'var(--bg-card)', border:'var(--danger)' },
@@ -208,7 +208,7 @@ function CitizenDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div style={{ marginBottom:'32px' }}>
+        <div style={{ marginBottom:'32px', animation: 'fadeInUp 0.6s ease-out 0.2s both' }}>
           <h2 style={{ fontSize:'18px', fontWeight:800, color:'var(--text-primary)', marginBottom:'18px', display:'flex', alignItems:'center', gap:'10px' }}>
             <span style={{ width:'8px', height:'8px', background:'var(--primary)', borderRadius:'50%' }}></span>
             Quick Actions
@@ -235,7 +235,7 @@ function CitizenDashboard() {
         </div>
 
         {/* Stats Grid */}
-        <div style={{ background:'var(--bg-card)', borderRadius:'20px', border:'1px solid var(--border)', boxShadow:'var(--shadow-card)', overflow:'hidden', marginBottom:'32px' }}>
+        <div style={{ background:'var(--bg-card)', borderRadius:'20px', border:'1px solid var(--border)', boxShadow:'var(--shadow-card)', overflow:'hidden', marginBottom:'32px', animation: 'fadeInUp 0.6s ease-out 0.3s both' }}>
           <div style={{ padding:'24px', borderBottom:'1px solid var(--border)', background:'var(--bg-secondary)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
             <div>
               <h2 style={{ fontSize:'18px', fontWeight:800, color:'var(--text-primary)', margin:0 }}>Traffic Statistics & Insights</h2>
@@ -280,7 +280,7 @@ function CitizenDashboard() {
         </div>
 
         {/* Challans Table */}
-        <div style={{ background:'var(--bg-card)', borderRadius:'20px', border:'1px solid var(--border)', boxShadow:'var(--shadow-card)', overflow:'hidden', marginBottom:'32px' }}>
+        <div style={{ background:'var(--bg-card)', borderRadius:'20px', border:'1px solid var(--border)', boxShadow:'var(--shadow-card)', overflow:'hidden', marginBottom:'32px', animation: 'fadeInUp 0.6s ease-out 0.4s both' }}>
           <div style={{ padding:'24px', borderBottom:'1px solid var(--border)', background:'var(--bg-secondary)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
             <div>
               <h2 style={{ fontSize:'18px', fontWeight:800, color:'var(--text-primary)', margin:0 }}>Traffic Challans</h2>

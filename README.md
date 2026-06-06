@@ -1,30 +1,31 @@
 # Marga Rakshak - Traffic Violation Management System
 <img width="1901" height="873" alt="image" src="https://github.com/user-attachments/assets/dea39c1b-74ab-4da9-82b7-39dd2e68aed4" />
 
+**Live Production Deployment:** [https://margarakshak-xi.vercel.app](https://margarakshak-xi.vercel.app)
+
 Marga Rakshak is a full-stack traffic violation management portal built for citizens and police officers. The system lets citizens register vehicles, submit traffic violation reports with evidence, track challans, pay fines, view notifications, manage rewards, and monitor trust score history. Police users can review reports, verify or reject submissions, create challans, search vehicles, manage rules, review appeals, and monitor analytics through an operational dashboard.
 
 ## GitHub About Description
 
-Full-stack traffic violation management system with React, FastAPI, MySQL, citizen reporting, police verification, challan payments, rewards, notifications, trust scores, analytics, and vehicle lookup.
+Full-stack traffic violation management system with React, FastAPI, TiDB (MySQL), citizen reporting, police verification, challan payments, rewards, notifications, trust scores, analytics, and vehicle lookup.
 
 ## Features
 
+- **Premium UI & UX:** Brand new, fully responsive interface with dynamic micro-animations, glassmorphism, and scroll-reveal effects.
+- **TiDB Cloud Database:** Successfully migrated from local MySQL to a fully managed Serverless TiDB database for high availability.
+- **Citizen Dashboard:** Dedicated dashboards for reports, challans, rewards, payments, vehicles, and profile data with Quick Actions.
+- **Police Dashboard:** Operational dashboard for officers to review pending reports, approve/reject submissions, and monitor system analytics.
 - Citizen and police authentication with JWT-based sessions
-- Citizen registration with linked vehicle information
-- Police officer registration and login
-- Citizen dashboard for reports, challans, rewards, payments, vehicles, and profile data
 - Violation report submission with evidence upload support
-- Police review workflow for pending reports
 - Challan creation, payment tracking, and challan history
 - Appeal submission and police appeal review
 - Vehicle search by plate number
 - Violation rule management
-- Trust score tracking and history
+- Trust score tracking and history (+10 for verified, -10 for rejected reports)
 - Reward wallet and redemption workflow
 - Notification system with unread counts and read status updates
-- Analytics dashboard with summaries, leaderboards, violation trends, heatmap data, and recent activity
+- Dedicated Leaderboard showing top citizens ranked by trust score
 - Road condition and weather-related frontend pages
-- Role-based frontend navigation for citizens and police users
 
 ## Tech Stack
 
@@ -34,6 +35,7 @@ Full-stack traffic violation management system with React, FastAPI, MySQL, citiz
 - Vite
 - React Router
 - Tailwind CSS
+- Vanilla CSS (Custom tokens and animations)
 - Recharts
 - Leaflet and React Leaflet
 - Lucide React icons
@@ -45,11 +47,11 @@ Full-stack traffic violation management system with React, FastAPI, MySQL, citiz
 - PyMySQL / MySQL connector
 - Python JWT authentication
 - Pydantic
-- MySQL
+- TiDB (Serverless MySQL)
 
 ### Database
 
-- MySQL schema and migrations are stored in the `db/` directory.
+- TiDB schema and migrations are stored in the `db/` directory.
 - Additional setup and utility scripts are stored in the `scripts/` and `server/` directories.
 
 ## Project Structure

@@ -11,16 +11,21 @@ const LIGHT_BG = '#f0f4ff'
 
 function Hero() {
   const navigate = useNavigate()
-  const [displayText, setDisplayText] = useState('Safer Roads. Smarter Enforcement.')
-  const [showSubtitle, setShowSubtitle] = useState(true)
+  const [displayText, setDisplayText] = useState('')
+  const [showSubtitle, setShowSubtitle] = useState(false)
   const [leaderboard, setLeaderboard] = useState([])
   const fullText = 'Safer Roads. Smarter Enforcement.'
   const user = JSON.parse(localStorage.getItem('user') || 'null')
   const isPolice = user?.role === 'police'
 
-  // Typing animation removed to prevent blank screen issues
+  // Typing animation
   useEffect(() => {
-    // Just a placeholder to prevent diff errors
+    let i = 0
+    const t = setInterval(() => {
+      if (i <= fullText.length) { setDisplayText(fullText.slice(0, i)); i++ }
+      else { clearInterval(t); setTimeout(() => setShowSubtitle(true), 300) }
+    }, 70)
+    return () => clearInterval(t)
   }, [])
 
   // Scroll reveal — runs on mount AND after showSubtitle renders conditional content
