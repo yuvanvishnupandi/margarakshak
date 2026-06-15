@@ -5,7 +5,7 @@
 
 Marga Rakshak is a full-stack traffic violation management portal built for citizens and police officers. The system lets citizens register vehicles, submit traffic violation reports with evidence, track challans, pay fines, view notifications, manage rewards, and monitor trust score history. Police users can review reports, verify or reject submissions, create challans, search vehicles, manage rules, review appeals, and monitor analytics through an operational dashboard.
 
-## GitHub About Description
+## Description
 
 Full-stack traffic violation management system with React, FastAPI, TiDB (MySQL), citizen reporting, police verification, challan payments, rewards, notifications, trust scores, analytics, and vehicle lookup.
 
