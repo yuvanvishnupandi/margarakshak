@@ -1,6 +1,5 @@
 <div align="center">
   <img src="frontend/public/thumbnail.png" alt="Marga Rakshak Thumbnail" width="100%"/>
-  <h1>Marga Rakshak - Traffic Violation Management System</h1>
 </div>
 
 **Live Production Deployment:** [https://margarakshak-xi.vercel.app](https://margarakshak-xi.vercel.app)  
@@ -8,59 +7,60 @@
 
 ## Overview
 
-Marga Rakshak is a comprehensive full-stack traffic violation management platform designed to connect citizens directly with traffic enforcement authorities. The goal is to streamline violation reporting and simplify the challan issuance process.
+Marga Rakshak is an end-to-end traffic violation platform built to bridge the gap between everyday citizens and traffic authorities. By crowdsourcing violation reports, it simplifies enforcement workflows and helps maintain safer roads. 
 
-**For Citizens:**  
-Register vehicles, report traffic violations with photo/video evidence, view and pay challans securely online, and track trust scores. The platform incentivizes accurate reporting through a built-in reward system.
+Citizens can seamlessly register vehicles, submit media evidence of offenses, track fines, and build a trustworthy profile. The system actively incentivizes reliable reporting through gamified rewards. Meanwhile, Traffic Officers are equipped with a powerful administrative suite to evaluate submissions, issue automated fines, handle disputes, and monitor city-wide traffic behavior via data visualizations.
 
-**For Police Officers:**  
-A dedicated operational dashboard to review citizen-submitted reports. Officers can verify evidence, generate official challans, process citizen appeals, search vehicle databases, and monitor traffic analytics.
+## Core Capabilities
 
-## Features
-
-- **Role-Based Access Control:** Secure, isolated environments for Citizens and Police personnel.
-- **Violation Reporting:** Direct photo and video upload capabilities for traffic offenses.
-- **Challan Management:** Streamlined lifecycle from police issuance to citizen payment.
-- **Trust & Rewards System:** Algorithmic trust scoring that rewards accurate reporting and penalizes false submissions.
-- **Appeals System:** Formal dispute resolution workflow for issued challans.
-- **Real-time Notifications:** Automated alerts for report verification and challan updates.
-- **Analytics & Leaderboards:** Data visualization of traffic violation heatmaps and top reporter rankings.
+- **Secure Portals:** Independent, authenticated interfaces tailored specifically for everyday users and law enforcement.
+- **Evidence Submission:** Intuitive tools to capture and upload media for roadway offenses directly from the client.
+- **Fine Processing Lifecycle:** End-to-end flow from the moment an officer issues a ticket to the citizen's final payment.
+- **Gamified Reliability:** A dynamic scoring algorithm that boosts the reputation of honest reporters and penalizes false claims, issuing tangible rewards for positive community impact.
+- **Dispute Resolution:** A structured channel for users to contest tickets they believe were issued unfairly, complete with officer review workflows.
+- **Instant Alerts:** Automated status updates keeping users informed whenever their submissions are processed or new fines are issued.
+- **Data Insights:** Comprehensive dashboards featuring geographic heatmaps of offenses and public leaderboards to highlight top community contributors.
 
 ## System Architecture
 
-The project utilizes a decoupled architecture, separating the React frontend from the Node.js API, backed by a distributed TiDB SQL database.
+Marga Rakshak is built on a robust, decoupled architecture separating the client-side application from the API services and data layer.
 
 ```mermaid
 graph TD
-    classDef frontend fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff;
-    classDef backend fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
+    %% Styling Definitions
+    classDef client fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff;
+    classDef server fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
     classDef database fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff;
 
-    User([Citizens & Police]) -->|HTTPS| Vercel[Vercel\nReact Frontend]
-    Vercel -->|REST API| Render[Render\nNode.js Backend]
+    %% Client Layer
+    Users([Citizens & Police]) -->|HTTPS Request| ReactApp[Vercel\nReact + Vite Frontend]
     
-    subgraph "Backend Services"
-        Render:::backend
-        Auth[JWT Auth]:::backend
-        Logic[Business Logic]:::backend
-        Render --- Auth
-        Render --- Logic
+    %% API Layer
+    ReactApp -->|REST API / JSON| ExpressAPI[Render\nNode.js + Express Backend]
+    
+    subgraph "Backend Application (Express)"
+        ExpressAPI:::server
+        JWT[Authentication\nJWT Middleware]:::server
+        Controllers[Route Controllers\n& Business Logic]:::server
+        ExpressAPI --- JWT
+        ExpressAPI --- Controllers
     end
     
-    subgraph "Data Layer"
-        TiDB[(TiDB Serverless\nMySQL)]:::database
-        Disk[(Local Storage\nEvidence Media)]:::database
+    subgraph "Persistence & Storage"
+        TiDB[(TiDB Serverless\nDistributed MySQL)]:::database
+        DiskStorage[(Local Disk\nMedia Uploads)]:::database
     end
 
-    Logic <-->|Read / Write| TiDB
-    Logic <-->|File I/O| Disk
+    %% Flow Connections
+    Controllers <-->|SQL Queries / Read-Write| TiDB
+    Controllers <-->|File Stream I/O| DiskStorage
 ```
 
 ### Technology Stack
-- **Frontend:** React 18 (Vite), React Router, Tailwind CSS, Recharts, React Leaflet
-- **Backend:** Node.js, Express.js, JWT Authentication
-- **Database:** TiDB (Serverless MySQL)
-- **Deployment:** Vercel (Frontend), Render (Backend)
+- **Frontend Development:** React 18, Vite, React Router, Tailwind CSS, Recharts, React Leaflet
+- **Backend Services:** Node.js, Express.js, JWT Authentication, Multer for file handling
+- **Database & Storage:** TiDB (Serverless MySQL)
+- **Hosting & CI/CD:** Vercel (Frontend), Render (Backend)
 
 ## Project Structure
 
