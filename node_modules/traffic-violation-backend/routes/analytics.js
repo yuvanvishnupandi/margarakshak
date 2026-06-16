@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('../db');
 const router = express.Router();
 
-// ── GET /api/analytics/leaderboard ──
 router.get('/leaderboard', async (req, res) => {
   try {
     const [rows] = await db.execute(`
@@ -22,7 +21,6 @@ router.get('/leaderboard', async (req, res) => {
   }
 });
 
-// ── GET /api/analytics/citizen/:id — personal stats for citizen ──
 router.get('/citizen/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -53,7 +51,6 @@ router.get('/citizen/:id', async (req, res) => {
       ORDER BY month_key ASC`, [id, months]
     );
 
-    // Get top violation rules from joined tables
     const [topViolations] = await db.execute(`
       SELECT vr.rule_name AS violation_type, COUNT(*) AS count
       FROM REPORTS r
@@ -93,7 +90,6 @@ router.get('/citizen/:id', async (req, res) => {
   }
 });
 
-// ── GET /api/analytics/police/system — system-wide stats for police ──
 router.get('/police/system', async (req, res) => {
   try {
     const [[rStats]] = await db.execute(`
@@ -171,7 +167,6 @@ router.get('/police/system', async (req, res) => {
   }
 });
 
-// ── GET /api/analytics/violation-types ──
 router.get('/violation-types', async (req, res) => {
   try {
     const [rows] = await db.execute(`
@@ -185,10 +180,9 @@ router.get('/violation-types', async (req, res) => {
   }
 });
 
-// ── GET /api/analytics/heatmap-data ──
 router.get('/heatmap-data', async (req, res) => {
   try {
-    // location_coords stored as 'lat,lng' text or NULL
+    
     const [rows] = await db.execute(`
       SELECT report_id AS id, location_coords, violation_type,
              location_address, status, DATE(date_reported) AS date
@@ -196,7 +190,7 @@ router.get('/heatmap-data', async (req, res) => {
       WHERE location_coords IS NOT NULL AND location_coords <> ''
       ORDER BY date_reported DESC LIMIT 200`
     );
-    // Parse location_coords into lat/lng
+    
     const parsed = rows.map(r => {
       const parts = (r.location_coords || '').split(',');
       return {
@@ -212,7 +206,6 @@ router.get('/heatmap-data', async (req, res) => {
   }
 });
 
-// ── GET /api/analytics/police-summary — dashboard summary for PoliceCommand ──
 router.get('/police-summary', async (req, res) => {
   try {
     const [[stats]] = await db.execute(`
@@ -246,7 +239,6 @@ router.get('/police-summary', async (req, res) => {
   }
 });
 
-// ── GET /api/analytics/appeals/police/pending — pending appeals ──
 router.get('/appeals/police/pending', async (req, res) => {
   try {
     const [rows] = await db.execute(`
@@ -266,7 +258,7 @@ router.get('/appeals/police/pending', async (req, res) => {
     res.json({ success: true, appeals: rows });
   } catch (err) {
     console.error('Analytics pending appeals error:', err);
-    // Fallback minimal
+    
     try {
       const [r2] = await db.execute(`SELECT appeal_id, status, reason, created_at FROM APPEALS WHERE status='Pending' LIMIT 10`);
       res.json({ success: true, appeals: r2 });
@@ -276,7 +268,6 @@ router.get('/appeals/police/pending', async (req, res) => {
   }
 });
 
-// ── GET /api/analytics/heatmap-data ──
 router.get('/heatmap-data', async (req, res) => {
   try {
     const [rows] = await db.execute(`
@@ -286,7 +277,7 @@ router.get('/heatmap-data', async (req, res) => {
     `);
     
     const heatmap = rows.map(r => {
-      let lat = 13.0827, lng = 80.2707; // Default to Chennai if parsing fails
+      let lat = 13.0827, lng = 80.2707; 
       try {
         if (r.location_coords.includes(',')) {
           const parts = r.location_coords.split(',');

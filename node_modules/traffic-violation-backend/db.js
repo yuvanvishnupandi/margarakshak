@@ -18,7 +18,6 @@ function createSelfHealingPool() {
     ssl: process.env.DB_SSL === 'true' ? { minVersion: 'TLSv1.2', rejectUnauthorized: true } : undefined
   });
 
-  // Attach auto-healing listeners to connections
   pool.on('connection', (connection) => {
     connection.on('error', (err) => {
       if (err.code === 'PROTOCOL_CONNECTION_LOST' || err.code === 'ECONNRESET') {
@@ -35,7 +34,6 @@ function createSelfHealingPool() {
 
 const db = createSelfHealingPool();
 
-// Test connection on startup
 db.getConnection()
   .then(conn => {
     console.log('Master Database Connected & Active.');
@@ -46,5 +44,4 @@ db.getConnection()
   });
 
 module.exports = db;
-
-
+

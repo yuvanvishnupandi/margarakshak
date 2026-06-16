@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
-// Example plates known to be in the database
 const EXAMPLE_PLATES = [
   { plate: 'TN02YY2222', label: 'Has violations' },
   { plate: 'TN63XX4444', label: 'Registered' },
@@ -74,7 +72,7 @@ function VehicleSearch() {
       if (!res.ok) { const d = await res.json(); throw new Error(d.detail || 'Vehicle not found') }
       const data = await res.json()
       setVehicle(data.vehicle); setViolations(data.violations); setSummary(data.summary)
-      // Auto-fetch Parivahan data in parallel
+      
       fetchParivahan(q)
     } catch (err) { setError(err.message) } finally { setLoading(false) }
   }
@@ -96,7 +94,7 @@ function VehicleSearch() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', padding: '100px 24px 60px', fontFamily: 'inherit' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
 
-        {/* Header */}
+        {}
         <div style={{ marginBottom: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <h1 style={{ fontSize: '30px', fontWeight: 900, color: 'var(--text-primary)', margin: '0 0 8px', letterSpacing: '-0.5px' }}>Vehicle Intelligence</h1>
@@ -108,7 +106,7 @@ function VehicleSearch() {
           </div>
         </div>
 
-        {/* Search Bar */}
+        {}
         <div style={{ background: 'var(--bg-card)', borderRadius: '20px', border: '1.5px solid var(--border)', padding: '24px', marginBottom: '28px', boxShadow: 'var(--shadow-card)' }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '12px', alignItems: 'stretch' }}>
             <div style={{ flex: 1, position: 'relative' }}>
@@ -130,7 +128,7 @@ function VehicleSearch() {
             </button>
           </form>
 
-          {/* Example Plates */}
+          {}
           <div style={{ marginTop: '14px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Try example:</span>
             {EXAMPLE_PLATES.map(({ plate, label }) => (
@@ -150,7 +148,7 @@ function VehicleSearch() {
           )}
         </div>
 
-        {/* Not Found */}
+        {}
         {error && !vehicle && plateNo && (
           <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '48px 24px', textAlign: 'center', marginBottom: '24px' }}>
             <div style={{ width: '52px', height: '52px', background: '#fef2f2', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
@@ -163,12 +161,12 @@ function VehicleSearch() {
           </div>
         )}
 
-        {/* Vehicle Details */}
+        {}
         {vehicle && (
           <>
-            {/* Registration Card + Parivahan side by side */}
+            {}
             <div style={{ display: 'grid', gridTemplateColumns: (parivahan || parivahanLoading) ? '1fr 1fr' : '1fr', gap: '20px', marginBottom: '20px' }}>
-              {/* DB Card */}
+              {}
               <div style={{ background: 'var(--bg-card)', borderRadius: '16px', border: '1px solid var(--border)', boxShadow: 'var(--shadow-card)', overflow: 'hidden' }}>
                 <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--border)', background: 'var(--bg-primary)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
@@ -203,7 +201,7 @@ function VehicleSearch() {
                 </div>
               </div>
 
-              {/* Parivahan Card — auto-loads alongside DB results */}
+              {}
               {parivahanLoading && (
                 <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #ede9fe', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
                   <p style={{ color: '#7c3aed', fontWeight: 700, fontSize: '13px' }}>Fetching Parivahan data…</p>
@@ -254,7 +252,7 @@ function VehicleSearch() {
               )}
             </div>
 
-            {/* Summary Stats */}
+            {}
             {summary && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '20px' }}>
                 {[
@@ -270,7 +268,7 @@ function VehicleSearch() {
               </div>
             )}
 
-            {/* Violation History Table */}
+            {}
             <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 8px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
               <div style={{ padding: '18px 24px', borderBottom: '1px solid #e2e8f0' }}>
                 <h2 style={{ margin: 0, fontSize: '17px', fontWeight: 800, color: '#0f172a' }}>Violation History</h2>
@@ -338,10 +336,10 @@ function VehicleSearch() {
           </>
         )}
 
-        {/* Default placeholder — no search yet */}
+        {}
         {!vehicle && !error && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '4px' }}>
-            {/* How to Use */}
+            {}
             <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 8px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
               <div style={{ padding: '18px 24px', borderBottom: '1px solid #e2e8f0' }}>
                 <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 800, color: '#0f172a' }}>How to Use Vehicle Search</h2>
@@ -362,7 +360,7 @@ function VehicleSearch() {
               </div>
             </div>
 
-            {/* What You Get */}
+            {}
             <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 8px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
               <div style={{ padding: '18px 24px', borderBottom: '1px solid #e2e8f0' }}>
                 <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 800, color: '#0f172a' }}>Information Displayed</h2>
@@ -389,7 +387,7 @@ function VehicleSearch() {
           </div>
         )}
 
-        {/* Issue Challan Modal */}
+        {}
         {showIssueModal && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }}>
             <div style={{ background: 'var(--bg-card)', borderRadius: '20px', maxWidth: '500px', width: '100%', padding: '32px', boxShadow: '0 20px 50px rgba(0,0,0,0.4)', border:'1px solid var(--border)' }}>

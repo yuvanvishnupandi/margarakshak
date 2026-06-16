@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('../db');
 const router = express.Router();
 
-// GET /api/vehicles/search/:plateNo
 router.get('/search/:plateNo', async (req, res) => {
   const plate = req.params.plateNo.toUpperCase().replace(/\s+/g, '');
   try {
@@ -51,7 +50,6 @@ router.get('/search/:plateNo', async (req, res) => {
   }
 });
 
-// POST /api/vehicles/register
 router.post('/register', async (req, res) => {
   const { plate_no, vehicle_model, vehicle_type, owner_name, owner_type, citizen_id } = req.body;
   if (!plate_no) return res.status(400).json({ error: 'plate_no required.' });
@@ -73,7 +71,6 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// PUT /api/vehicles/:plateNo  — update vehicle details
 router.put('/:plateNo', async (req, res) => {
   const plate = req.params.plateNo.toUpperCase();
   const { vehicle_model, vehicle_type, owner_name, owner_type, citizen_id } = req.body;
@@ -97,7 +94,6 @@ router.put('/:plateNo', async (req, res) => {
   }
 });
 
-// DELETE /api/vehicles/:plateNo
 router.delete('/:plateNo', async (req, res) => {
   const plate = req.params.plateNo.toUpperCase();
   try {
@@ -110,7 +106,6 @@ router.delete('/:plateNo', async (req, res) => {
   }
 });
 
-// GET /api/vehicles/citizen/:citizenId  — all vehicles owned by a citizen
 router.get('/citizen/:citizenId', async (req, res) => {
   try {
     const [rows] = await db.execute(

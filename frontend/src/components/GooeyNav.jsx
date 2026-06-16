@@ -20,11 +20,10 @@ const GooeyNav = ({
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Sync active index to current route
   useEffect(() => {
     const idx = items.findIndex(item => item.href === location.pathname)
     if (idx >= 0 && idx !== activeIndex) setActiveIndex(idx)
-  }, [location.pathname]) // eslint-disable-line
+  }, [location.pathname]) 
 
   const noise = (n = 1) => n / 2 - Math.random() * n
 
@@ -74,7 +73,7 @@ const GooeyNav = ({
         element.appendChild(particle)
         requestAnimationFrame(() => { element.classList.add('active') })
         setTimeout(() => {
-          try { element.removeChild(particle) } catch { /* ok */ }
+          try { element.removeChild(particle) } catch {  }
         }, t)
       }, 30)
     }
@@ -116,7 +115,6 @@ const GooeyNav = ({
 
     if (filterRef.current) makeParticles(filterRef.current)
 
-    // Router navigate after animation starts
     navigate(items[index].href)
   }
 
@@ -143,7 +141,7 @@ const GooeyNav = ({
 
     resizeObserver.observe(containerRef.current)
     return () => resizeObserver.disconnect()
-  }, [activeIndex]) // eslint-disable-line
+  }, [activeIndex]) 
 
   return (
     <div className="gooey-nav-container" ref={containerRef}>

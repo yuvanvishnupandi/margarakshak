@@ -5,7 +5,6 @@ import { Card, Button } from '../components/ui/BaseComponents'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 function RewardsRedeem() {
   const navigate = useNavigate()
@@ -35,7 +34,6 @@ function RewardsRedeem() {
       return
     }
 
-    // Fetch profile — independent, never throws
     let profile = {}
     try {
       const profileRes = await fetch(`${API_BASE_URL}/api/auth/profile`, {
@@ -46,7 +44,6 @@ function RewardsRedeem() {
       console.warn('Profile fetch failed:', e.message)
     }
 
-    // Fetch reports — independent, never throws
     let reports = []
     try {
       const reportsRes = await fetch(`${API_BASE_URL}/api/reports/my-reports/${user.id}`)
@@ -58,7 +55,6 @@ function RewardsRedeem() {
       console.warn('Reports fetch failed:', e.message)
     }
 
-    // Fetch wallet — optional
     let walletData = null
     try {
       const walletRes = await fetch(`${API_BASE_URL}/api/citizen/rewards/wallet/${user.id}`)
@@ -83,12 +79,10 @@ function RewardsRedeem() {
     setLoading(false)
   }
 
-  // Calculate available rewards based on user achievements
   const calculateRewards = () => {
     const rewards = []
     const { trust_score, reward_points, verified_reports } = userData
 
-    // Reward 1: 5 Verified Reports
     if (verified_reports >= 5) {
       rewards.push({
         id: 1,
@@ -103,7 +97,6 @@ function RewardsRedeem() {
       })
     }
 
-    // Reward 2: Trust Score 70+
     if (trust_score >= 70) {
       rewards.push({
         id: 2,
@@ -118,7 +111,6 @@ function RewardsRedeem() {
       })
     }
 
-    // Reward 3: 10 Verified Reports
     if (verified_reports >= 10) {
       rewards.push({
         id: 3,
@@ -133,7 +125,6 @@ function RewardsRedeem() {
       })
     }
 
-    // Reward 4: Trust Score 90+
     if (trust_score >= 90) {
       rewards.push({
         id: 4,
@@ -148,7 +139,6 @@ function RewardsRedeem() {
       })
     }
 
-    // Reward 5: 25 Verified Reports
     if (verified_reports >= 25) {
       rewards.push({
         id: 5,
@@ -163,7 +153,6 @@ function RewardsRedeem() {
       })
     }
 
-    // Reward 6: Perfect Trust Score 100
     if (trust_score >= 100) {
       rewards.push({
         id: 6,
@@ -240,7 +229,7 @@ function RewardsRedeem() {
       const result = await res.json()
       success(result.message)
       setPointsToRedeem('')
-      fetchUserData() // Refresh data
+      fetchUserData() 
     } catch (err) {
       showError(err.message)
     } finally {
@@ -266,7 +255,7 @@ function RewardsRedeem() {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'144px', paddingBottom:'32px', paddingLeft:'16px', paddingRight:'16px' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 32px 64px' }}>
-        {/* Header */}
+        {}
         <div className="mb-8 mt-6">
           <h1 style={{ color: 'var(--text-primary)' }} className="text-5xl font-bold  mb-2">
             Rewards & Redeem
@@ -274,7 +263,7 @@ function RewardsRedeem() {
           <p style={{ color: 'var(--text-secondary)' }} className="text-lg">Earn rewards for your contributions to road safety</p>
         </div>
 
-        {/* Stats Overview — Trust Score removed */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
 
           <Card className="p-6 bg-gradient-to-br from-blue-600 to-blue-700 text-white border-none shadow-lg">
@@ -336,7 +325,7 @@ function RewardsRedeem() {
           </Card>
         </div>
 
-        {/* Wallet Redemption Section */}
+        {}
         <Card style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="p-8 mb-8 border-2 shadow-xl">
           <div className="mb-6">
             <h2 style={{ color: 'var(--text-primary)' }} className="text-3xl font-bold mb-2">Convert Points to Wallet</h2>
@@ -395,7 +384,7 @@ function RewardsRedeem() {
           </div>
         </Card>
 
-        {/* Available Rewards */}
+        {}
         <div className="mb-8">
           <h2 style={{ color: 'var(--text-primary)' }} className="text-3xl font-bold  mb-6">Available Rewards</h2>
           
@@ -484,7 +473,7 @@ function RewardsRedeem() {
           )}
         </div>
 
-        {/* Coming Soon Section */}
+        {}
         <Card style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="p-8 border-2 shadow-lg mb-8">
           <div className="text-center">
             <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">

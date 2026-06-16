@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 export default function OfficerStats() {
   const [officers, setOfficers] = useState([])
@@ -78,7 +77,7 @@ export default function OfficerStats() {
           </div>
         )}
 
-        {/* Tabs */}
+        {}
         <div style={{ display:'flex', gap:'4px', marginBottom:'20px', background:'#f1f5f9', borderRadius:'10px', padding:'4px', width:'fit-content' }}>
           {tabs.map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)} style={{

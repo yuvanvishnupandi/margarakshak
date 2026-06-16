@@ -2,9 +2,6 @@ import { useEffect, useRef, useState, memo, useCallback } from 'react'
 import yoloDemo from '../assets/videos/yolo_demo1.mp4'
 import yoloSpeed from '../assets/videos/yolo_speed.mp4'
 
-/* ─────────────────────────────────────────────
-   Scroll-reveal: use a single shared observer
-───────────────────────────────────────────── */
 let sharedObserver = null
 function getObserver() {
   if (!sharedObserver) {
@@ -34,9 +31,6 @@ function useSR(ref) {
   }, [ref])
 }
 
-/* ─────────────────────────────────────────────
-   SR wrapper — inline so no className needed
-───────────────────────────────────────────── */
 function SR({ children, delay = 0, style = {} }) {
   const ref = useRef(null)
   useSR(ref)
@@ -56,9 +50,6 @@ function SR({ children, delay = 0, style = {} }) {
   )
 }
 
-/* ─────────────────────────────────────────────
-   VideoCard — lazy load, no preload=auto
-───────────────────────────────────────────── */
 const VideoCard = memo(({ src, title, subtitle, badge, isLive, stats }) => {
   const videoRef = useRef(null)
   const [playing, setPlaying] = useState(false)
@@ -67,7 +58,6 @@ const VideoCard = memo(({ src, title, subtitle, badge, isLive, stats }) => {
     const video = videoRef.current
     if (!video) return
 
-    // Use IntersectionObserver to play only when visible
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -92,13 +82,13 @@ const VideoCard = memo(({ src, title, subtitle, badge, isLive, stats }) => {
       overflow: 'hidden',
       boxShadow: '0 4px 20px rgba(0,0,0,0.07)'
     }}>
-      {/* Card header */}
+      {}
       <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', background: '#f8fafc' }}>
         <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', margin: '0 0 4px' }}>{title}</h2>
         <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>{subtitle}</p>
       </div>
 
-      {/* Video */}
+      {}
       <div style={{ position: 'relative', aspectRatio: '16/9', background: '#000' }}>
         <video
           ref={videoRef}
@@ -106,11 +96,11 @@ const VideoCard = memo(({ src, title, subtitle, badge, isLive, stats }) => {
           muted
           loop
           playsInline
-          preload="none"           /* ← key perf fix: don't preload until visible */
+          preload="none"           
           controls
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
-        {/* Static badge — no animate-pulse */}
+        {}
         <div style={{
           position: 'absolute', top: 12, right: 12,
           background: isLive ? 'rgba(22,163,74,0.92)' : 'rgba(220,38,38,0.92)',
@@ -118,7 +108,7 @@ const VideoCard = memo(({ src, title, subtitle, badge, isLive, stats }) => {
           padding: '4px 10px', borderRadius: '6px',
           display: 'flex', alignItems: 'center', gap: '5px'
         }}>
-          {/* Simple dot instead of animate-pulse */}
+          {}
           <span style={{
             width: 6, height: 6, borderRadius: '50%',
             background: '#fff', display: 'inline-block'
@@ -127,7 +117,7 @@ const VideoCard = memo(({ src, title, subtitle, badge, isLive, stats }) => {
         </div>
       </div>
 
-      {/* Stats row */}
+      {}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '10px', padding: '14px 16px', background: '#f8fafc' }}>
         {stats.map((s, i) => (
           <div key={i} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
@@ -141,9 +131,6 @@ const VideoCard = memo(({ src, title, subtitle, badge, isLive, stats }) => {
 })
 VideoCard.displayName = 'VideoCard'
 
-/* ─────────────────────────────────────────────
-   Feature card — simple, no hover translate
-───────────────────────────────────────────── */
 function FeatureCard({ feature, delay }) {
   const ref = useRef(null)
   useSR(ref)
@@ -176,9 +163,6 @@ function FeatureCard({ feature, delay }) {
   )
 }
 
-/* ─────────────────────────────────────────────
-   Data
-───────────────────────────────────────────── */
 const features = [
   { title: 'YOLO v11 Object Tracking', description: 'AI-powered real-time vehicle detection from CCTV feeds. Identifies vehicles, pedestrians, and violations automatically.', tech: ['Computer Vision', 'Deep Learning', 'Real-time'] },
   { title: 'Automated Speed Checking', description: 'Frame-by-frame speed calculation with auto-alert and challan generation when speed limits are exceeded.', tech: ['Motion Detection', 'Speed Calc', 'Alert System'] },
@@ -198,15 +182,12 @@ const phases = [
   { color: '#d97706', label: 'Phase 4 — Full Automation', desc: 'Complete AI-driven traffic management, Zero human intervention, Self-learning system' }
 ]
 
-/* ─────────────────────────────────────────────
-   Page
-───────────────────────────────────────────── */
 export default function FutureScopes() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingTop: '128px', paddingBottom: '64px', paddingLeft: '32px', paddingRight: '32px' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
 
-        {/* Header */}
+        {}
         <SR style={{ textAlign: 'center', marginBottom: '80px' }}>
           <span style={{ display: 'inline-block', padding: '4px 14px', background: '#eff6ff', color: '#1d4ed8', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', borderRadius: '999px', marginBottom: '14px' }}>
             Research & Development
@@ -219,7 +200,7 @@ export default function FutureScopes() {
           </p>
         </SR>
 
-        {/* Videos — no SR wrapper, load immediately on viewport */}
+        {}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: '32px', marginBottom: '80px' }}>
           <VideoCard
             src={yoloDemo}
@@ -247,7 +228,7 @@ export default function FutureScopes() {
           />
         </div>
 
-        {/* Upcoming Features */}
+        {}
         <SR style={{ marginBottom: '64px' }}>
           <h2 style={{ fontSize: 'clamp(32px,4vw,52px)', fontWeight: 900, color: 'var(--text-primary)', textAlign: 'center', margin: 0 }}>
             Upcoming Features
@@ -260,7 +241,7 @@ export default function FutureScopes() {
           ))}
         </div>
 
-        {/* Roadmap */}
+        {}
         <SR style={{ marginBottom: '64px' }}>
           <h2 style={{ fontSize: 'clamp(32px,4vw,52px)', fontWeight: 900, color: 'var(--text-primary)', textAlign: 'center', margin: 0 }}>
             Development Roadmap
@@ -284,7 +265,7 @@ export default function FutureScopes() {
           </div>
         </SR>
 
-        {/* CTA */}
+        {}
         <SR delay={100}>
           <div style={{ background: 'linear-gradient(135deg, #1e40af 0%, #4f46e5 100%)', borderRadius: '28px', padding: '64px', textAlign: 'center', boxShadow: '0 8px 40px rgba(30,64,175,0.3)' }}>
             <h2 style={{ fontSize: 'clamp(32px,4vw,52px)', fontWeight: 900, color: '#fff', margin: '0 0 16px' }}>Join the Revolution</h2>

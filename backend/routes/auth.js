@@ -97,7 +97,6 @@ async function createAuthPayload(conn, user, role, req) {
   };
 }
 
-// POST /api/auth/citizen/register
 router.post('/citizen/register', async (req, res) => {
   const {
     full_name,
@@ -194,7 +193,6 @@ router.post('/citizen/register', async (req, res) => {
   }
 });
 
-// POST /api/auth/police/register
 router.post('/police/register', async (req, res) => {
   const {
     full_name,
@@ -261,7 +259,6 @@ router.post('/police/register', async (req, res) => {
   }
 });
 
-// POST /api/auth/login
 router.post('/login', async (req, res) => {
   const { email, password, role } = req.body;
 
@@ -295,7 +292,6 @@ router.post('/login', async (req, res) => {
 
     user = rows[0];
 
-    // Compare password
     const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials.' });
@@ -314,7 +310,6 @@ router.post('/login', async (req, res) => {
       { expiresIn: '8h' }
     );
 
-    // Record session in ACTIVE_SESSIONS transient table
     try {
       const expiresAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
       await db.execute(
@@ -350,7 +345,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// POST /api/auth/logout — deactivate session
 router.post('/logout', async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -363,12 +357,11 @@ router.post('/logout', async (req, res) => {
           [decoded.session_id]
         );
       }
-    } catch (e) { /* token expired or invalid — ignore */ }
+    } catch (e) {  }
   }
   res.json({ message: 'Logged out successfully.' });
 });
 
-// GET /api/auth/me
 router.get('/me', async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -406,7 +399,6 @@ router.get('/me', async (req, res) => {
   }
 });
 
-// GET /api/auth/profile — same as /me, returns full_name too
 router.get('/profile', async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -437,7 +429,6 @@ router.get('/profile', async (req, res) => {
   }
 });
 
-// PUT /api/auth/profile — update profile
 router.put('/profile', async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];

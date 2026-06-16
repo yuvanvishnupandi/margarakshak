@@ -1,8 +1,4 @@
-/**
- * seed_rules.js
- * Run: node seed_rules.js
- * Inserts 20 additional real MV Act traffic rules (skips duplicates by rule_code).
- */
+
 const db = require('./db');
 
 const newRules = [

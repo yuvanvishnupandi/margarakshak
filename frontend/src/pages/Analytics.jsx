@@ -4,7 +4,6 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 
-// Fix for default marker icon in React-Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -14,7 +13,6 @@ L.Icon.Default.mergeOptions({
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 const COLORS = ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#f97316','#84cc16']
 
@@ -76,7 +74,7 @@ function Analytics() {
     fetchAll(trendMonths)
     intervalRef.current = setInterval(() => fetchAll(trendMonths), 10000)
     return () => clearInterval(intervalRef.current)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   }, [])
 
   if (loading) return (
@@ -102,7 +100,7 @@ function Analytics() {
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'96px', fontFamily:'inherit' }}>
       <div style={{ maxWidth:'1440px', margin:'0 auto', padding:'32px 40px 64px' }}>
 
-        {/* Header */}
+        {}
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'32px', paddingBottom:'20px', borderBottom:'1.5px solid var(--border)' }}>
           <div>
             <span style={{ display:'inline-block', padding:'3px 12px', background:'var(--primary-bg)', color:'#1d4ed8', fontSize:'11px', fontWeight:700, letterSpacing:'1px', textTransform:'uppercase', borderRadius:'999px', marginBottom:'10px' }}>
@@ -125,7 +123,7 @@ function Analytics() {
           </div>
         </div>
 
-        {/* Citizen: Trust Score Banner */}
+        {}
         {isCitizen && data?.trust_score !== undefined && (
           <div style={{ background:'linear-gradient(135deg, var(--text-primary) 0%, #1e3a8a 100%)', borderRadius:'18px', padding:'28px 32px', marginBottom:'28px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'20px' }}>
             <div>
@@ -146,7 +144,7 @@ function Analytics() {
           </div>
         )}
 
-        {/* Police: Extra KPI banner */}
+        {}
         {!isCitizen && (
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))', gap:'16px', marginBottom:'28px' }}>
             {[
@@ -160,7 +158,7 @@ function Analytics() {
           </div>
         )}
 
-        {/* Summary Stat Cards */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:'16px', marginBottom:'28px' }}>
           <StatCard label="Total Reports" value={data?.total_reports||0} icon="📊" color="#1d4ed8" bg="var(--primary-bg)" border="#bfdbfe" sub="All time submissions"/>
           <StatCard label="Pending" value={data?.total_pending||0} icon="⏳" color="#b45309" bg="var(--bg-card)beb" border="#fde68a" sub="Awaiting review"/>
@@ -169,9 +167,9 @@ function Analytics() {
           {isCitizen && <StatCard label="Acceptance Rate" value={data?.total_reports > 0 ? `${Math.round((data.total_verified/data.total_reports)*100)}%` : '0%'} icon="🎯" color="#7c3aed" bg="#f5f3ff" border="#ddd6fe" sub="Your report quality"/>}
         </div>
 
-        {/* Charts Row 1 */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px', marginBottom:'24px' }}>
-          {/* Bar Chart */}
+          {}
           <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px' }}>
             <h2 style={{ fontSize:'15px', fontWeight:800, color:'var(--text-primary)', margin:'0 0 20px', textTransform:'uppercase', letterSpacing:'0.6px' }}>Report Status Overview</h2>
             <ResponsiveContainer width="100%" height={240}>
@@ -187,7 +185,7 @@ function Analytics() {
             </ResponsiveContainer>
           </div>
 
-          {/* Pie Chart */}
+          {}
           <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px' }}>
             <h2 style={{ fontSize:'15px', fontWeight:800, color:'var(--text-primary)', margin:'0 0 20px', textTransform:'uppercase', letterSpacing:'0.6px' }}>Violation Type Breakdown</h2>
             {pieData.length > 0 ? (
@@ -205,7 +203,7 @@ function Analytics() {
           </div>
         </div>
 
-        {/* Monthly Trend */}
+        {}
         <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px', marginBottom:'24px' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px' }}>
             <h2 style={{ fontSize:'15px', fontWeight:800, color:'var(--text-primary)', margin:0, textTransform:'uppercase', letterSpacing:'0.6px' }}>Report Trend</h2>
@@ -238,7 +236,7 @@ function Analytics() {
           )}
         </div>
 
-        {/* Heatmap Map Section */}
+        {}
         <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px', marginBottom:'24px' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'16px' }}>
             <div>
@@ -282,9 +280,7 @@ function Analytics() {
           </div>
         </div>
 
-
-
-        {/* Violation Type Table */}
+        {}
         {violations.length > 0 && (
           <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px', marginBottom:'24px' }}>
             <h2 style={{ fontSize:'15px', fontWeight:800, color:'var(--text-primary)', margin:'0 0 20px', textTransform:'uppercase', letterSpacing:'0.6px' }}>Violation Type Breakdown</h2>
@@ -325,7 +321,7 @@ function Analytics() {
           </div>
         )}
 
-        {/* Police: Officer Performance Table */}
+        {}
         {!isCitizen && data?.top_officers?.length > 0 && (
           <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px' }}>
             <h2 style={{ fontSize:'15px', fontWeight:800, color:'var(--text-primary)', margin:'0 0 20px', textTransform:'uppercase', letterSpacing:'0.6px' }}>Officer Performance</h2>

@@ -3,7 +3,6 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 export default function MyVehicles() {
   const { success, error: showError } = useToast()
@@ -58,7 +57,7 @@ export default function MyVehicles() {
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'120px', paddingBottom:'40px' }}>
       <div style={{ maxWidth:'960px', margin:'0 auto', padding:'0 24px' }}>
 
-        {/* Header */}
+        {}
         <div style={{ marginBottom:'28px', display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:'16px' }}>
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'6px' }}>
@@ -80,7 +79,7 @@ export default function MyVehicles() {
           </button>
         </div>
 
-        {/* Registration Form */}
+        {}
         {showForm && (
           <div style={{ background:'#fff', borderRadius:'16px', border:'1.5px solid #e2e8f0', padding:'28px', marginBottom:'24px', boxShadow:'0 4px 20px rgba(0,0,0,0.06)' }}>
             <h2 style={{ fontSize:'16px', fontWeight:700, color:'#0f172a', margin:'0 0 20px' }}>Register New Vehicle</h2>
@@ -130,7 +129,7 @@ export default function MyVehicles() {
           </div>
         )}
 
-        {/* Vehicles List */}
+        {}
         {loading ? (
           <div style={{ textAlign:'center', padding:'60px', color:'#94a3b8' }}>Loading your vehicles…</div>
         ) : vehicles.length === 0 ? (

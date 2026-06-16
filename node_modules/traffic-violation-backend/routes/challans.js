@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('../db');
 const router = express.Router();
 
-// Safe date serializer
 const fmtDate = (d) => {
   if (!d) return null;
   if (d instanceof Date) {
@@ -15,8 +14,6 @@ const fmtDate = (d) => {
   return String(d);
 };
 
-// Helper: get challans by citizen_id via JOIN
-// Also finds challans linked to any vehicle the citizen owns (via VEHICLES.citizen_id)
 const fetchChallans = async (citizenId) => {
   try {
     const [rows] = await db.execute(
@@ -34,18 +31,18 @@ const fetchChallans = async (citizenId) => {
        ORDER BY c.challan_id DESC`,
       [citizenId, citizenId]
     );
-    // Normalize date fields so frontend always gets plain strings
+    
     return rows.map(row => ({
       ...row,
       issue_date: fmtDate(row.issue_date),
-      issued_at: fmtDate(row.issue_date),   // alias for backward compat
+      issued_at: fmtDate(row.issue_date),   
       due_date: fmtDate(row.due_date),
       paid_at: row.paid_at ? fmtDate(row.paid_at) : null,
       total_amount: parseFloat(row.total_amount) || 0
     }));
   } catch (err) {
     console.error('fetchChallans join error, falling back:', err.message);
-    // Minimal fallback — also check via vehicle ownership
+    
     const [rows2] = await db.execute(
       `SELECT DISTINCT c.challan_id, c.total_amount, c.payment_status,
               c.issue_date, c.due_date, c.paid_at
@@ -66,7 +63,6 @@ const fetchChallans = async (citizenId) => {
   }
 };
 
-// GET /api/challans/my?citizen_id=:id
 router.get('/my', async (req, res) => {
   const citizenId = req.query.citizen_id;
   if (!citizenId) return res.status(400).json({ error: 'citizen_id query param required.' });
@@ -79,7 +75,6 @@ router.get('/my', async (req, res) => {
   }
 });
 
-// GET /api/challans/citizen/:id
 router.get('/citizen/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -91,7 +86,6 @@ router.get('/citizen/:id', async (req, res) => {
   }
 });
 
-// GET /api/challans/report/:reportId  — report details for challan creation
 router.get('/report/:reportId', async (req, res) => {
   const { reportId } = req.params;
   try {
@@ -120,7 +114,6 @@ router.get('/report/:reportId', async (req, res) => {
   }
 });
 
-// PUT /api/challans/pay/:challanId
 router.put('/pay/:challanId', async (req, res) => {
   const { challanId } = req.params;
   const { payment_method, late_fee } = req.body;
@@ -136,7 +129,6 @@ router.put('/pay/:challanId', async (req, res) => {
     if (!row) { await conn.rollback(); conn.release(); return res.status(404).json({ error: 'Challan not found.' }); }
     if (row.payment_status === 'Paid') { await conn.rollback(); conn.release(); return res.status(409).json({ error: 'Already paid.' }); }
 
-    // Tiered late fee — Indian MV Act enforcement style (matches frontend display)
     const baseAmount = parseFloat(row.total_amount) || 0;
     let serverLateFee = 0;
     if (row.due_date) {
@@ -155,24 +147,20 @@ router.put('/pay/:challanId', async (req, res) => {
       }
     }
 
-    // Use server-computed late fee (ignore client value for security)
     const totalPayable = parseFloat((baseAmount + serverLateFee).toFixed(2));
 
     const txnRef = 'TXN' + Date.now();
 
-    // Update challan — mark paid, store late fee and total
     await conn.execute(
       `UPDATE CHALLANS SET payment_status='Paid', paid_at=NOW(), transaction_ref=?,
        total_amount=? WHERE challan_id=?`,
       [txnRef, totalPayable, challanId]
     );
 
-    // Remove from OVERDUE_LOG if it was there
     try {
       await conn.execute(`DELETE FROM OVERDUE_LOG WHERE challan_id=?`, [challanId]);
     } catch (ole) { console.warn('OVERDUE_LOG delete skipped:', ole.message); }
 
-    // Record in PAYMENT_TRANSACTIONS ledger
     try {
       await conn.execute(
         `INSERT INTO PAYMENT_TRANSACTIONS (challan_id, citizen_id, amount_paid, payment_method, transaction_ref)
@@ -181,7 +169,6 @@ router.put('/pay/:challanId', async (req, res) => {
       );
     } catch (pe) { console.warn('PAYMENT_TRANSACTIONS insert skipped:', pe.message); }
 
-    // Reward citizen +2 points for paying
     try {
       await conn.execute(
         `UPDATE CITIZENS SET reward_points = reward_points + 2 WHERE citizen_id=?`,
@@ -189,7 +176,6 @@ router.put('/pay/:challanId', async (req, res) => {
       );
     } catch (re) { console.warn('Reward points skip:', re.message); }
 
-    // Notify citizen
     try {
       const msg = serverLateFee > 0
         ? `Payment of Rs.${totalPayable.toFixed(2)} for Challan #${challanId} confirmed (includes Rs.${serverLateFee.toFixed(2)} late fee). Ref: ${txnRef}. +2 reward points!`
@@ -218,8 +204,6 @@ router.put('/pay/:challanId', async (req, res) => {
   }
 });
 
-
-// POST /api/challans/create
 router.post('/create', async (req, res) => {
   const { report_id, rule_id, badge_no, total_amount, notes } = req.body;
   if (!report_id || !rule_id) return res.status(400).json({ error: 'report_id and rule_id required.' });
@@ -228,7 +212,6 @@ router.post('/create', async (req, res) => {
     conn = await db.getConnection();
     await conn.beginTransaction();
 
-    // Get report + vehicle owner (read version for optimistic locking)
     const [[report]] = await conn.execute(
       `SELECT r.report_id, r.plate_no, r.citizen_id AS reporter_id, r.status,
               v.citizen_id AS violator_citizen_id
@@ -242,19 +225,14 @@ router.post('/create', async (req, res) => {
       return res.status(404).json({ error: 'Report not found.' });
     }
 
-    // State Lock: Ensure report is still pending
     if (report.status !== 'Pending') {
       await conn.rollback(); conn.release();
       return res.status(409).json({ error: 'Concurrency Error: Report has already been processed by another officer.' });
     }
 
-    // Determine who gets the challan:
-    // 1. Registered vehicle owner in VEHICLES (violator_citizen_id)
-    // 2. If not found, look up citizens who own this plate by other means
-    // 3. Last resort: reporter
     let violator_id = report.violator_citizen_id;
     if (!violator_id) {
-      // Try to find citizen who has this plate linked elsewhere
+      
       const [[ownerLookup]] = await conn.execute(
         `SELECT citizen_id FROM VEHICLES WHERE plate_no=? AND citizen_id IS NOT NULL LIMIT 1`,
         [report.plate_no]
@@ -262,7 +240,6 @@ router.post('/create', async (req, res) => {
       violator_id = ownerLookup?.citizen_id || report.reporter_id;
     }
 
-    // Create VIOLATION_EVENT
     const [evtResult] = await conn.execute(
       `INSERT INTO VIOLATION_EVENTS (report_id, rule_id, plate_no, event_timestamp, notes)
        VALUES (?,?,?,NOW(),?)`,
@@ -270,7 +247,6 @@ router.post('/create', async (req, res) => {
     );
     const event_id = evtResult.insertId;
 
-    // Create CHALLAN linked to violator
     const [chalResult] = await conn.execute(
       `INSERT INTO CHALLANS (event_id, citizen_id, badge_no, total_amount, payment_status,
                              issue_date, due_date)
@@ -278,8 +254,6 @@ router.post('/create', async (req, res) => {
       [event_id, violator_id, badge_no || 'POL0001', parseFloat(total_amount) || 0]
     );
 
-    // 🔴 Concurrency Control Engine (Optimistic Locking)
-    // Mark report as Verified ONLY if the version hasn't changed since we read it
     const finalBadgeNo = (badge_no && badge_no !== 'undefined' && badge_no !== 'null') ? badge_no : 'POL0001';
     
     let updateRpt;
@@ -290,7 +264,7 @@ router.post('/create', async (req, res) => {
         [finalBadgeNo, report_id]
       );
     } catch (versionErr) {
-      // version column may not exist — fallback without it
+      
       [updateRpt] = await conn.execute(
         `UPDATE REPORTS SET status='Verified', reviewed_at=NOW(), reviewed_by=?
          WHERE report_id=? AND status='Pending'`,
@@ -298,7 +272,6 @@ router.post('/create', async (req, res) => {
       );
     }
 
-    // ACID Integrity Check: If 0 rows updated, a race condition occurred!
     if (updateRpt.affectedRows === 0) {
       await conn.rollback(); conn.release();
       return res.status(409).json({ 
@@ -306,7 +279,6 @@ router.post('/create', async (req, res) => {
       });
     }
 
-    // 🔔 Notify violator: challan issued
     try {
       await conn.execute(
         `INSERT INTO NOTIFICATIONS (citizen_id, notif_type, message, is_read)
@@ -316,9 +288,8 @@ router.post('/create', async (req, res) => {
                  0)`,
         [violator_id, parseFloat(total_amount) || 0, report.plate_no]
       );
-      // Also notify reporter if different from violator
+      
       if (report.reporter_id) {
-        // The SQL Trigger automatically applies Trust Score (+10) and Reward Points (+50)
         
         if (report.reporter_id !== violator_id) {
           await conn.execute(
@@ -349,9 +320,6 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────
-// POST /api/challans/direct-issue — On-spot police citations
-// ─────────────────────────────────────────────────────────────────────
 router.post('/direct-issue', async (req, res) => {
   const { plate_no, rule_id, badge_no, total_amount, notes } = req.body;
   if (!plate_no || !rule_id) return res.status(400).json({ error: 'plate_no and rule_id required.' });
@@ -361,15 +329,12 @@ router.post('/direct-issue', async (req, res) => {
     conn = await db.getConnection();
     await conn.beginTransaction();
 
-    // ── FOOLPROOF CITIZEN ID LOGIC ──
     console.log('[DirectIssue] Processing for Plate:', plate_no);
 
-    // 1. Get vehicle owner if exists
     const [[veh]] = await conn.execute(`SELECT citizen_id FROM VEHICLES WHERE plate_no=?`, [plate_no.toUpperCase()]);
     console.log('[DirectIssue] Vehicle Owner Found:', veh?.citizen_id || 'NONE');
 
-    // 2. Find a fallback citizen_id (System Account or first user)
-    let fallbackId = 1; // absolute last resort
+    let fallbackId = 1; 
     try {
       const [cits] = await conn.execute(`SELECT citizen_id FROM CITIZENS ORDER BY citizen_id ASC LIMIT 1`);
       if (cits && cits.length > 0) {
@@ -380,13 +345,11 @@ router.post('/direct-issue', async (req, res) => {
     }
     console.log('[DirectIssue] Fallback ID determined:', fallbackId);
 
-    // 3. Force a valid, non-null ID (PRIORITY: Owner > Fallback > 1)
     let violator_id = (veh && veh.citizen_id) ? veh.citizen_id : fallbackId;
     if (!violator_id) violator_id = 1; 
     
     console.log('[DirectIssue] FINAL Violator ID to be used:', violator_id);
 
-    // 4. Ensure vehicle exists in DB (to prevent FK errors in REPORTS)
     if (!veh) {
       console.log('[DirectIssue] Creating unknown vehicle record...');
       await conn.execute(
@@ -396,7 +359,6 @@ router.post('/direct-issue', async (req, res) => {
       );
     }
 
-    // 5. Create Report (Verified)
     console.log('[DirectIssue] Inserting into REPORTS...');
     const [rptResult] = await conn.execute(
       `INSERT INTO REPORTS (citizen_id, plate_no, violation_type, location_coords, location_address,
@@ -406,7 +368,6 @@ router.post('/direct-issue', async (req, res) => {
     );
     const report_id = rptResult.insertId;
 
-    // 6. Create VIOLATION_EVENT
     console.log('[DirectIssue] Inserting into VIOLATION_EVENTS...');
     const [evtResult] = await conn.execute(
       `INSERT INTO VIOLATION_EVENTS (report_id, rule_id, plate_no, event_timestamp, notes)
@@ -415,7 +376,6 @@ router.post('/direct-issue', async (req, res) => {
     );
     const event_id = evtResult.insertId;
 
-    // 7. Create CHALLAN
     console.log('[DirectIssue] Inserting into CHALLANS...');
     const [chalResult] = await conn.execute(
       `INSERT INTO CHALLANS (event_id, citizen_id, badge_no, total_amount, payment_status,
@@ -424,7 +384,6 @@ router.post('/direct-issue', async (req, res) => {
       [event_id, violator_id, badge_no || 'POL0001', parseFloat(total_amount) || 0]
     );
 
-    // 8. Notify
     console.log('[DirectIssue] Sending notification...');
     await conn.execute(
       `INSERT INTO NOTIFICATIONS (citizen_id, notif_type, message, is_read)

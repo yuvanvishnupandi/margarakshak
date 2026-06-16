@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 const ThemeContext = createContext()
 
 export const THEMES = {
-  // ── Light ──────────────────────────────────
+  
   light: {
     id: 'light', label: 'Classic White', group: 'Light', emoji: '☀️',
     '--bg-primary': '#f8fafc', '--bg-secondary': '#ffffff', '--bg-card': '#ffffff', '--bg-input': '#f1f5f9',
@@ -64,7 +64,7 @@ export const THEMES = {
     '--gradient': 'linear-gradient(135deg,#1a0a0a 0%,#7f1d1d 100%)',
     '--success': '#16a34a', '--warning': '#b45309', '--danger': '#dc2626',
   },
-  // ── Dark ───────────────────────────────────
+  
   dark: {
     id: 'dark', label: 'Midnight Dark', group: 'Dark', emoji: '🌙',
     '--bg-primary': '#0f172a', '--bg-secondary': '#1e293b', '--bg-card': '#1e293b', '--bg-input': '#334155',
@@ -95,7 +95,7 @@ export const THEMES = {
     '--gradient': 'linear-gradient(135deg,#040e06 0%,#0d3017 100%)',
     '--success': '#4ade80', '--warning': '#fbbf24', '--danger': '#f87171',
   },
-  // ── Contrast ──────────────────────────────
+  
   contrast: {
     id: 'contrast', label: 'High Contrast', group: 'Contrast', emoji: '⚡',
     '--bg-primary': '#000000', '--bg-secondary': '#111111', '--bg-card': '#111111', '--bg-input': '#1a1a1a',
@@ -110,13 +110,13 @@ export const THEMES = {
 
 function applyTheme(theme) {
   const root = document.documentElement
-  // Set CSS custom properties
+  
   Object.entries(theme).forEach(([key, value]) => {
     if (key.startsWith('--')) root.style.setProperty(key, value)
   })
-  // Set data-theme for CSS selectors
+  
   root.setAttribute('data-theme', theme.id)
-  // Set body directly so it responds immediately
+  
   document.body.style.setProperty('background', theme['--bg-primary'])
   document.body.style.setProperty('color', theme['--text-primary'])
 }
@@ -131,7 +131,6 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('mr-theme', themeId)
   }, [themeId, theme])
 
-  // Apply on first mount too (covers page refresh)
   useEffect(() => {
     applyTheme(THEMES[localStorage.getItem('mr-theme') || 'light'] || THEMES.light)
   }, [])

@@ -4,9 +4,7 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
-// Parse evidence_path which is stored as a JSON array (multi-photo support)
 const getEvidencePaths = (evidencePath) => {
   if (!evidencePath) return []
   try {
@@ -32,9 +30,8 @@ function ChallanCreation() {
   const [fineAmount, setFineAmount] = useState('')
   const [notes, setNotes] = useState('')
   
-  // Get logged-in police officer data
   const user = JSON.parse(localStorage.getItem('user'))
-  const badgeNo = user?.badge_number || user?.id || 'POL-101'  // Fallback to POL-101
+  const badgeNo = user?.badge_number || user?.id || 'POL-101'  
 
   useEffect(() => {
     fetchReportDetails()
@@ -43,7 +40,7 @@ function ChallanCreation() {
 
   const fetchReportDetails = async () => {
     try {
-      // Use the new dedicated endpoint for single report details
+      
       const res = await fetch(`${API_BASE_URL}/api/challans/report/${reportId}`)
       
       if (!res.ok) {
@@ -103,7 +100,7 @@ function ChallanCreation() {
         body: JSON.stringify({
           report_id: parseInt(reportId),
           rule_id: selectedRule.rule_id,
-          badge_no: badgeNo,  // Use logged-in officer's badge number
+          badge_no: badgeNo,  
           total_amount: parseFloat(fineAmount),
           notes: notes
         })
@@ -155,13 +152,13 @@ function ChallanCreation() {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 pt-36">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
+        {}
         <div className="mb-8 mt-6">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Issue Challan</h1>
           <p className="text-gray-600">Create traffic violation challan for reported vehicle</p>
         </div>
 
-        {/* Vehicle Information Profile */}
+        {}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden mb-8">
           <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
             <h2 className="text-2xl font-bold text-gray-900">Violator Vehicle Information</h2>
@@ -169,7 +166,7 @@ function ChallanCreation() {
           </div>
           
           <div className="p-6">
-            {/* Violator Details Section */}
+            {}
             <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
               <h3 className="text-lg font-bold text-blue-900 mb-3">🚗 Violator Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -195,7 +192,7 @@ function ChallanCreation() {
               </div>
             </div>
 
-            {/* Reporter Details Section */}
+            {}
             <div className="mb-6 p-4 bg-green-50 rounded-lg border border-green-200">
               <h3 className="text-lg font-bold text-green-900 mb-3">👤 Reporter Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -221,7 +218,7 @@ function ChallanCreation() {
               </div>
             </div>
 
-            {/* Report Details */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <p className="text-sm text-gray-600 mb-1">Violation Type</p>
@@ -252,7 +249,7 @@ function ChallanCreation() {
               </div>
             )}
 
-            {/* Evidence Photos Section */}
+            {}
             {report.evidence_path && (
               <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
                 <p className="text-sm font-semibold text-blue-900 mb-3">
@@ -284,7 +281,7 @@ function ChallanCreation() {
           </div>
         </div>
 
-        {/* Challan Form */}
+        {}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
           <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-amber-50 to-orange-50">
             <h2 className="text-2xl font-bold text-gray-900">Challan Details</h2>
@@ -292,7 +289,7 @@ function ChallanCreation() {
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {/* Violation Rule Selection */}
+            {}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Violation Rule *
@@ -312,7 +309,7 @@ function ChallanCreation() {
               </select>
             </div>
 
-            {/* Fine Amount */}
+            {}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Fine Amount (Rs.) *
@@ -334,7 +331,7 @@ function ChallanCreation() {
               )}
             </div>
 
-            {/* Notes */}
+            {}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Additional Notes (Optional)
@@ -348,7 +345,7 @@ function ChallanCreation() {
               />
             </div>
 
-            {/* Action Buttons */}
+            {}
             <div className="flex gap-4 pt-4">
               <button
                 type="submit"

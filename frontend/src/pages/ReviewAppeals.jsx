@@ -3,7 +3,6 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 function ReviewAppeals({ user }) {
   const { success, error: showError } = useToast()
@@ -91,11 +90,11 @@ function ReviewAppeals({ user }) {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', padding: '104px 32px 56px' }}>
 
-      {/* Review Modal */}
+      {}
       {showModal && selected && (
         <div onClick={closeModal} style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px' }}>
           <div onClick={e => e.stopPropagation()} style={{ background: 'var(--bg-card)', borderRadius: '16px', boxShadow: '0 24px 64px rgba(0,0,0,0.15)', maxWidth: '580px', width: '100%', overflow: 'hidden' }}>
-            {/* Modal Header */}
+            {}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', borderBottom: '1px solid #e2e8f0' }}>
               <div>
                 <p style={{ margin: 0, fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)' }}>Review Appeal #{selected.appeal_id}</p>
@@ -106,7 +105,7 @@ function ReviewAppeals({ user }) {
               </button>
             </div>
 
-            {/* Appeal Details */}
+            {}
             <div style={{ padding: '20px 24px' }}>
               <div style={{ background: 'var(--bg-primary)', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px', marginBottom: '20px' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
@@ -132,7 +131,7 @@ function ReviewAppeals({ user }) {
                 </div>
               </div>
 
-              {/* Notes */}
+              {}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '8px' }}>
                   Review Notes <span style={{ color: '#94a3b8', fontWeight: 400 }}>(optional)</span>
@@ -148,7 +147,7 @@ function ReviewAppeals({ user }) {
                 />
               </div>
 
-              {/* Action Buttons */}
+              {}
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button onClick={() => handleDecision('Accepted')} disabled={processing}
                   style={{ flex: 1, padding: '11px', background: processing ? '#d1fae5' : '#16a34a', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 700, cursor: processing ? 'not-allowed' : 'pointer', transition: 'background 0.15s' }}
@@ -168,13 +167,13 @@ function ReviewAppeals({ user }) {
         </div>
       )}
 
-      {/* Page Header */}
+      {}
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontSize: '30px', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 4px', letterSpacing: '-0.5px' }}>Review Appeals</h1>
         <p style={{ color: '#64748b', fontSize: '14px', margin: 0 }}>Review and decide on citizen challan disputes</p>
       </div>
 
-      {/* Stats Row */}
+      {}
       <div style={{ display: 'flex', gap: '16px', marginBottom: '24px', flexWrap: 'wrap' }}>
         {[
           { label: 'Total Appeals', value: total, color: 'var(--text-primary)' },
@@ -188,7 +187,7 @@ function ReviewAppeals({ user }) {
         ))}
       </div>
 
-      {/* Table Card */}
+      {}
       <div style={{ background: 'var(--bg-card)', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 8px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
         {appeals.length === 0 ? (
           <div style={{ padding: '72px 24px', textAlign: 'center' }}>

@@ -2,10 +2,9 @@ const express = require('express');
 const db = require('../db');
 const router = express.Router();
 
-// GET /api/rules/all
 router.get('/all', async (req, res) => {
   try {
-    // Check if category column exists
+    
     let hasCategory = false;
     try {
       await db.execute(`SELECT category FROM VIOLATION_RULES LIMIT 1`);
@@ -48,15 +47,13 @@ router.get('/all', async (req, res) => {
   }
 });
 
-
-// POST /api/rules/create
 router.post('/create', async (req, res) => {
   const { rule_code, rule_name, description, base_fine_amount, severity, violation_time } = req.body;
   if (!rule_code || !rule_name || !base_fine_amount || !severity) {
     return res.status(400).json({ error: 'rule_code, rule_name, base_fine_amount, severity required.' });
   }
   try {
-    // Check if rule_code exists
+    
     const [[exists]] = await db.execute(`SELECT rule_id FROM VIOLATION_RULES WHERE rule_code=?`, [rule_code]);
     if (exists) return res.status(400).json({ error: `Rule code '${rule_code}' already exists.` });
     const [result] = await db.execute(
@@ -71,7 +68,6 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// PUT /api/rules/:ruleId
 router.put('/:ruleId', async (req, res) => {
   const { ruleId } = req.params;
   const { base_fine_amount, rule_name, description, severity, violation_time, is_active } = req.body;
@@ -94,7 +90,6 @@ router.put('/:ruleId', async (req, res) => {
   }
 });
 
-// DELETE /api/rules/:ruleId
 router.delete('/:ruleId', async (req, res) => {
   const { ruleId } = req.params;
   try {

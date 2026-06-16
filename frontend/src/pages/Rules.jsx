@@ -3,9 +3,7 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
-// MV Act 2019 seed rules shown when DB is empty
 const SEED_RULES = [
   { rule_id:'s1', rule_code:'MV Act §112', rule_name:'Over Speeding (LMV)', description:'Driving a Light Motor Vehicle beyond the prescribed speed limit on public roads.', base_fine_amount:1000, severity:'Moderate', violation_time:'Anytime', category:'Speeding' },
   { rule_id:'s2', rule_code:'MV Act §112(2)', rule_name:'Over Speeding (HMV)', description:'Driving a Heavy Motor Vehicle beyond the prescribed speed limit. Repeat offenders face licence suspension.', base_fine_amount:2000, severity:'Major', violation_time:'Anytime', category:'Speeding' },
@@ -69,7 +67,6 @@ function Rules() {
   const isPolice = user?.role === 'police'
   const categories = ['All','Safety','Documents','Speeding','DUI','Parking','Equipment','Overloading']
 
-  // Auto-derive category from rule_name if DB doesn't have it
   const deriveCategory = (rule) => {
     if (rule.category) return rule.category
     const n = (rule.rule_name || '').toLowerCase()
@@ -105,7 +102,6 @@ function Rules() {
       setLoading(false)
     }
   }
-
 
   const handleUpdateFine = async (ruleId) => {
     if (String(ruleId).startsWith('s')) { showError('Seed rule — save to DB first via Create Rule'); return }
@@ -164,7 +160,7 @@ function Rules() {
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'96px' }}>
       <div style={{ maxWidth:'1440px', margin:'0 auto', padding:'0 32px 64px' }}>
 
-        {/* Header */}
+        {}
         <div style={{ marginBottom:'32px' }}>
           <span style={{ display:'inline-block', padding:'4px 14px', background:'#eff6ff', color:'#1d4ed8', fontSize:'11px', fontWeight:700, letterSpacing:'1px', textTransform:'uppercase', borderRadius:'999px', marginBottom:'12px' }}>
             Motor Vehicles Act 1988 · Amended 2019
@@ -173,7 +169,7 @@ function Rules() {
           <p style={{ color:'var(--text-secondary)', fontSize:'15px', margin:0 }}>Official fine schedule — Indian Motor Vehicles Act. Sourced from MoRTH, Government of India.</p>
         </div>
 
-        {/* Police: Add Law Button — pill, top-right */}
+        {}
         {isPolice && (
           <div style={{ display:'flex', justifyContent:'flex-end', marginBottom:'24px' }}>
             <button onClick={() => setShowAddForm(!showAddForm)} style={{
@@ -196,7 +192,7 @@ function Rules() {
           </div>
         )}
 
-        {/* Add Form */}
+        {}
         {isPolice && showAddForm && (
           <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'20px', padding:'32px', marginBottom:'28px', boxShadow:'0 4px 24px rgba(0,0,0,0.06)' }}>
             <h3 style={{ fontSize:'18px', fontWeight:800, color:'var(--text-primary)', marginBottom:'24px' }}>Create New Traffic Rule</h3>
@@ -244,7 +240,7 @@ function Rules() {
           </div>
         )}
 
-        {/* Search + Category Filter */}
+        {}
         <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'16px', padding:'20px 24px', marginBottom:'28px', display:'flex', flexWrap:'wrap', gap:'16px', alignItems:'center' }}>
           <div style={{ flex:1, minWidth:'200px', position:'relative' }}>
             <svg style={{ position:'absolute', left:'12px', top:'50%', transform:'translateY(-50%)', color:'var(--text-secondary)' }} width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -262,10 +258,10 @@ function Rules() {
           </div>
         </div>
 
-        {/* Count */}
+        {}
         <p style={{ color:'var(--text-secondary)', fontSize:'12px', marginBottom:'16px' }}>{filteredRules.length} rule{filteredRules.length!==1?'s':''} found</p>
 
-        {/* Rules Grid */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(400px,1fr))', gap:'20px' }}>
           {filteredRules.map(rule => (
             <div key={rule.rule_id} style={{
@@ -275,7 +271,7 @@ function Rules() {
               onMouseEnter={e=>{e.currentTarget.style.boxShadow='0 8px 28px rgba(0,0,0,0.10)';e.currentTarget.style.transform='translateY(-3px)'}}
               onMouseLeave={e=>{e.currentTarget.style.boxShadow='0 1px 4px rgba(0,0,0,0.04)';e.currentTarget.style.transform='translateY(0)'}}
             >
-              {/* Top row */}
+              {}
               <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'12px' }}>
                 <span style={{ fontSize:'11px', fontWeight:700, color:'var(--text-secondary)', background:'var(--bg-secondary)', padding:'3px 10px', borderRadius:'999px' }}>{rule.rule_code}</span>
                 <span style={{ fontSize:'11px', fontWeight:700, color:severityColor(rule.severity), background:severityBg(rule.severity), padding:'3px 10px', borderRadius:'999px' }}>{rule.severity}</span>

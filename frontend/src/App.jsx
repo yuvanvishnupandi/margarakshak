@@ -45,7 +45,7 @@ function AppContent() {
       try {
         const parsedUser = JSON.parse(savedUser)
         setUser(parsedUser)
-        // Refresh from server to get full_name and latest data
+        
         fetch(`${API_BASE_URL}/api/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` },
           cache: 'no-store'
@@ -66,7 +66,6 @@ function AppContent() {
 const handleLogin = (data) => {
     console.log('Login response data:', data)
     
-    // FastAPI sends 'token', but we check for 'access_token' too just in case
     const token = data.access_token || data.token;
     
     if (!token) {
@@ -91,7 +90,7 @@ const handleLogin = (data) => {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` }
         })
-      } catch (e) { /* ignore network errors on logout */ }
+      } catch (e) {  }
     }
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -331,7 +330,7 @@ const handleLogin = (data) => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       
-      {/* Floating Notification Widget */}
+      {}
       {user && <NotificationWidget user={user} />}
     </div>
   )

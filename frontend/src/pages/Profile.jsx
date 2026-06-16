@@ -32,7 +32,6 @@ function Profile({ user }) {
     try {
       const token = localStorage.getItem('token')
       
-      // Fetch profile data
       let profile = {}
       try {
         const profileRes = await fetch(`${API_BASE_URL}/api/auth/profile`, {
@@ -46,7 +45,6 @@ function Profile({ user }) {
         console.warn('Profile API failed, using localStorage:', err)
       }
       
-      // Fetch reports
       let reports = { reports: [] }
       try {
         const reportsRes = await fetch(`${API_BASE_URL}/api/reports/my-reports/${user?.id}`, {
@@ -59,7 +57,6 @@ function Profile({ user }) {
         console.warn('Reports API failed:', err)
       }
       
-      // Fetch challans
       let challans = { challans: [] }
       try {
         const challansRes = await fetch(`${API_BASE_URL}/api/challans/citizen/${user?.id}`, {
@@ -91,7 +88,6 @@ function Profile({ user }) {
         
         setProfileData(newProfileData)
         
-        // Extract unique vehicles from reports
         const vehicleMap = {}
         reportsList.forEach(report => {
           if (report.plate_no && !vehicleMap[report.plate_no]) {
@@ -112,7 +108,6 @@ function Profile({ user }) {
         })
         setVehicles(Object.values(vehicleMap))
         
-        // Update localStorage with latest trust score
         const currentUser = JSON.parse(localStorage.getItem('user'))
         if (currentUser) {
           currentUser.trust_score = newProfileData.trust_score
@@ -132,7 +127,7 @@ function Profile({ user }) {
       }
     } catch (err) {
       console.error('Failed to fetch profile data:', err)
-      // Fallback to localStorage data
+      
       if (user?.role === 'citizen') {
         setProfileData({
           full_name: user?.name || '',
@@ -178,7 +173,6 @@ function Profile({ user }) {
     }
   }
 
-
   if (loading) {
     return (
       <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'128px', paddingBottom:'32px', paddingLeft:'16px', paddingRight:'16px' }}>
@@ -200,17 +194,17 @@ function Profile({ user }) {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'128px', paddingBottom:'32px', paddingLeft:'16px', paddingRight:'16px' }}>
       <div className="w-full max-w-[1920px] mx-auto">
-        {/* Header */}
+        {}
         <div className="mb-8">
           <h1 style={{ color: 'var(--text-primary)' }} className="text-4xl font-bold  mb-2">My Profile</h1>
           <p style={{ color: 'var(--text-secondary)' }} className="">Manage your account information and view your activity</p>
         </div>
 
-        {/* Citizen Profile */}
+        {}
         {user?.role === 'citizen' && (
           <div className="space-y-8">
 
-            {/* Stats Grid */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Card hover className="p-6">
                 <div className="flex items-center gap-4">
@@ -269,7 +263,7 @@ function Profile({ user }) {
               </Card>
             </div>
 
-            {/* Registered Vehicles */}
+            {}
             {vehicles.length > 0 && (
               <Card>
                 <div style={{ borderColor: 'var(--border)' }} className="p-6 border-b">
@@ -323,7 +317,7 @@ function Profile({ user }) {
               </Card>
             )}
 
-            {/* Account Information */}
+            {}
             <Card>
               <div style={{ borderColor: 'var(--border)' }} className="p-6 border-b  flex items-center justify-between">
                 <div>
@@ -402,7 +396,7 @@ function Profile({ user }) {
           </div>
         )}
 
-        {/* Police Profile */}
+        {}
         {user?.role === 'police' && (
           <div className="space-y-8">
             <Card className="overflow-hidden">

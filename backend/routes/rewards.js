@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('../db');
 const router = express.Router();
 
-// GET /api/citizen/rewards/wallet/:citizenId
 router.get('/wallet/:citizenId', async (req, res) => {
   const { citizenId } = req.params;
   try {
@@ -44,7 +43,6 @@ router.get('/wallet/:citizenId', async (req, res) => {
   }
 });
 
-// POST /api/citizen/rewards/redeem
 router.post('/redeem', async (req, res) => {
   const { citizen_id, points_to_redeem } = req.body;
   if (!citizen_id || !points_to_redeem || points_to_redeem < 10) {
@@ -65,7 +63,6 @@ router.post('/redeem', async (req, res) => {
       return res.status(400).json({ error: `Insufficient points. You have ${citizen.reward_points} points.` });
     }
 
-    // Conversion: 10 points = Rs. 50
     const wallet_amount = parseFloat(((points_to_redeem / 10) * 50).toFixed(2));
 
     await conn.execute(
@@ -79,7 +76,6 @@ router.post('/redeem', async (req, res) => {
       [citizen_id, points_to_redeem, wallet_amount]
     );
 
-    // Notify citizen
     try {
       await conn.execute(
         `INSERT INTO NOTIFICATIONS (citizen_id, notif_type, message, is_read)

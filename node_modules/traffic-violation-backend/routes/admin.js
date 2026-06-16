@@ -2,10 +2,9 @@ const express = require('express');
 const db = require('../db');
 const router = express.Router();
 
-// GET /api/admin/overdue-log
 router.get('/overdue-log', async (req, res) => {
   try {
-    // Primary: records in OVERDUE_LOG joined through CHALLANS → CITIZENS
+    
     let rows = [];
     try {
       [rows] = await db.execute(
@@ -25,7 +24,6 @@ router.get('/overdue-log', async (req, res) => {
       console.warn('OVERDUE_LOG join failed, trying simpler query:', joinErr.message);
     }
 
-    // Fallback / supplement: also fetch any challan past due_date not yet in OVERDUE_LOG
     const [pastDue] = await db.execute(
       `SELECT NULL AS log_id, ch.challan_id, NOW() AS flagged_at,
               ROUND(ch.total_amount * 0.15, 2) AS penalty_amount,
@@ -43,10 +41,8 @@ router.get('/overdue-log', async (req, res) => {
        ORDER BY ch.due_date ASC`
     );
 
-    // Merge: OVERDUE_LOG entries first, then any extra past-due challans
     const merged = [...rows, ...pastDue];
 
-    // Deduplicate by challan_id (keep OVERDUE_LOG version if duplicate)
     const seen = new Set();
     const final = merged.filter(r => {
       if (seen.has(r.challan_id)) return false;
@@ -61,8 +57,6 @@ router.get('/overdue-log', async (req, res) => {
   }
 });
 
-
-// POST /api/admin/flag-overdue  — manually trigger the stored procedure
 router.post('/flag-overdue', async (req, res) => {
   let conn;
   try {
@@ -81,7 +75,6 @@ router.post('/flag-overdue', async (req, res) => {
   }
 });
 
-// GET /api/admin/active-sessions
 router.get('/active-sessions', async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -98,7 +91,6 @@ router.get('/active-sessions', async (req, res) => {
   }
 });
 
-// GET /api/admin/officer-stats  — from Officer_Performance_View
 router.get('/officer-stats', async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -114,7 +106,6 @@ router.get('/officer-stats', async (req, res) => {
   }
 });
 
-// GET /api/admin/habitual-offenders
 router.get('/habitual-offenders', async (req, res) => {
   try {
     const [rows] = await db.execute(

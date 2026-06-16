@@ -2,27 +2,19 @@ const express = require('express');
 const db = require('../db');
 const router_instance = express.Router();
 
-// ── Notification helper exported for other routes ──────────────────────
 const notify = async (citizen_id, notif_type, message) => {
   try {
     await db.execute(
       `INSERT INTO NOTIFICATIONS (citizen_id, notif_type, message, is_read) VALUES (?,?,?,0)`,
       [citizen_id, notif_type, message]
     );
-  } catch (err) { /* silent — NOTIFICATIONS table may have constraints */ }
+  } catch (err) {  }
 };
 
-// ─────────────────────────────────────────────────────────────────────
-// POLICE ENDPOINTS (static routes MUST come before parameterized ones)
-// ─────────────────────────────────────────────────────────────────────
-
-// GET /api/citizen/notifications/police/all
-// Returns "virtual" notifications for police from pending REPORTS + APPEALS
 router_instance.get('/police/all', async (req, res) => {
   try {
     const notifications = [];
 
-    // Pending reports → police action items
     const [pendingReports] = await db.execute(
       `SELECT r.report_id, r.plate_no, r.violation_type, r.date_reported,
               c.full_name AS reporter_name
@@ -42,7 +34,6 @@ router_instance.get('/police/all', async (req, res) => {
       });
     }
 
-    // Pending appeals → police action items
     const [pendingAppeals] = await db.execute(
       `SELECT a.appeal_id, a.challan_id, a.created_at,
               c.full_name AS citizen_name, ch.total_amount
@@ -63,7 +54,6 @@ router_instance.get('/police/all', async (req, res) => {
       });
     }
 
-    // Sort by date descending
     notifications.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     res.json({
@@ -76,7 +66,6 @@ router_instance.get('/police/all', async (req, res) => {
   }
 });
 
-// PUT /api/citizen/notifications/read-all/:citizenId
 router_instance.put('/read-all/:citizenId', async (req, res) => {
   try {
     await db.execute(
@@ -86,11 +75,9 @@ router_instance.put('/read-all/:citizenId', async (req, res) => {
   res.json({ message: 'All marked as read.' });
 });
 
-// PUT /api/citizen/notifications/police/:notifId/read
-// Police "read" is virtual — just returns OK (no DB row to update for virtual notifs)
 router_instance.put('/police/:notifId/read', async (req, res) => {
   const { notifId } = req.params;
-  // If it's a real notification_id (numeric), update DB
+  
   if (/^\d+$/.test(notifId)) {
     try {
       await db.execute(`UPDATE NOTIFICATIONS SET is_read=1 WHERE notif_id=?`, [notifId]);
@@ -99,11 +86,6 @@ router_instance.put('/police/:notifId/read', async (req, res) => {
   res.json({ message: 'Marked as read.' });
 });
 
-// ─────────────────────────────────────────────────────────────────────
-// CITIZEN ENDPOINTS (parameterized — MUST come after static routes)
-// ─────────────────────────────────────────────────────────────────────
-
-// GET /api/citizen/notifications/:citizenId
 router_instance.get('/:citizenId', async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -117,7 +99,6 @@ router_instance.get('/:citizenId', async (req, res) => {
   }
 });
 
-// PUT /api/citizen/notifications/:notifId/read
 router_instance.put('/:notifId/read', async (req, res) => {
   try {
     await db.execute(

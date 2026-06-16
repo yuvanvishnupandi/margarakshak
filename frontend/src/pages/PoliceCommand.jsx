@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
-// SVG icon set — no emojis
 const Icon = {
   inbox: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0H4m12 0l-4 4m0 0l-4-4"/></svg>,
   clock: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path strokeLinecap="round" d="M12 6v6l4 2"/></svg>,
@@ -38,14 +36,12 @@ function PoliceCommand({ user }) {
        const token = localStorage.getItem('token')
        const headers = token ? { Authorization: `Bearer ${token}` } : {}
        
-       // Fetch all data in parallel
         const [statsRes, violRes, appealsRes] = await Promise.allSettled([
           fetch(`${API}/api/analytics/police-summary`, { headers }),
           fetch(`${API}/api/analytics/violation-types`, { headers }),
           fetch(`${API}/api/appeals/police/pending`, { headers })
         ])
        
-       // Process stats
        if (statsRes.status === 'fulfilled' && statsRes.value.ok) {
          const d = (await statsRes.value.json()).data || {}
          setStats({ 
@@ -58,13 +54,11 @@ function PoliceCommand({ user }) {
          })
        }
        
-       // Process violations
        if (violRes.status === 'fulfilled' && violRes.value.ok) {
          const vd = (await violRes.value.json()).data || []
          setTopViolations(vd.slice(0, 5))
        }
        
-       // Process appeals - show only pending ones
        let allAppeals = []
        if (appealsRes.status === 'fulfilled' && appealsRes.value.ok) {
          const data = await appealsRes.value.json()
@@ -110,7 +104,6 @@ function PoliceCommand({ user }) {
    const statusColor = s => ({ Pending:'#b45309', Verified:'#15803d', Rejected:'#b91c1c', 'Challan Issued':'#6d28d9' }[s]||'#374151')
    const statusBg = s => ({ Pending:'#fffbeb', Verified:'#f0fdf4', Rejected:'#fef2f2', 'Challan Issued':'#f5f3ff' }[s]||'#f9fafb')
 
-   // Appeal status styling
    const appealStatusStyles = {
      Pending: { bg: '#fffbeb', color: '#b45309', border: '#fde68a' },
      'Under Review': { bg: '#eff6ff', color: '#1d4ed8', border: '#bfdbfe' },
@@ -133,7 +126,7 @@ function PoliceCommand({ user }) {
 
       <div style={{ maxWidth:'1440px', margin:'0 auto', padding:'32px 40px 64px' }}>
 
-        {/* ── Page Header ── */}
+        {}
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'32px', paddingBottom:'24px', borderBottom:'1.5px solid var(--border)' }}>
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'8px' }}>
@@ -162,7 +155,7 @@ function PoliceCommand({ user }) {
           </button>
         </div>
 
-        {/* ── Stat Cards ── */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(190px,1fr))', gap:'16px', marginBottom:'28px' }}>
           {statCards.map((c, i) => (
             <div key={i} style={{ background: 'var(--bg-card)', border:`1.5px solid ${c.border}`, borderRadius:'14px', padding:'20px 22px', display:'flex', alignItems:'center', gap:'14px' }}>
@@ -177,10 +170,10 @@ function PoliceCommand({ user }) {
           ))}
         </div>
 
-        {/* ── Two Column: Quick Actions + Recent Reports ── */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px', marginBottom:'20px', animation: 'fadeInUp 0.6s ease-out 0.2s both' }}>
 
-          {/* Quick Actions */}
+          {}
           <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px' }}>
             <h2 style={{ fontSize:'15px', fontWeight:800, color:'var(--text-primary)', margin:'0 0 18px', textTransform:'uppercase', letterSpacing:'0.8px' }}>Quick Actions</h2>
             <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
@@ -208,7 +201,7 @@ function PoliceCommand({ user }) {
             </div>
           </div>
 
-          {/* Pending Appeals */}
+          {}
           <div style={{ background:'var(--bg-card)', border:'1.5px solid var(--border)', borderRadius:'18px', padding:'26px' }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px' }}>
               <div>
@@ -281,10 +274,10 @@ function PoliceCommand({ user }) {
           </div>
         </div>
 
-        {/* ── Top Violations + Duty Checklist ── */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px', animation: 'fadeInUp 0.6s ease-out 0.3s both' }}>
 
-          {/* Top Violations */}
+          {}
           <div style={{ background: 'var(--bg-card)', border:'1.5px solid #e2e8f0', borderRadius:'18px', padding:'26px' }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px' }}>
               <div>
@@ -338,7 +331,7 @@ function PoliceCommand({ user }) {
             )}
           </div>
 
-          {/* Duty Checklist — clean, no emojis */}
+          {}
           <div style={{ background:'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)', borderRadius:'18px', padding:'26px' }}>
             <h2 style={{ fontSize:'15px', fontWeight:800, color:'#fff', margin:'0 0 4px', textTransform:'uppercase', letterSpacing:'0.8px' }}>Daily Duty Checklist</h2>
             <p style={{ fontSize:'11px', color:'rgba(255,255,255,0.45)', margin:'0 0 20px' }}>Standard operating procedure</p>
@@ -358,7 +351,6 @@ function PoliceCommand({ user }) {
             ))}
           </div>
         </div>
-
 
       </div>
     </div>

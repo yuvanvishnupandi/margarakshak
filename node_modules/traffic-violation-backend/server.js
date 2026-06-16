@@ -19,12 +19,10 @@ const weatherRoutes      = require('./routes/weather');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// 🔴 Live Demonstration Logger: Shows API traffic in the terminal
 app.use((req, res, next) => {
   const start = Date.now();
   res.on('finish', () => {
@@ -34,7 +32,6 @@ app.use((req, res, next) => {
     if (req.method === 'PUT') emoji = '🔄';
     if (req.method === 'DELETE') emoji = '❌';
     
-    // Ignore boring image requests to keep terminal clean
     if (!req.url.startsWith('/uploads')) {
       console.log(`${emoji} [Frontend ➡️ Backend] ${req.method} ${req.url} — ✅ Status: ${res.statusCode} (${ms}ms)`);
     }
@@ -42,17 +39,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Static file serving for evidence photos
 const uploadsDir = path.join(__dirname, '../server/uploads');
 app.use('/uploads', express.static(uploadsDir));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Routes
 app.use('/api/auth',                  authRoutes);
 app.use('/api/reports',               reportRoutes);
 app.use('/api/police',                policeRoutes);
@@ -66,13 +60,11 @@ app.use('/api/citizen/rewards',       rewardsRoutes);
 app.use('/api/admin',                 adminRoutes);
 app.use('/api/weather',               weatherRoutes);
 
-// 404 handler
 app.use((req, res) => {
   console.log('404:', req.method, req.url);
   res.status(404).json({ error: 'Endpoint not found: ' + req.method + ' ' + req.url });
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal server error.' });

@@ -5,17 +5,15 @@ const fs = require('fs');
 const db = require('../db');
 const router = express.Router();
 
-// ── Notification helper (correct schema: notif_id, notif_type, citizen_id, message, is_read) ──
 const notify = async (citizen_id, notif_type, message) => {
   try {
     await db.execute(
       `INSERT INTO NOTIFICATIONS (citizen_id, notif_type, message, is_read) VALUES (?,?,?,0)`,
       [citizen_id, notif_type, message]
     );
-  } catch (e) { /* silently skip if NOTIFICATIONS table missing */ }
+  } catch (e) {  }
 };
 
-// ── Multer: save uploads to server/uploads/evidence ──
 const uploadDir = path.join(__dirname, '../../server/uploads/evidence');
 const localDir  = path.join(__dirname, '../uploads/evidence');
 [uploadDir, localDir].forEach(d => { try { fs.mkdirSync(d, { recursive: true }); } catch(e){} });
@@ -29,9 +27,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
-// ─────────────────────────────────────────────────────────────────────
-// POST /api/reports/create
-// ─────────────────────────────────────────────────────────────────────
 router.post('/create', async (req, res) => {
   const { citizen_id, plate_no, violation_type, location_address, location_coords, description } = req.body;
   if (!citizen_id || !plate_no || !violation_type)
@@ -44,7 +39,6 @@ router.post('/create', async (req, res) => {
     if (cit.account_status === 'Suspended' || cit.trust_score <= 0)
       return res.status(403).json({ error: 'Your account is suspended. You cannot submit reports.' });
 
-    // Ensure vehicle row exists (without overwriting existing owner linkage)
     const [[veh]] = await db.execute(`SELECT plate_no FROM VEHICLES WHERE plate_no=?`, [plate_no.toUpperCase()]);
     if (!veh) {
       await db.execute(
@@ -62,7 +56,6 @@ router.post('/create', async (req, res) => {
        location_address || '', description || '']
     );
 
-    // 🔔 Notify reporter: report received
     await notify(citizen_id, 'General',
       `Your report for vehicle ${plate_no.toUpperCase()} (${violation_type}) has been submitted and is under review.`
     );
@@ -74,9 +67,6 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────
-// POST /api/reports/upload-evidence/:reportId
-// ─────────────────────────────────────────────────────────────────────
 router.post('/upload-evidence/:reportId', upload.single('file'), async (req, res) => {
   const { reportId } = req.params;
   if (!req.file) return res.status(400).json({ error: 'No file uploaded.' });
@@ -97,9 +87,6 @@ router.post('/upload-evidence/:reportId', upload.single('file'), async (req, res
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────
-// GET /api/reports/police/pending
-// ─────────────────────────────────────────────────────────────────────
 router.get('/police/pending', async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -118,9 +105,6 @@ router.get('/police/pending', async (req, res) => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────
-// GET /api/reports/police/export-csv
-// ─────────────────────────────────────────────────────────────────────
 router.get('/police/export-csv', async (req, res) => {
   try {
     const [rows] = await db.execute(`
@@ -131,10 +115,8 @@ router.get('/police/export-csv', async (req, res) => {
       ORDER BY r.date_reported DESC
     `);
     
-    // Header
     let csv = 'Report ID,Plate Number,Violation,Location,Status,Date,Reporter\n';
     
-    // Body
     rows.forEach(r => {
       const dateStr = r.date_reported ? new Date(r.date_reported).toLocaleDateString() : 'N/A';
       const reporter = r.reporter_name || 'Anonymous';

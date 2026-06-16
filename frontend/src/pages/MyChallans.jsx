@@ -4,7 +4,6 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 function MyChallans({ user }) {
   const navigate = useNavigate()
@@ -20,7 +19,6 @@ function MyChallans({ user }) {
   const [selectedChallan, setSelectedChallan] = useState(null)
   const [disputeReason, setDisputeReason] = useState('')
 
-  // ── PL/SQL: Calculate_Late_Fee visualizer ──
   const isOverdue = (challan) => {
     if (challan.payment_status !== 'Unpaid') return false
     const due = new Date(challan.due_date)
@@ -36,7 +34,6 @@ function MyChallans({ user }) {
   useEffect(() => {
     fetchChallans()
     
-    // REAL-TIME SYNC: Auto-refresh every 3 seconds
     const interval = setInterval(fetchChallans, 3000)
     
     return () => clearInterval(interval)
@@ -59,10 +56,10 @@ function MyChallans({ user }) {
 
   const handleChallanClick = (challanId, paymentStatus) => {
     if (paymentStatus === 'Unpaid') {
-      // Redirect to payment page for unpaid challans
+      
       navigate(`/payment/${challanId}`)
     }
-    // For paid challans, do nothing (just view details)
+    
   }
 
   const getStatusBadge = (status) => {
@@ -162,13 +159,13 @@ function MyChallans({ user }) {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'144px', paddingBottom:'32px', paddingLeft:'16px', paddingRight:'16px' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 32px 64px' }}>
-        {/* Header */}
+        {}
         <div className="mb-8 mt-6">
           <h1 style={{ color: 'var(--text-primary)' }} className="text-4xl font-bold mb-2">My Challans</h1>
           <p style={{ color: 'var(--text-secondary)' }}>View and manage your traffic violation challans</p>
         </div>
 
-        {/* Summary Cards */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }} className="p-6 rounded-2xl shadow-lg border">
             <div className="flex items-center justify-between">
@@ -213,7 +210,7 @@ function MyChallans({ user }) {
           </div>
         </div>
 
-        {/* Challans Table */}
+        {}
         <div style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }} className="rounded-2xl shadow-lg border  overflow-hidden">
           {challans.length === 0 ? (
             <div className="p-12 text-center">
@@ -317,7 +314,7 @@ function MyChallans({ user }) {
           )}
         </div>
 
-        {/* Payment History Banner */}
+        {}
         <div style={{
           marginTop: '24px',
           background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
@@ -365,11 +362,11 @@ function MyChallans({ user }) {
         </div>
       </div>
 
-      {/* Evidence Photo Modal */}
+      {}
       {showEvidenceModal && selectedEvidence.length > 0 && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
           <div className="relative max-w-5xl w-full">
-            {/* Close Button */}
+            {}
             <button
               onClick={() => setShowEvidenceModal(false)}
               className="absolute top-4 right-4 z-10 text-white hover:text-gray-300 transition-colors"
@@ -379,7 +376,7 @@ function MyChallans({ user }) {
               </svg>
             </button>
 
-            {/* Photo Display */}
+            {}
             <div style={{ background: 'var(--bg-card)' }} className="rounded-2xl overflow-hidden">
               <div className="relative h-[500px] bg-gray-900">
                 <img
@@ -388,7 +385,7 @@ function MyChallans({ user }) {
                   className="w-full h-full object-contain"
                 />
                 
-                {/* Navigation Arrows */}
+                {}
                 {selectedEvidence.length > 1 && (
                   <>
                     <button
@@ -411,7 +408,7 @@ function MyChallans({ user }) {
                 )}
               </div>
 
-              {/* Photo Info */}
+              {}
               <div style={{ background: 'var(--bg-card)' }} className="p-6">
                 <div className="flex justify-between items-center">
                   <p style={{ color: 'var(--text-secondary)' }} className="text-sm">
@@ -427,7 +424,7 @@ function MyChallans({ user }) {
         </div>
       )}
 
-      {/* Dispute Modal */}
+      {}
       {showDisputeModal && selectedChallan && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div style={{ background: 'var(--bg-card)' }} className="rounded-2xl shadow-2xl max-w-2xl w-full p-6">
@@ -443,7 +440,7 @@ function MyChallans({ user }) {
               </button>
             </div>
 
-            {/* Challan Details */}
+            {}
             <div style={{ background: 'var(--bg-secondary)' }} className="rounded-lg p-4 mb-6 space-y-3">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -467,7 +464,7 @@ function MyChallans({ user }) {
               </div>
             </div>
 
-            {/* Dispute Reason */}
+            {}
             <div className="mb-6">
               <label style={{ color: 'var(--text-secondary)' }} className="block text-sm font-semibold  mb-2">
                 Reason for Dispute <span className="text-red-600">*</span>
@@ -484,7 +481,7 @@ function MyChallans({ user }) {
               </p>
             </div>
 
-            {/* Warning */}
+            {}
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
               <div className="flex gap-3">
                 <svg className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -500,7 +497,7 @@ function MyChallans({ user }) {
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {}
             <div className="flex gap-4">
               <button
                 onClick={() => setShowDisputeModal(false)}
@@ -520,11 +517,11 @@ function MyChallans({ user }) {
         </div>
       )}
 
-      {/* Official Digital Receipt Modal */}
+      {}
       {showReceiptModal && selectedChallan && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
           <div style={{ background: 'var(--bg-card)', maxHeight: '90vh' }} className="rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden flex flex-col">
-            {/* Modal Header */}
+            {}
             <div className="bg-purple-600 p-4 flex justify-between items-center text-white shrink-0">
               <h2 className="text-lg font-bold">Digital Payment Receipt</h2>
               <button onClick={() => setShowReceiptModal(false)} className="hover:text-purple-200">
@@ -532,10 +529,10 @@ function MyChallans({ user }) {
               </button>
             </div>
 
-            {/* Receipt Content (Scrollable) */}
+            {}
             <div id="challan-receipt" style={{ background: 'var(--bg-secondary)' }} className="p-8 overflow-y-auto  flex-1">
               <div style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }} className="border-2  rounded-xl p-8 shadow-sm relative overflow-hidden">
-                {/* Official Header */}
+                {}
                 <div style={{ borderColor: 'var(--border)' }} className="text-center border-b-2  pb-6 mb-6">
                   <div className="flex justify-center mb-4">
                     <div style={{ width:'60px', height:'60px', background:'#f3e8ff', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center' }}>
@@ -547,12 +544,12 @@ function MyChallans({ user }) {
                   <p style={{ color: 'var(--text-secondary)' }} className="text-xs  mt-1">State Transport Authority, Chennai</p>
                 </div>
 
-                {/* Status Watermark */}
+                {}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 pointer-events-none opacity-[0.03]">
                   <span className="text-9xl font-black">PAID</span>
                 </div>
 
-                {/* Receipt Details Grid */}
+                {}
                 <div className="grid grid-cols-2 gap-y-6 gap-x-8 mb-8">
                   <div>
                     <p style={{ color: 'var(--text-secondary)' }} className="text-[10px] font-bold  uppercase tracking-widest mb-1">Receipt Number</p>
@@ -572,7 +569,7 @@ function MyChallans({ user }) {
                   </div>
                 </div>
 
-                {/* Transaction Box */}
+                {}
                 <div style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="rounded-lg p-5 border  mb-8">
                   <div style={{ borderColor: 'var(--border)' }} className="flex justify-between items-center mb-4 pb-4 border-b  border-dashed">
                     <p style={{ color: 'var(--text-secondary)' }} className="text-sm font-semibold">{selectedChallan.rule_name}</p>
@@ -590,7 +587,7 @@ function MyChallans({ user }) {
                   </div>
                 </div>
 
-                {/* Footer Info */}
+                {}
                 <div className="flex justify-between items-end">
                   <div className="space-y-1">
                     <p style={{ color: 'var(--text-secondary)' }} className="text-[10px] font-bold  uppercase tracking-widest">Transaction Ref</p>
@@ -598,7 +595,7 @@ function MyChallans({ user }) {
                     <p style={{ color: 'var(--text-secondary)' }} className="text-[11px]  mt-2 italic">This is a computer-generated digital receipt. No signature is required.</p>
                   </div>
                   <div className="text-right">
-                    {/* Simulated QR Code */}
+                    {}
                     <div style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="w-20 h-20  border  p-1 flex items-center justify-center rounded">
                       <div className="w-full h-full opacity-40 grid grid-cols-4 grid-rows-4 gap-1">
                         {[...Array(16)].map((_, i) => <div key={i} className={Math.random() > 0.5 ? 'bg-gray-800' : 'bg-transparent'} />)}
@@ -610,7 +607,7 @@ function MyChallans({ user }) {
               </div>
             </div>
 
-            {/* Modal Actions */}
+            {}
             <div style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="p-4  border-t  flex gap-4 shrink-0">
               <button 
                 onClick={() => setShowReceiptModal(false)}
@@ -625,7 +622,7 @@ function MyChallans({ user }) {
                   document.body.innerHTML = printContents;
                   window.print();
                   document.body.innerHTML = originalContents;
-                  window.location.reload(); // Reload to restore React state
+                  window.location.reload(); 
                 }}
                 className="flex-1 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 shadow-lg shadow-purple-200 transition-all flex items-center justify-center gap-2"
               >

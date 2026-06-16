@@ -36,7 +36,6 @@ const Toggle = ({ label, desc, value, onChange }) => (
   </div>
 )
 
-// Group themes by category
 const groupedThemes = Object.values(THEMES).reduce((acc, t) => {
   if (!acc[t.group]) acc[t.group] = []
   acc[t.group].push(t)
@@ -60,7 +59,7 @@ export default function Settings() {
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'96px', color:'var(--text-primary)', fontFamily:'inherit' }}>
       <div style={{ maxWidth:'1100px', margin:'0 auto', padding:'32px 48px 80px' }}>
 
-        {/* ── Header ─────────────────────── */}
+        {}
         <div style={{ marginBottom:'36px', paddingBottom:'22px', borderBottom:'1.5px solid var(--border)' }}>
           <span style={{ display:'inline-block', padding:'4px 14px', background:'var(--accent-light)', color:'var(--accent-text)', fontSize:'11px', fontWeight:700, letterSpacing:'1px', textTransform:'uppercase', borderRadius:'999px', marginBottom:'12px' }}>
             User Preferences
@@ -69,7 +68,7 @@ export default function Settings() {
           <p style={{ color:'var(--text-secondary)', fontSize:'14px', margin:0 }}>Customize your Marga Rakshak experience. All changes apply instantly across the whole site.</p>
         </div>
 
-        {/* ── Account ─────────────────────── */}
+        {}
         <Section title="Account" icon="👤">
           <div style={{ display:'flex', alignItems:'center', gap:'20px', padding:'8px 0' }}>
             <div style={{ width:'64px', height:'64px', borderRadius:'50%', background:'var(--accent)', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:'22px', fontWeight:800, flexShrink:0 }}>
@@ -85,7 +84,7 @@ export default function Settings() {
           </div>
         </Section>
 
-        {/* ── Appearance & Theme ─────────── */}
+        {}
         <Section title="Appearance & Theme" icon="🎨">
           <p style={{ margin:'0 0 6px', fontSize:'13px', color:'var(--text-secondary)', lineHeight:1.6 }}>
             Choose a color theme. Changes apply <strong style={{ color:'var(--text-primary)' }}>instantly across the whole website</strong>. 
@@ -115,7 +114,7 @@ export default function Settings() {
                       boxShadow: isActive ? `0 0 0 4px ${t['--accent']}33` : `0 1px 4px rgba(0,0,0,0.06)`,
                       position:'relative', width:'100%', outline:'none',
                     }}>
-                      {/* Mini UI preview */}
+                      {}
                       <div style={{ display:'flex', gap:'6px', marginBottom:'12px', height:'36px' }}>
                         <div style={{ width:'28px', height:'100%', borderRadius:'8px', background:t['--bg-secondary'], border:`1px solid ${t['--border']}` }}/>
                         <div style={{ flex:1, display:'flex', flexDirection:'column', gap:'4px', paddingTop:'2px' }}>
@@ -143,7 +142,7 @@ export default function Settings() {
           ))}
         </Section>
 
-        {/* ── Notifications ──────────────── */}
+        {}
         <Section title="Notifications" icon="🔔">
           <Toggle label="Report Status Updates" desc="Get notified when your report is verified or rejected by a police officer" value={prefs.notif_reports !== false} onChange={v => updatePref('notif_reports', v)}/>
           <Toggle label="Challan Alerts" desc="Receive alerts when a new challan is issued to your registered vehicles" value={prefs.notif_challans !== false} onChange={v => updatePref('notif_challans', v)}/>
@@ -152,14 +151,14 @@ export default function Settings() {
           <Toggle label="System Announcements" desc="Important updates, maintenance notices, and news from Marga Rakshak" value={prefs.notif_system !== false} onChange={v => updatePref('notif_system', v)}/>
         </Section>
 
-        {/* ── Privacy ────────────────────── */}
+        {}
         <Section title="Privacy & Data" icon="🔒">
           <Toggle label="Show Profile on Leaderboard" desc="Allow your name and trust score to appear on the public civic leaderboard" value={prefs.privacy_leaderboard !== false} onChange={v => updatePref('privacy_leaderboard', v)}/>
           <Toggle label="GPS Location for Reports" desc="Allow the app to auto-fill your GPS coordinates when submitting traffic reports" value={prefs.privacy_location !== false} onChange={v => updatePref('privacy_location', v)}/>
           <Toggle label="Anonymized Analytics" desc="Share anonymized usage statistics to help improve the Marga Rakshak platform" value={prefs.privacy_analytics !== false} onChange={v => updatePref('privacy_analytics', v)}/>
         </Section>
 
-        {/* ── Accessibility ──────────────── */}
+        {}
         <Section title="Accessibility" icon="♿">
           <Toggle label="Reduce Motion" desc="Disable animations, transitions, and auto-refresh across the app" value={!!prefs.a11y_reduce_motion} onChange={v => updatePref('a11y_reduce_motion', v)}/>
           <Toggle label="Large Text Mode" desc="Increase the base font size to 18px for better readability" value={!!prefs.a11y_large_text} onChange={v => {
@@ -169,7 +168,7 @@ export default function Settings() {
           <Toggle label="Enhanced Focus Rings" desc="Show stronger keyboard focus indicators for better navigation" value={!!prefs.a11y_focus} onChange={v => updatePref('a11y_focus', v)}/>
         </Section>
 
-        {/* ── Danger Zone ────────────────── */}
+        {}
         <Section title="Danger Zone" icon="⚠️">
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 0' }}>
             <div>
@@ -186,7 +185,7 @@ export default function Settings() {
           </div>
         </Section>
 
-        {/* ── Creator Card ──────────────────────── */}
+        {}
         <div style={{
           borderRadius: '20px', overflow: 'hidden',
           background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)',
@@ -194,20 +193,20 @@ export default function Settings() {
           marginBottom: '24px',
           position: 'relative',
         }}>
-          {/* Decorative blobs */}
+          {}
           <div style={{ position:'absolute', width:'220px', height:'220px', borderRadius:'50%', background:'rgba(99,102,241,0.15)', top:'-60px', right:'-40px', pointerEvents:'none' }}/>
           <div style={{ position:'absolute', width:'160px', height:'160px', borderRadius:'50%', background:'rgba(139,92,246,0.10)', bottom:'-40px', left:'-30px', pointerEvents:'none' }}/>
 
           <div style={{ position:'relative', padding:'32px 36px', display:'flex', flexWrap:'wrap', alignItems:'center', gap:'24px' }}>
-            {/* Avatar */}
+            {}
             <div style={{ width:'72px', height:'72px', borderRadius:'50%', background:'linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'26px', fontWeight:900, color:'#fff', flexShrink:0, boxShadow:'0 4px 20px rgba(99,102,241,0.4)' }}>Y</div>
 
-            {/* Info */}
+            {}
             <div style={{ flex:1, minWidth:'200px' }}>
               <p style={{ margin:'0 0 2px', fontSize:'11px', fontWeight:700, color:'rgba(167,139,250,0.9)', letterSpacing:'1.4px', textTransform:'uppercase' }}>Built & Designed by</p>
               <p style={{ margin:'0 0 16px', fontSize:'22px', fontWeight:900, color:'#fff', letterSpacing:'-0.3px' }}>Yuvan Vishnu Pandi</p>
 
-              {/* Social links */}
+              {}
               <div style={{ display:'flex', gap:'10px', flexWrap:'wrap' }}>
                 {[
                   { href:'https://github.com/yuvanvishnupandi', label:'GitHub', bg:'#24292e', icon:'⌥' },
@@ -231,7 +230,7 @@ export default function Settings() {
               </div>
             </div>
 
-            {/* Made with love */}
+            {}
             <div style={{ textAlign:'center', flexShrink:0 }}>
               <p style={{ margin:'0 0 4px', fontSize:'28px' }}>💗</p>
               <p style={{ margin:0, fontSize:'11px', fontWeight:700, color:'rgba(255,255,255,0.5)', letterSpacing:'0.8px', textTransform:'uppercase' }}>Made with love</p>
@@ -239,7 +238,7 @@ export default function Settings() {
             </div>
           </div>
 
-          {/* Bottom bar */}
+          {}
           <div style={{ borderTop:'1px solid rgba(255,255,255,0.08)', padding:'12px 36px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'8px' }}>
             <p style={{ margin:0, fontSize:'11px', color:'rgba(255,255,255,0.3)' }}>Marga Rakshak · © 2026</p>
             <p style={{ margin:0, fontSize:'11px', color:'rgba(255,255,255,0.3)' }}>Tamil Nadu Traffic Violation Reporting System</p>

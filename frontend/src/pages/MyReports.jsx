@@ -3,7 +3,6 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 function MyReports() {
   const { success, error: showError } = useToast()
@@ -15,10 +14,8 @@ function MyReports() {
   useEffect(() => {
     fetchReports(true)
     
-    // REAL-TIME SYNC: Auto-refresh every 3 seconds to see police verification/rejection instantly
     const interval = setInterval(fetchReports, 3000)
     
-    // Cleanup interval on component unmount
     return () => clearInterval(interval)
   }, [])
 
@@ -120,13 +117,13 @@ function MyReports() {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'128px', paddingBottom:'32px', paddingLeft:'16px', paddingRight:'16px' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 32px 64px' }}>
-        {/* Header - Left Aligned */}
+        {}
         <div style={{ marginBottom: '32px' }}>
           <h1 style={{ fontSize: '32px', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.5px' }}>My Violation Reports</h1>
           <p style={{ fontSize: '15px', color: 'var(--text-secondary)', margin: 0 }}>View and track all your submitted traffic violation reports</p>
         </div>
 
-        {/* Reports Table */}
+        {}
         <div style={{ background: 'var(--bg-card)', borderRadius: '24px', border: '1px solid var(--border)', boxShadow: 'var(--shadow-card)', overflow: 'hidden' }}>
           {reports.length === 0 ? (
             <div style={{ padding: '48px', textAlign: 'center' }}>

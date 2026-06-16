@@ -4,7 +4,6 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 const getEvidencePaths = (ep) => {
   if (!ep) return []

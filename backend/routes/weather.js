@@ -2,10 +2,8 @@ const express = require('express');
 const https   = require('https');
 const router  = express.Router();
 
-// ── OpenWeatherMap API key (free at openweathermap.org/api) ───────────────
 const OWM_KEY = process.env.OWM_KEY || 'bd5e378503939ddaee76f12ad7a97608';
 
-// Helper: HTTPS GET → parsed JSON
 function httpsGet(url, headers = {}) {
   return new Promise((resolve, reject) => {
     const opts = new URL(url);
@@ -24,10 +22,6 @@ function httpsGet(url, headers = {}) {
   });
 }
 
-// ══════════════════════════════════════════════════════════
-// GET /api/weather?city=Chennai
-// OpenWeatherMap — real-time weather conditions
-// ══════════════════════════════════════════════════════════
 router.get('/', async (req, res) => {
   const city = (req.query.city || '').trim();
   if (!city) return res.status(400).json({ error: 'city param required' });
@@ -70,26 +64,19 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ══════════════════════════════════════════════════════════
-// GET /api/weather/geocode?q=Anna+Salai
-// OpenStreetMap Nominatim — Tamil Nadu ONLY
-// Bounding box: TN state borders
-// ══════════════════════════════════════════════════════════
 router.get('/geocode', async (req, res) => {
   const q = (req.query.q || '').trim();
   if (!q) return res.status(400).json({ error: 'q param required' });
 
-  // Tamil Nadu bounding box: west,south,east,north
   const TN_VIEWBOX = '76.2,8.0,80.4,13.6';
 
   try {
-    // Force Tamil Nadu by appending to query + viewbox + bounded=1
+    
     const query = encodeURIComponent(`${q}, Tamil Nadu, India`);
     const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=6&countrycodes=in&viewbox=${TN_VIEWBOX}&bounded=1&addressdetails=1`;
 
     const data = await httpsGet(url, { 'Accept-Language': 'en' });
 
-    // Extra safety: filter out anything not in Tamil Nadu
     const tnOnly = (Array.isArray(data) ? data : []).filter(r =>
       r.address?.state?.toLowerCase().includes('tamil nadu')
     );
@@ -116,19 +103,11 @@ router.get('/geocode', async (req, res) => {
   }
 });
 
-
-// ══════════════════════════════════════════════════════════
-// GET /api/weather/vehicle?plate=TN01AB1234
-// Parivahan-style vehicle lookup
-// (Real Parivahan API requires govt registration — this shows
-//  what the integration returns for demo purposes)
-// ══════════════════════════════════════════════════════════
 router.get('/vehicle', async (req, res) => {
   const plate = (req.query.plate || '').replace(/\s+/g, '').toUpperCase();
   if (!plate || plate.length < 5)
     return res.status(400).json({ error: 'Valid plate number required' });
 
-  // Parse state from first 2 chars
   const stateCodes = {
     TN:'Tamil Nadu', KA:'Karnataka', KL:'Kerala', AP:'Andhra Pradesh',
     TS:'Telangana', MH:'Maharashtra', DL:'Delhi', GJ:'Gujarat',
@@ -139,7 +118,6 @@ router.get('/vehicle', async (req, res) => {
   const state = stateCodes[stateCode] || 'Unknown State';
   const distCode = plate.substring(2, 4);
 
-  // Deterministic mock data based on plate hash
   const hash = plate.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   const vehicleTypes  = ['Car', 'Motorcycle', 'Auto Rickshaw', 'Truck', 'Bus'];
   const makes         = ['Maruti Suzuki', 'Hyundai', 'Toyota', 'Honda', 'Tata', 'Mahindra', 'Bajaj', 'TVS', 'Hero'];
@@ -152,8 +130,8 @@ router.get('/vehicle', async (req, res) => {
   const model  = models[(hash + 3) % models.length];
   const color  = colors[(hash + 1) % colors.length];
   const fuel   = fuelTypes[(hash + 2) % fuelTypes.length];
-  const year   = 2016 + (hash % 9);     // 2016–2024
-  const insValid = hash % 3 === 0;      // 33% chance expired for demo
+  const year   = 2016 + (hash % 9);     
+  const insValid = hash % 3 === 0;      
 
   const insExp = new Date();
   insExp.setFullYear(insValid ? insExp.getFullYear() + 1 : insExp.getFullYear() - 1);
@@ -188,4 +166,3 @@ router.get('/vehicle', async (req, res) => {
 });
 
 module.exports = router;
-

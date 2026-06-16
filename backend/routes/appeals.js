@@ -2,17 +2,15 @@ const express = require('express');
 const db = require('../db');
 const router = express.Router();
 
-// ── Notification helper (exact schema: notif_id, notif_type, citizen_id, message, is_read) ──
 const notify = async (citizen_id, notif_type, message) => {
   try {
     await db.execute(
       `INSERT INTO NOTIFICATIONS (citizen_id, notif_type, message, is_read) VALUES (?,?,?,0)`,
       [citizen_id, notif_type, message]
     );
-  } catch (e) { /* silent */ }
+  } catch (e) {  }
 };
 
-// GET /api/appeals/police/pending
 router.get('/police/pending', async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -47,7 +45,6 @@ router.get('/police/pending', async (req, res) => {
   }
 });
 
-// PUT /api/appeals/:id/review  — police decision
 router.put('/:id/review', async (req, res) => {
   const { id } = req.params;
   const { status, review_notes, badge_no, police_remarks } = req.body;
@@ -77,7 +74,6 @@ router.put('/:id/review', async (req, res) => {
     await conn.commit();
     conn.release();
 
-    // 🔔 Notify citizen of appeal decision
     if (status === 'Accepted') {
       await notify(appeal.citizen_id, 'Appeal Status',
         `Great news! Your appeal #${id} for Challan #${appeal.challan_id} has been ACCEPTED. The challan has been waived.`
@@ -96,7 +92,6 @@ router.put('/:id/review', async (req, res) => {
   }
 });
 
-// POST /api/appeals/submit  — citizen submits appeal
 router.post('/submit', async (req, res) => {
   const { challan_id, citizen_id, reason } = req.body;
   if (!challan_id || !citizen_id || !reason)
@@ -114,7 +109,6 @@ router.post('/submit', async (req, res) => {
     );
     await db.execute(`UPDATE CHALLANS SET payment_status='Disputed' WHERE challan_id=?`, [challan_id]);
 
-    // 🔔 Notify citizen: appeal submitted
     await notify(citizen_id, 'Appeal Status',
       `Your appeal for Challan #${challan_id} has been submitted and is pending police review.`
     );

@@ -85,7 +85,7 @@ function Navbar({ user, onLogout }) {
           }}
         >
           <div className="flex justify-between items-center">
-            {/* Logo - LEFT — click goes to hero */}
+            {}
             <Link
               to={homePath}
               className="flex flex-col items-center flex-shrink-0 group"
@@ -105,7 +105,7 @@ function Navbar({ user, onLogout }) {
               </p>
             </Link>
 
-            {/* Center Navigation — GooeyNav */}
+            {}
             <div className="hidden lg:flex items-center">
               <GooeyNav
                 items={gooeyItems}
@@ -119,7 +119,7 @@ function Navbar({ user, onLogout }) {
               />
             </div>
 
-            {/* Right Side — Profile + Notification */}
+            {}
             <div className="flex items-center gap-3 flex-shrink-0">
               <div className="relative" ref={dropdownRef}>
                 <button
@@ -145,7 +145,7 @@ function Navbar({ user, onLogout }) {
                   </svg>
                 </button>
 
-                {/* Dropdown */}
+                {}
                 {isProfileOpen && (
                   <div
                     className="absolute right-0 mt-2 w-64 rounded-[24px] py-2 animate-fade-in z-50 shadow-2xl"
@@ -212,7 +212,7 @@ function Navbar({ user, onLogout }) {
                 )}
               </div>
 
-              {/* Mobile Menu Button */}
+              {}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="lg:hidden p-2 rounded-full hover:bg-gray-100 transition-colors"
@@ -232,7 +232,7 @@ function Navbar({ user, onLogout }) {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {}
       {isMobileMenuOpen && (
         <div className="lg:hidden mx-4 sm:mx-6 mt-2" ref={mobileMenuRef}>
           <div

@@ -119,7 +119,7 @@ function ReportForm({ onSubmit, loading }) {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Vehicle Number */}
+        {}
         <Input
           label="Vehicle Number"
           name="vehicle_no"
@@ -135,7 +135,7 @@ function ReportForm({ onSubmit, loading }) {
           }
         />
 
-        {/* Violation Type */}
+        {}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
             Violation Type <span className="text-red-500">*</span>
@@ -158,7 +158,7 @@ function ReportForm({ onSubmit, loading }) {
           )}
         </div>
 
-        {/* Location Description */}
+        {}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
             Location Description <span className="text-red-500">*</span>
@@ -176,7 +176,7 @@ function ReportForm({ onSubmit, loading }) {
           )}
         </div>
 
-        {/* GPS Location */}
+        {}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
             GPS Location (Optional)
@@ -205,7 +205,7 @@ function ReportForm({ onSubmit, loading }) {
           </div>
         </div>
 
-        {/* Evidence Upload */}
+        {}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
             Evidence Photo <span className="text-red-500">*</span>
@@ -241,7 +241,7 @@ function ReportForm({ onSubmit, loading }) {
           </div>
         </div>
 
-        {/* Submit Button */}
+        {}
         <Button
           type="submit"
           fullWidth

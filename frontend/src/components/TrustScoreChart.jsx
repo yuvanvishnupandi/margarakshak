@@ -7,16 +7,13 @@ function TrustScoreChart({ history }) {
     )
   }
 
-  // Get the last 10 entries for display
   const recentHistory = history.slice(0, 10).reverse()
   
-  // Find min and max for scaling
   const scores = recentHistory.map(h => h.trust_score)
   const minScore = Math.min(...scores, 0)
   const maxScore = Math.max(...scores, 100)
   const scoreRange = maxScore - minScore || 1
 
-  // Get color based on score
   const getScoreColor = (score) => {
     if (score >= 70) return 'bg-green-500'
     if (score >= 50) return 'bg-yellow-500'
@@ -35,7 +32,7 @@ function TrustScoreChart({ history }) {
     <div className="gov-card p-6">
       <h3 className="text-lg font-bold text-gov-navy uppercase tracking-wide mb-4">Trust Score History</h3>
       
-      {/* Chart */}
+      {}
       <div className="mb-6">
         <div className="flex items-end justify-between h-48 gap-2">
           {recentHistory.map((record, index) => {
@@ -65,7 +62,7 @@ function TrustScoreChart({ history }) {
           })}
         </div>
         
-        {/* Y-axis labels */}
+        {}
         <div className="flex items-center justify-between text-xs text-slate-400 mt-2">
           <span>{maxScore}</span>
           <span>{Math.round((maxScore + minScore) / 2)}</span>
@@ -73,7 +70,7 @@ function TrustScoreChart({ history }) {
         </div>
       </div>
 
-      {/* History Table */}
+      {}
       <div className="overflow-x-auto">
         <table className="gov-table">
           <thead>
