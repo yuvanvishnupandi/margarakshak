@@ -88,7 +88,7 @@ function PoliceRegister() {
   return (
     <div style={{ minHeight: '100vh', width: '100%', display: 'flex' }}>
 
-      {/* ── LEFT PANEL — police branding ── */}
+      {}
       <div style={{
         flex: '1 1 55%',
         position: 'relative',
@@ -103,7 +103,7 @@ function PoliceRegister() {
       }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(15,23,42,0.20) 0%, rgba(15,23,42,0.80) 100%)' }} />
 
-        {/* Top-left logo */}
+        {}
         <div style={{ position: 'absolute', top: '32px', left: '48px', zIndex: 2, display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.14)', borderRadius: '10px', border: '1.5px solid rgba(255,255,255,0.30)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -116,7 +116,7 @@ function PoliceRegister() {
           </div>
         </div>
 
-        {/* Restricted badge top-right */}
+        {}
         <div style={{ position: 'absolute', top: '36px', right: '48px', zIndex: 2 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(251,191,36,0.15)', border: '1px solid rgba(251,191,36,0.40)', borderRadius: '999px', padding: '5px 14px' }}>
             <svg width="10" height="10" fill="#fbbf24" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -124,7 +124,7 @@ function PoliceRegister() {
           </div>
         </div>
 
-        {/* Bottom branding copy */}
+        {}
         <div style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.30)', borderRadius: '6px', padding: '5px 12px', marginBottom: '20px' }}>
             <svg width="12" height="12" fill="none" stroke="#fbbf24" viewBox="0 0 24 24">
@@ -151,7 +151,7 @@ function PoliceRegister() {
         </div>
       </div>
 
-      {/* ── RIGHT PANEL — form ── */}
+      {}
       <div style={{
         flex: '0 0 440px',
         background: '#fff',
@@ -165,16 +165,16 @@ function PoliceRegister() {
         overflowY: 'auto',
       }}>
 
-        {/* Switch portal */}
+        {}
         <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
           <Link to="/police/login" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#f1f5f9', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '7px 14px', color: '#334155', fontSize: '12px', fontWeight: 600, textDecoration: 'none' }}>
             ← Officer Sign In
           </Link>
         </div>
 
-        {/* Header */}
+        {}
         <div style={{ marginBottom: '28px' }}>
-          {/* Gov Portal Identity — migrated from Hero */}
+          {}
           <div className="gov-portal-text-amber fade-up-enter" style={{ marginBottom: '12px' }}>
             <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -192,7 +192,7 @@ function PoliceRegister() {
           </p>
         </div>
 
-        {/* Warning stripe */}
+        {}
         <div style={{ background: '#fef3c7', border: '1px solid #fcd34d', borderRadius: '8px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#92400e" strokeWidth="2">
             <path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>

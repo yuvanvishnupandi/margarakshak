@@ -1,4 +1,4 @@
-/* GooeyNav — light-themed, no black background patch */
+
 :root {
   --gooey-color-1: #6366f1;
   --gooey-color-2: #0ea5e9;
@@ -54,7 +54,6 @@
   color: #111827;
 }
 
-/* Letter bounce on hover */
 .gooey-nav-container nav ul li a .nav-letter {
   display: inline-block;
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -105,7 +104,6 @@
   transform: scale(1);
 }
 
-/* Hover underline accent */
 .gooey-nav-container nav ul li a::after {
   content: '';
   position: absolute;
@@ -129,7 +127,6 @@
   opacity: 0;
 }
 
-/* Effect spans */
 .gooey-nav-container .effect {
   position: absolute;
   left: 0;
@@ -155,7 +152,6 @@
   font-weight: 600;
 }
 
-/* Filter — light themed, no dark plate */
 .gooey-nav-container .effect.filter {
   filter: blur(6px) contrast(20) blur(0);
   mix-blend-mode: multiply;
@@ -183,7 +179,6 @@
   }
 }
 
-/* Particles */
 .particle, .point {
   display: block;
   opacity: 0;

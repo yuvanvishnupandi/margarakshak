@@ -8,7 +8,6 @@ function NotificationWidget({ user }) {
   const [loading, setLoading] = useState(false)
   const widgetRef = useRef(null)
 
-  // Fetch notifications
   const fetchNotifications = async () => {
     if (!user?.id) return
     
@@ -19,7 +18,7 @@ function NotificationWidget({ user }) {
       if (user.role === 'citizen') {
         url = `${API_BASE_URL}/api/citizen/notifications/${user.id}`
       } else {
-        // Police - get all notifications
+        
         url = `${API_BASE_URL}/api/citizen/notifications/police/all`
       }
       
@@ -28,7 +27,6 @@ function NotificationWidget({ user }) {
       if (res.ok) {
         const data = await res.json()
         
-        // Validate and filter notifications
         if (data && Array.isArray(data.notifications)) {
           const validNotifications = data.notifications.filter(n => 
             n && n.notif_id && n.message && n.message.trim() !== ''
@@ -53,16 +51,13 @@ function NotificationWidget({ user }) {
     }
   }
 
-  // Fetch on mount and when user changes
   useEffect(() => {
     fetchNotifications()
     
-    // Auto-refresh every 30 seconds
     const interval = setInterval(fetchNotifications, 30000)
     return () => clearInterval(interval)
   }, [user])
 
-  // Close when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (widgetRef.current && !widgetRef.current.contains(event.target)) {
@@ -74,7 +69,6 @@ function NotificationWidget({ user }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Mark as read
   const markAsRead = async (notificationId) => {
     try {
       let url
@@ -86,7 +80,6 @@ function NotificationWidget({ user }) {
       
       await fetch(url, { method: 'PUT' })
       
-      // Update local state
       setNotifications(prev => 
         prev.map(n => 
           n.notif_id === notificationId 
@@ -100,14 +93,13 @@ function NotificationWidget({ user }) {
     }
   }
 
-  // Mark all as read
   const markAllAsRead = async () => {
     try {
       let url
       if (user.role === 'citizen') {
         url = `${API_BASE_URL}/api/citizen/notifications/read-all/${user.id}`
       } else {
-        // For police, mark each notification individually (no bulk endpoint)
+        
         for (const notif of notifications) {
           if (!notif.is_read) {
             await fetch(`${API_BASE_URL}/api/citizen/notifications/police/${notif.notif_id}/read`, { 
@@ -133,7 +125,6 @@ function NotificationWidget({ user }) {
     }
   }
 
-  // Get notification icon based on type
   const getNotificationIcon = (type) => {
     const icons = {
       'Account Suspended': (
@@ -175,7 +166,6 @@ function NotificationWidget({ user }) {
     return icons[type] || icons['Appeal Status']
   }
 
-  // Get notification background color
   const getNotificationBg = (type) => {
     const colors = {
       'Account Suspended': 'bg-red-100 border-red-300',
@@ -189,7 +179,6 @@ function NotificationWidget({ user }) {
     return colors[type] || colors['Appeal Status']
   }
 
-  // Format time ago
   const timeAgo = (dateString) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -205,10 +194,10 @@ function NotificationWidget({ user }) {
 
   return (
     <div ref={widgetRef} className="fixed bottom-6 right-6 z-50">
-      {/* Notification Panel */}
+      {}
       {isOpen && (
         <div className="absolute bottom-16 right-0 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden animate-slide-up">
-          {/* Header */}
+          {}
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white">
             <div className="flex items-center justify-between">
               <div>
@@ -238,7 +227,7 @@ function NotificationWidget({ user }) {
             </div>
           </div>
 
-          {/* Notifications List */}
+          {}
           <div className="max-h-96 overflow-y-auto">
             {loading ? (
               <div className="p-8 text-center">

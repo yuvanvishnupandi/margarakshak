@@ -63,7 +63,7 @@ function Login({ onLogin }) {
   return (
     <div style={{ minHeight: '100vh', width: '100%', display: 'flex' }}>
 
-      {/* ── LEFT PANEL — citizen branding ── */}
+      {}
       <div style={{
         flex: '1 1 55%',
         position: 'relative',
@@ -76,10 +76,10 @@ function Login({ onLogin }) {
         padding: '48px',
         minHeight: '100vh',
       }}>
-        {/* Gradient overlay — dark at bottom for text readability */}
+        {}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(10,25,55,0.25) 0%, rgba(10,25,55,0.75) 100%)' }} />
 
-        {/* Top left — logo strip */}
+        {}
         <div style={{ position: 'absolute', top: '32px', left: '48px', zIndex: 2, display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
             width: '40px', height: '40px', background: 'rgba(255,255,255,0.18)',
@@ -99,9 +99,9 @@ function Login({ onLogin }) {
           </div>
         </div>
 
-        {/* Bottom left — citizen branding copy */}
+        {}
         <div style={{ position: 'relative', zIndex: 2 }}>
-          {/* Badge */}
+          {}
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.30)',

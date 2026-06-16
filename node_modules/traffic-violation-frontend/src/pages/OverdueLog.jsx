@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 export default function OverdueLog() {
   const [log, setLog] = useState([])
@@ -55,7 +54,7 @@ export default function OverdueLog() {
           <button onClick={fetchAll} style={{ padding:'9px 18px', background:'#f1f5f9', color:'#475569', border:'1.5px solid #e2e8f0', borderRadius:'8px', fontWeight:600, fontSize:'13px', cursor:'pointer' }}>↺ Refresh</button>
         </div>
 
-        {/* Summary Stats */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'16px', marginBottom:'24px' }}>
           {[
             { label:'Total Overdue', value: log.length, color:'#ef4444', bg:'#fef2f2', border:'#fecaca' },
@@ -69,7 +68,7 @@ export default function OverdueLog() {
           ))}
         </div>
 
-        {/* Tabs */}
+        {}
         <div style={{ display:'flex', gap:'4px', marginBottom:'20px', background:'#f1f5f9', borderRadius:'10px', padding:'4px', width:'fit-content' }}>
           {tabs.map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)} style={{

@@ -20,7 +20,6 @@
     transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
   }
 
-  /* Exception: animations should not be slowed by the transition rule */
   *[class*='animate-'],
   *[class*='spin'],
   *[style*='animation'] {
@@ -138,7 +137,6 @@
   50% { border-color: #0a0a0a }
 }
 
-/* React-Bits Style Animations */
 @keyframes glow {
   0%, 100% {
     text-shadow: 0 0 10px rgba(168, 85, 247, 0.5),
@@ -214,7 +212,6 @@
   animation: slide-up 0.3s ease-out;
 }
 
-/* ── Scroll Reveal ── */
 .sr {
   opacity: 0;
   transform: translateY(32px);
@@ -226,7 +223,6 @@
   transform: translateY(0);
 }
 
-/* ── Hero Ambient Blobs ── */
 .hero-blob {
   position: absolute;
   border-radius: 50%;
@@ -279,7 +275,6 @@
   50% { transform: translate(15px, -25px) scale(1.05); }
 }
 
-/* ── Hero Dot Grid ── */
 .hero-dots {
   position: absolute;
   inset: 0;
@@ -290,7 +285,6 @@
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
 }
 
-/* ── Zigzag Dividers ── */
 .zigzag-divider {
   width: 100%;
   height: 40px;
@@ -309,7 +303,6 @@
   margin-top: -1px;
 }
 
-/* ── Hero Buttons ── */
 .hero-btn-primary {
   background: #111827;
   color: white;
@@ -347,7 +340,6 @@
   transform: scale(1.04);
 }
 
-/* ── Navbar border shadow (outline only, no background) ── */
 .nav-border-shadow {
   box-shadow:
     0 0 0 1.5px rgba(0,0,0,0.07),
@@ -355,7 +347,6 @@
     0 1px 3px rgba(0,0,0,0.07);
 }
 
-/* ── Fade-Up Scroll Reveal (Feature-wide) ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -365,14 +356,12 @@
   animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* stagger helpers */
 .fu-d1 { animation-delay: 0.05s; }
 .fu-d2 { animation-delay: 0.12s; }
 .fu-d3 { animation-delay: 0.19s; }
 .fu-d4 { animation-delay: 0.26s; }
 .fu-d5 { animation-delay: 0.33s; }
 
-/* ── Late Fee Badge (Feature 3) ── */
 .late-fee-badge {
   display: inline-flex;
   align-items: center;
@@ -391,7 +380,6 @@
   animation: fadeUp 0.3s ease both;
 }
 
-/* ── Multi-Photo Thumbnail (Feature 6) ── */
 @keyframes photoFadeIn {
   from { opacity: 0; transform: scale(0.88); }
   to   { opacity: 1; transform: scale(1); }
@@ -401,7 +389,6 @@
   animation: photoFadeIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* ── DBMS Concept Badge ── */
 .dbms-badge {
   display: inline-flex;
   align-items: center;
@@ -417,7 +404,6 @@
   text-transform: uppercase;
 }
 
-/* ── Gov Portal Text (Feature 1) ── */
 .gov-portal-text {
   display: inline-flex;
   align-items: center;
@@ -450,7 +436,6 @@
   margin-bottom: 10px;
 }
 
-/* ── Wallet Toggle (Feature 4) ── */
 .wallet-toggle-on {
   background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
   color: #fff;
@@ -462,7 +447,6 @@
   border: 1.5px solid #e2e8f0;
 }
 
-/* ── Officer Card (Feature 5) ── */
 @keyframes rankSlide {
   from { opacity: 0; transform: translateX(-12px); }
   to   { opacity: 1; transform: translateX(0); }
@@ -471,7 +455,6 @@
   animation: rankSlide 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* ── Crown SVG animation ── */
 @keyframes crownPop {
   0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
   60%  { transform: scale(1.15) rotate(5deg); }

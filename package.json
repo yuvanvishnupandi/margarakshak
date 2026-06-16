@@ -4,6 +4,7 @@
   "description": "Traffic Violation Management System - DBMS Mini Project",
   "private": true,
   "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "setup:db": "mysql -u root -p traffic_violation < db/schema.sql"
@@ -16,5 +17,8 @@
     "leaflet": "^1.9.4",
     "react-leaflet": "^5.0.0",
     "recharts": "^3.8.1"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
   }
 }

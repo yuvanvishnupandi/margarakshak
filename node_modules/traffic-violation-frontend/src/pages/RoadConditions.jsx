@@ -5,7 +5,6 @@ function RoadConditions() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  // Mapping Open-Meteo WMO weather codes to human-readable strings and icons
   const getWeatherDetails = (code) => {
     if (code === 0) return { label: 'Clear Sky', icon: '☀️', hazard: 'None', color: '#38bdf8', bg: '#e0f2fe' }
     if (code === 1 || code === 2 || code === 3) return { label: 'Partly Cloudy', icon: '⛅', hazard: 'None', color: '#94a3b8', bg: '#f1f5f9' }
@@ -27,7 +26,6 @@ function RoadConditions() {
         const data = await res.json()
         setWeather(data.current_weather)
 
-        // Reverse geocode to get the city name
         const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
         const geoData = await geoRes.json()
         const city = geoData.address?.city || geoData.address?.town || geoData.address?.state_district || 'Your Location'
@@ -44,7 +42,7 @@ function RoadConditions() {
         (pos) => getWeatherData(pos.coords.latitude, pos.coords.longitude),
         () => {
           setLocationName('Chennai (GPS Denied, Default Location)')
-          getWeatherData(13.0827, 80.2707) // Fallback to Chennai
+          getWeatherData(13.0827, 80.2707) 
         },
         { enableHighAccuracy: true, timeout: 10000 }
       )
@@ -75,7 +73,7 @@ function RoadConditions() {
     }}>
       <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
         
-        {/* Header */}
+        {}
         <div style={{ marginBottom: '40px', textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '16px', background: 'rgba(0,0,0,0.3)', padding: '8px 16px', borderRadius: '99px', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <div style={{ width: '8px', height: '8px', background: '#34d399', borderRadius: '50%', boxShadow: '0 0 0 3px rgba(52,211,153,0.2)' }} />
@@ -95,7 +93,7 @@ function RoadConditions() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             
-            {/* Main Weather Card (Glassmorphism) */}
+            {}
             <div style={{ 
               background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '32px', 
               padding: '48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -112,7 +110,7 @@ function RoadConditions() {
               </div>
             </div>
 
-            {/* Road Hazard Assessment */}
+            {}
             <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '36px', backdropFilter: 'blur(10px)' }}>
               <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#fff', margin: '0 0 24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <svg width="24" height="24" fill="none" stroke={details.color} strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
@@ -136,7 +134,7 @@ function RoadConditions() {
               </div>
             </div>
 
-            {/* API Metadata */}
+            {}
             <div style={{ textAlign: 'center', marginTop: '20px' }}>
               <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: '0.5px' }}>
                 LIVE DATA SECURED FROM <strong style={{ color: 'rgba(255,255,255,0.5)' }}>OPEN-METEO API</strong> &bull; {new Date().toLocaleTimeString()}

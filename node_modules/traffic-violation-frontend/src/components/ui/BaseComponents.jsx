@@ -47,7 +47,7 @@ export function Button({
 
 export function Input({
   label,
-  name,          // FIXED: Added name prop
+  name,          
   type = 'text',
   value,
   onChange,
@@ -57,7 +57,7 @@ export function Input({
   required = false,
   disabled = false,
   className = '',
-  ...props       // FIXED: Catch-all for other props like 'style'
+  ...props       
 }) {
   return (
     <div className={className}>
@@ -74,13 +74,13 @@ export function Input({
           </div>
         )}
         <input
-          name={name}      // FIXED: Passed name to the HTML input
+          name={name}      
           type={type}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
           disabled={disabled}
-          {...props}       // FIXED: Spread remaining props
+          {...props}       
           className={`
             block w-full rounded-lg border transition-all duration-200
             ${icon ? 'pl-10' : 'pl-3'} pr-3 py-2.5

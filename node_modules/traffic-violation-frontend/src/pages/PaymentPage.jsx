@@ -4,7 +4,6 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 function PaymentPage() {
   const { challanId } = useParams()
@@ -59,7 +58,7 @@ function PaymentPage() {
       })
       if (!res.ok) return
       const data = await res.json()
-      // Support wallet_balance or reward_points as wallet source
+      
       const bal = parseFloat(data.wallet_balance || data.reward_points || 0)
       setWalletBalance(isNaN(bal) ? 0 : bal)
     } catch (err) {
@@ -73,7 +72,6 @@ function PaymentPage() {
       return
     }
 
-    // Tiered late fee (Indian MV Act enforcement style)
     const base = parseFloat(challan?.total_amount || 0)
     const dueDate = challan?.due_date ? new Date(challan.due_date) : null
     if (dueDate) dueDate.setHours(23, 59, 59, 999)
@@ -224,7 +222,7 @@ function PaymentPage() {
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'128px', paddingBottom:'32px', paddingLeft:'16px', paddingRight:'16px' }}>
       <div className="w-full max-w-[1920px] mx-auto px-4">
-        {/* Official Government Header */}
+        {}
         <div className="mb-8">
           <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-700">
             <div className="p-8 text-center text-white">
@@ -268,7 +266,7 @@ function PaymentPage() {
           </div>
         </div>
 
-        {/* Coming Soon Banner */}
+        {}
         <div className="mb-6">
           <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-2xl shadow-xl p-6 text-white border-2 border-amber-300">
             <div className="flex items-center gap-4">

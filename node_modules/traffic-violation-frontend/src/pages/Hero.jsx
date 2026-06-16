@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 const ZZ = 'polygon(0 100%,2% 0,4% 100%,6% 0,8% 100%,10% 0,12% 100%,14% 0,16% 100%,18% 0,20% 100%,22% 0,24% 100%,26% 0,28% 100%,30% 0,32% 100%,34% 0,36% 100%,38% 0,40% 100%,42% 0,44% 100%,46% 0,48% 100%,50% 0,52% 100%,54% 0,56% 100%,58% 0,60% 100%,62% 0,64% 100%,66% 0,68% 100%,70% 0,72% 100%,74% 0,76% 100%,78% 0,80% 100%,82% 0,84% 100%,86% 0,88% 100%,90% 0,92% 100%,94% 0,96% 100%,98% 0,100% 100%)'
 const ZZ2 = 'polygon(0 0,2% 100%,4% 0,6% 100%,8% 0,10% 100%,12% 0,14% 100%,16% 0,18% 100%,20% 0,22% 100%,24% 0,26% 100%,28% 0,30% 100%,32% 0,34% 100%,36% 0,38% 100%,40% 0,42% 100%,44% 0,46% 100%,48% 0,50% 100%,52% 0,54% 100%,56% 0,58% 100%,60% 0,62% 100%,64% 0,66% 100%,68% 0,70% 100%,72% 0,74% 100%,76% 0,78% 100%,80% 0,82% 100%,84% 0,86% 100%,88% 0,90% 100%,92% 0,94% 100%,96% 0,98% 100%,100% 0)'
@@ -18,7 +17,6 @@ function Hero() {
   const user = JSON.parse(localStorage.getItem('user') || 'null')
   const isPolice = user?.role === 'police'
 
-  // Typing animation
   useEffect(() => {
     let i = 0
     const t = setInterval(() => {
@@ -28,7 +26,6 @@ function Hero() {
     return () => clearInterval(t)
   }, [])
 
-  // Scroll reveal — runs on mount AND after showSubtitle renders conditional content
   const attachScrollReveal = () => {
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => {
@@ -71,14 +68,14 @@ function Hero() {
 
   return (
     <div style={{ width:'100%', background:'var(--bg-primary)', overflowX:'hidden' }}>
-      {/* ── 1. HERO VIEWPORT (includes feature cards) ── */}
+      {}
       <section style={{
         minHeight: '100vh', position: 'relative', overflow: 'hidden',
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
         padding: '100px 48px 64px',
       }}>
-        {/* Animated ambient blobs */}
+        {}
         <div className="hero-blob hero-blob-1" />
         <div className="hero-blob hero-blob-2" />
         <div className="hero-blob hero-blob-3" />
@@ -86,8 +83,7 @@ function Hero() {
 
         <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', width: '100%', maxWidth: '1100px' }}>
 
-
-          {/* Heading */}
+          {}
           <h1 style={{
             fontSize: 'clamp(28px, 5.5vw, 76px)',
             fontWeight: 900, color: 'var(--text-primary)',
@@ -127,7 +123,7 @@ function Hero() {
                 </button>
               </div>
 
-              {/* ── Feature Cards — same first page ── */}
+              {}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '22px', textAlign: 'left' }}>
                 {[
                   {
@@ -180,10 +176,10 @@ function Hero() {
         </div>
       </section>
 
-      {/* ── 3. WHAT IS MARGA RAKSHAK — light indigo bg + zigzag ── */}
+      {}
       {(
         <>
-          {/* Zigzag top — background cuts into the light section */}
+          {}
           <div style={{ height: '50px', background: 'var(--bg-primary)', clipPath: ZZ, marginBottom: '-1px', opacity: 0.8 }} />
 
           <section style={{ background: 'var(--bg-secondary)', padding: '64px 64px 80px' }}>
@@ -229,7 +225,7 @@ function Hero() {
                 ))}
               </div>
 
-              {/* ── Creator Credit ── */}
+              {}
               <div className="sr" style={{ marginTop: '48px', display: 'flex', justifyContent: 'center' }}>
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: '20px',
@@ -261,14 +257,12 @@ function Hero() {
             </div>
           </section>
 
-          {/* Zigzag bottom — background cuts back to white */}
+          {}
           <div style={{ height: '50px', background: 'var(--bg-secondary)', clipPath: ZZ2, marginTop: '-1px' }} />
         </>
       )}
 
-
-
-      {/* ── FOOTER ── */}
+      {}
       <footer style={{ background: '#fff', borderTop: '1px solid #e5e7eb' }}>
         <div style={{ padding: '64px 64px 32px', maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '40px', marginBottom: '48px' }}>
@@ -301,7 +295,7 @@ function Hero() {
               Marga Rakshak
             </h1>
           </div>
-          {/* ── Made with Love ── */}
+          {}
           <div style={{
             margin: '48px -64px 0', padding: '40px 64px',
             background: 'linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #fff1f2 100%)',

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 function NotificationDropdown({ user }) {
   const navigate = useNavigate()
@@ -16,7 +15,7 @@ function NotificationDropdown({ user }) {
   useEffect(() => {
     if (user?.id) {
       fetchNotifications()
-      // Auto-refresh every 30 seconds
+      
       const interval = setInterval(fetchNotifications, 30000)
       return () => clearInterval(interval)
     }
@@ -40,15 +39,14 @@ function NotificationDropdown({ user }) {
       if (user.role === 'citizen') {
         url = `${API_BASE_URL}/api/citizen/notifications/${user.id}`
       } else {
-        // Police - get all notifications
+        
         url = `${API_BASE_URL}/api/citizen/notifications/police/all`
       }
       
       const res = await fetch(url)
       
-      // Handle specific HTTP errors
       if (res.status === 404) {
-        // API endpoint not found - migration may not be run
+        
         console.warn('Notifications API endpoint not found (404). Database migration may be required.')
         setNotifications([])
         setUnreadCount(0)
@@ -56,7 +54,7 @@ function NotificationDropdown({ user }) {
       }
       
       if (res.status === 401) {
-        // Unauthorized - user may need to re-login
+        
         console.warn('Notifications API unauthorized (401). User may need to re-login.')
         setNotifications([])
         setUnreadCount(0)
@@ -64,7 +62,7 @@ function NotificationDropdown({ user }) {
       }
       
       if (!res.ok) {
-        // Other errors (500, etc.)
+        
         console.error('Notifications API error, status:', res.status)
         setNotifications([])
         setUnreadCount(0)
@@ -73,7 +71,6 @@ function NotificationDropdown({ user }) {
       
       const data = await res.json()
       
-      // Use correct field names from DB: notif_id, notif_type, message, is_read, created_at
       if (data && Array.isArray(data.notifications)) {
         const validNotifications = data.notifications.filter(n =>
           n && (n.notif_id || n.notification_id) && n.message && n.message.trim() !== ''
@@ -85,9 +82,9 @@ function NotificationDropdown({ user }) {
         setUnreadCount(0)
       }
     } catch (err) {
-      // Network error or JSON parse error
+      
       console.error('Error fetching notifications:', err.message)
-      setNotifications([]) // Reset to empty array on error
+      setNotifications([]) 
       setUnreadCount(0)
     }
   }
@@ -189,7 +186,7 @@ function NotificationDropdown({ user }) {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Notification Bell Button */}
+      {}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
@@ -198,7 +195,7 @@ function NotificationDropdown({ user }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
         
-        {/* Unread Badge */}
+        {}
         {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center px-1">
             {unreadCount > 99 ? '99+' : unreadCount}
@@ -206,10 +203,10 @@ function NotificationDropdown({ user }) {
         )}
       </button>
 
-      {/* Dropdown Panel */}
+      {}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden animate-fade-in">
-          {/* Header */}
+          {}
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white">
             <div className="flex justify-between items-center">
               <h3 className="font-bold text-lg">Notifications</h3>
@@ -224,7 +221,7 @@ function NotificationDropdown({ user }) {
             </div>
           </div>
 
-          {/* Notifications List */}
+          {}
           <div className="max-h-96 overflow-y-auto">
             {!Array.isArray(notifications) || notifications.length === 0 ? (
               <div className="p-8 text-center">
@@ -265,7 +262,7 @@ function NotificationDropdown({ user }) {
             )}
           </div>
 
-          {/* Footer */}
+          {}
           {notifications.length > 0 && (
             <div className="p-3 bg-gray-50 border-t border-gray-200">
               <button

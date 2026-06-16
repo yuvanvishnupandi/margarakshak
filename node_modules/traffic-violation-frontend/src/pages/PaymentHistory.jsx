@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 export default function PaymentHistory() {
   const [payments, setPayments] = useState([])
@@ -19,7 +18,7 @@ export default function PaymentHistory() {
 
   const fetchPayments = async (id) => {
     try {
-      // Get challans with payment_status=Paid for this citizen
+      
       const res = await fetch(`${API}/api/challans/citizen/${id}`)
       if (!res.ok) throw new Error('Failed')
       const data = await res.json()
@@ -37,7 +36,7 @@ export default function PaymentHistory() {
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'120px', paddingBottom:'40px' }}>
       <div style={{ maxWidth:'1000px', margin:'0 auto', padding:'0 24px' }}>
 
-        {/* Header */}
+        {}
         <div style={{ marginBottom:'28px', display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:'16px' }}>
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'6px' }}>
@@ -50,7 +49,7 @@ export default function PaymentHistory() {
           <button onClick={() => user?.id && fetchPayments(user.id)} style={{ padding:'9px 18px', background:'#f1f5f9', color:'#475569', border:'1.5px solid #e2e8f0', borderRadius:'8px', fontWeight:600, fontSize:'13px', cursor:'pointer' }}>↺ Refresh</button>
         </div>
 
-        {/* Summary Cards */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'16px', marginBottom:'24px' }}>
           {[
             { label:'Total Payments', value: payments.length, color:'#10b981', bg:'#f0fdf4', border:'#bbf7d0' },
@@ -64,7 +63,7 @@ export default function PaymentHistory() {
           ))}
         </div>
 
-        {/* Table */}
+        {}
         <div style={{ background:'#fff', borderRadius:'16px', border:'1.5px solid #e2e8f0', overflow:'hidden' }}>
           {loading ? (
             <div style={{ padding:'60px', textAlign:'center', color:'#94a3b8' }}>Loading payment history…</div>

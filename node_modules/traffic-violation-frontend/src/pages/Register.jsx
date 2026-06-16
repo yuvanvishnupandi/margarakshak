@@ -81,7 +81,7 @@ function Register() {
     }}>
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,25,55,0.55)', zIndex: 1 }} />
 
-      {/* Top right link */}
+      {}
       <div style={{ position: 'absolute', top: '20px', right: '24px', zIndex: 10 }}>
         <Link to="/" style={{
           display: 'inline-flex', alignItems: 'center', gap: '6px',
@@ -94,14 +94,14 @@ function Register() {
         </Link>
       </div>
 
-      {/* Card */}
+      {}
       <div style={{
         position: 'relative', zIndex: 5,
         width: '100%', maxWidth: '480px',
         background: '#fff', borderRadius: '12px',
         boxShadow: '0 20px 60px rgba(0,0,0,0.30)', overflow: 'hidden',
       }}>
-        {/* Header band */}
+        {}
         <div style={{
           background: 'linear-gradient(135deg, #1a3a6b 0%, #0f2550 100%)',
           padding: '28px 40px 24px', textAlign: 'center',
@@ -136,7 +136,7 @@ function Register() {
           </div>
         </div>
 
-        {/* Form body */}
+        {}
         <div style={{ padding: '30px 36px 28px' }}>
           <div style={{ marginBottom: '24px' }}>
             <h1 style={{ color: '#0f2550', fontSize: '22px', fontWeight: 800, margin: '0 0 5px' }}>
@@ -230,7 +230,7 @@ function Register() {
           </div>
         </div>
 
-        {/* Footer */}
+        {}
         <div style={{
           background: '#f1f5f9', borderTop: '1px solid #e2e8f0',
           padding: '12px 36px', textAlign: 'center',

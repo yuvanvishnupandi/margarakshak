@@ -38,7 +38,7 @@ function About() {
     <div style={{ background: 'var(--bg-primary)', minHeight: '100vh', paddingTop: '144px' }}>
       <div className="max-w-[1440px] mx-auto px-8">
         
-        {/* Header Section */}
+        {}
         <div className="text-center mb-20">
           <span style={{ 
             background: 'var(--accent-light)', 
@@ -60,7 +60,7 @@ function About() {
           </p>
         </div>
 
-        {/* ── MoRTH National Integration Banner ── */}
+        {}
         <div style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%)', borderRadius: '24px', padding: '48px', marginBottom: '40px', display: 'flex', gap: '32px', alignItems: 'center', boxShadow: '0 24px 48px rgba(30,58,138,0.25)' }} className="flex-col md:flex-row">
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
@@ -91,7 +91,7 @@ function About() {
           </div>
         </div>
 
-        {/* Mission Grid */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
           {missionCards.map((card, idx) => (
             <div 
@@ -127,7 +127,7 @@ function About() {
           ))}
         </div>
 
-        {/* Decorative Zigzag Divider */}
+        {}
         <div className="zigzag-divider zigzag-bottom" style={{ 
           height: '60px', 
           background: '#1d4ed8',
@@ -135,7 +135,7 @@ function About() {
           marginBottom: '-1px'
         }}></div>
 
-        {/* Dark Impact Section with Zigzag Cutout Top */}
+        {}
         <div style={{ 
           background: '#1d4ed8', 
           padding: '100px 0', 
@@ -166,7 +166,7 @@ function About() {
           </div>
         </div>
 
-        {/* Footer Credit */}
+        {}
         <div className="py-20 text-center">
           <div style={{ 
             width: '64px', 
@@ -192,7 +192,7 @@ function About() {
         </div>
       </div>
 
-      {/* Decorative Wavy Divider at bottom */}
+      {}
       <div style={{ 
         height: '100px', 
         background: 'var(--bg-secondary)', 

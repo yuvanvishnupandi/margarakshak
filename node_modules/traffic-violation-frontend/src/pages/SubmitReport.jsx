@@ -85,7 +85,7 @@ function SubmitReport() {
     setFormData({ ...formData, [name]: value })
     if (errors[name]) setErrors({ ...errors, [name]: '' })
     if (name === 'location_address') {
-      // Auto-suggest via OpenStreetMap after 600ms debounce
+      
       if (value.length > 3) {
         clearTimeout(window._locTimer)
         window._locTimer = setTimeout(async () => {
@@ -102,7 +102,6 @@ function SubmitReport() {
     if (name === 'plate_no') setVehicleInfo(null)
   }
 
-  // ── Parivahan vehicle lookup ──────────────────────────────────────
   const fetchVehicleInfo = async () => {
     const plate = formData.plate_no.replace(/\s+/g, '').toUpperCase()
     if (plate.length < 5) { showError('Enter a valid plate number first'); return }
@@ -116,7 +115,6 @@ function SubmitReport() {
     finally { setVehicleLoading(false) }
   }
 
-  // ── Geolocation lookup ───────────────────────────────────────────
   const getCurrentLocation = () => {
     if (!navigator.geolocation) {
       showError("Geolocation is not supported by your browser")
@@ -217,8 +215,6 @@ function SubmitReport() {
       if (!res.ok) throw new Error(result.error || result.detail || 'Failed to submit report')
       const reportId = result.report_id
 
-      // Sequential uploads required: each upload reads-then-appends the evidence_path array.
-      // Parallel uploads cause a race condition where all read NULL and overwrite each other.
       for (const img of evidenceImages) {
         try {
           const fd = new FormData()
@@ -243,7 +239,6 @@ function SubmitReport() {
     }
   }
 
-  // ── Shared input style ──────────────────────────────────────────────
   const fieldStyle = (hasErr) => ({
     width: '100%',
     padding: '11px 14px',
@@ -273,12 +268,12 @@ function SubmitReport() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', padding: '100px 24px 60px', fontFamily: 'inherit' }}>
 
-      {/* Suspended — full page centered premium card */}
+      {}
       {isSuspended && (
         <div style={{ minHeight: 'calc(100vh - 100px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
           <div style={{ maxWidth: '860px', width: '100%' }}>
 
-            {/* Top icon + title */}
+            {}
             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
               <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg,#fef2f2,#fee2e2)', border: '2px solid #fca5a5', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: '0 8px 32px rgba(220,38,38,0.15)' }}>
                 <svg width="36" height="36" fill="none" stroke="#dc2626" viewBox="0 0 24 24">
@@ -293,7 +288,7 @@ function SubmitReport() {
               </p>
             </div>
 
-            {/* Appeal steps */}
+            {}
             <div style={{ background: '#fff7ed', border: '1.5px solid #fed7aa', borderRadius: '16px', padding: '24px 28px', marginBottom: '20px' }}>
               <p style={{ margin: '0 0 16px', fontWeight: 800, fontSize: '13px', color: '#92400e', textTransform: 'uppercase', letterSpacing: '0.8px' }}>📋 Appeal Process</p>
               {[
@@ -309,7 +304,7 @@ function SubmitReport() {
               ))}
             </div>
 
-            {/* Contact grid */}
+            {}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '20px' }}>
               {[
                 { icon: '📞', label: 'Traffic Helpline', value: '1800 425 1520', sub: 'Toll-free · 24 / 7' },
@@ -325,7 +320,7 @@ function SubmitReport() {
               ))}
             </div>
 
-            {/* Offices */}
+            {}
             <div style={{ background: 'var(--bg-card)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '20px 24px', marginBottom: '20px' }}>
               <p style={{ margin: '0 0 14px', fontWeight: 800, fontSize: '13px', color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>🏛️ Key Traffic Police Offices</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
@@ -344,7 +339,7 @@ function SubmitReport() {
               </div>
             </div>
 
-            {/* Action buttons */}
+            {}
             <div style={{ display: 'flex', gap: '12px' }}>
               <a href="https://eservices.tnpolice.gov.in" target="_blank" rel="noreferrer" style={{ flex: 1, padding: '13px', borderRadius: '10px', background: '#1e1b4b', color: '#fff', fontWeight: 700, fontSize: '14px', textAlign: 'center', textDecoration: 'none', display: 'block' }}>
                 File Online Appeal →
@@ -361,7 +356,7 @@ function SubmitReport() {
       {!isSuspended && (
         <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
 
-          {/* Page header — NO "Citizen Report Portal" badge */}
+          {}
           <div style={{ marginBottom: '28px' }}>
             <h1 style={{ fontSize: '28px', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 6px', letterSpacing: '-0.5px' }}>Submit Violation Report</h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '14px', margin: 0 }}>
@@ -369,17 +364,17 @@ function SubmitReport() {
             </p>
           </div>
 
-          {/* Main card */}
+          {}
           <div style={{ background: 'var(--bg-card)', borderRadius: '16px', border: '1px solid var(--border)', boxShadow: 'var(--shadow-card)', overflow: 'hidden' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr' }}>
 
-              {/* Left sidebar — deep navy, professional, no emojis */}
+              {}
               <div style={{ background: 'linear-gradient(170deg, #0f172a 0%, #1e1b4b 100%)', padding: '36px 24px', display: 'flex', flexDirection: 'column', gap: '0' }}>
 
-                {/* Section identity */}
+                {}
                 <div style={{ marginBottom: '28px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                    {/* Shield SVG icon */}
+                    {}
                     <div style={{ width: '36px', height: '36px', background: 'rgba(255,255,255,0.08)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.85)" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M9 12l2 2 4-4M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -392,7 +387,7 @@ function SubmitReport() {
                   </div>
                 </div>
 
-                {/* Info points — SVG icons only */}
+                {}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginBottom: 'auto' }}>
                   {[
                     {
@@ -428,7 +423,7 @@ function SubmitReport() {
                   ))}
                 </div>
 
-                {/* Helpline box */}
+                {}
                 <div style={{ marginTop: '32px', padding: '14px 16px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.09)' }}>
                   <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '10px', margin: '0 0 3px', fontWeight: 600, letterSpacing: '0.8px', textTransform: 'uppercase' }}>Helpline</p>
                   <p style={{ color: '#fff', fontSize: '17px', fontWeight: 800, margin: 0, letterSpacing: '0.5px' }}>1800 425 1520</p>
@@ -436,11 +431,11 @@ function SubmitReport() {
                 </div>
               </div>
 
-              {/* Right form */}
+              {}
               <div style={{ padding: '36px 40px' }}>
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
 
-                  {/* Vehicle Number Plate */}
+                  {}
                   <div>
                     <label style={labelStyle}>
                       Vehicle Number Plate <span style={{ color: '#dc2626' }}>*</span>
@@ -480,7 +475,7 @@ function SubmitReport() {
                     </div>
                     {errors.plate_no && <span style={errorStyle}>{errors.plate_no}</span>}
 
-                    {/* Parivahan vehicle info card */}
+                    {}
                     {vehicleInfo && (
                       <div style={{ marginTop: '10px', borderRadius: '12px', border: '1.5px solid var(--primary)', background: 'var(--bg-secondary)', overflow: 'hidden' }}>
                         <div style={{ padding: '10px 14px', background: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -512,7 +507,7 @@ function SubmitReport() {
                     )}
                   </div>
 
-                  {/* Violation Type — clean native select dropdown */}
+                  {}
                   <div>
                     <label style={labelStyle}>
                       Violation Type <span style={{ color: '#dc2626' }}>*</span>
@@ -541,7 +536,7 @@ function SubmitReport() {
                           <option key={t} value={t}>{t}</option>
                         ))}
                       </select>
-                      {/* Custom chevron */}
+                      {}
                       <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
                         <svg width="14" height="14" fill="none" stroke="#6b7280" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
@@ -551,12 +546,12 @@ function SubmitReport() {
                     {errors.violation_type && <span style={errorStyle}>{errors.violation_type}</span>}
                   </div>
 
-                  {/* Location Address */}
+                  {}
                   <div>
                     <label style={labelStyle}>
                       Location of Incident <span style={{ color: '#dc2626' }}>*</span>
                     </label>
-                    {/* Location — with OpenStreetMap autocomplete */}
+                    {}
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
                       <div style={{ flex: 1, position: 'relative' }}>
                         <input
@@ -569,7 +564,7 @@ function SubmitReport() {
                           placeholder="e.g. Near T Nagar Bus Stand, Anna Salai, Chennai"
                           style={fieldStyle(errors.location_address)}
                         />
-                        {/* OpenStreetMap autocomplete dropdown */}
+                        {}
                         {showSuggestions && locationSuggestions.length > 0 && (
                           <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 999, background: 'var(--bg-card)', border: '1.5px solid var(--border)', borderRadius: '8px', boxShadow: 'var(--shadow-card)', marginTop: '4px', overflow: 'hidden' }}>
                             <div style={{ padding: '6px 10px', background: 'var(--success-light)', borderBottom: '1px solid var(--success)', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -616,14 +611,14 @@ function SubmitReport() {
                     {errors.location_address && <span style={errorStyle}>{errors.location_address}</span>}
                   </div>
 
-                  {/* Evidence Photos (up to 3) */}
+                  {}
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
                       <label style={labelStyle}>Evidence Photos <span style={{ color: '#dc2626' }}>*</span></label>
                       <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>({evidenceImages.length}/3 added)</span>
                     </div>
 
-                    {/* Thumbnails */}
+                    {}
                     {imagePreviews.length > 0 && (
                       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${imagePreviews.length}, 1fr)`, gap: '8px', marginBottom: '10px' }}>
                         {imagePreviews.map((src, i) => (
@@ -636,7 +631,7 @@ function SubmitReport() {
                       </div>
                     )}
 
-                    {/* Add more button */}
+                    {}
                     {evidenceImages.length < 3 && (
                       <label style={{ display: 'block', cursor: 'pointer' }}>
                         <input type="file" accept="image/jpeg,image/png" multiple onChange={handleImageChange} style={{ display: 'none' }} />
@@ -657,7 +652,7 @@ function SubmitReport() {
                     {errors.evidence && <span style={errorStyle}>{errors.evidence}</span>}
                   </div>
 
-                  {/* Incident Date and Time */}
+                  {}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <div>
                       <label style={labelStyle}>
@@ -688,7 +683,7 @@ function SubmitReport() {
                     </div>
                   </div>
 
-                  {/* Additional Description */}
+                  {}
                   <div>
                     <label style={labelStyle}>
                       Additional Description <span style={{ color: '#9ca3af', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(Optional)</span>
@@ -705,7 +700,7 @@ function SubmitReport() {
                     />
                   </div>
 
-                  {/* Submit button */}
+                  {}
                   <button
                     type="submit"
                     disabled={loading}

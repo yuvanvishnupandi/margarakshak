@@ -4,7 +4,6 @@ import { useToast } from '../context/ToastContext'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 function CitizenDashboard() {
   const navigate = useNavigate()
@@ -68,7 +67,7 @@ function CitizenDashboard() {
               currentUser.wallet_balance = profile.wallet_balance || 0
               currentUser.trust_score = profile.trust_score !== undefined ? profile.trust_score : currentUser.trust_score
               localStorage.setItem('user', JSON.stringify(currentUser))
-              setUser(currentUser) // Force React state update
+              setUser(currentUser) 
             }
           }
         } catch (pe) { console.warn('Profile fetch skipped:', pe.message) }
@@ -170,7 +169,7 @@ function CitizenDashboard() {
     <div style={{ minHeight:'100vh', background:'var(--bg-primary)', paddingTop:'120px', paddingBottom:'40px' }}>
       <div style={{ maxWidth:'1440px', margin:'0 auto', padding:'0 32px 64px' }}>
 
-        {/* Header */}
+        {}
         <div style={{ marginBottom:'32px', paddingBottom:'24px', borderBottom:'1px solid var(--border)' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:'16px' }}>
             <div style={{ flex:1 }}>
@@ -190,7 +189,7 @@ function CitizenDashboard() {
           </div>
         </div>
 
-        {/* Summary Cards */}
+        {}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'16px', marginBottom:'32px', animation: 'fadeInUp 0.6s ease-out 0.1s both' }}>
           {[
             { label:'Total Challans', value: challans.length, color:'var(--text-secondary)', bg:'var(--bg-card)', border:'var(--border)' },
@@ -207,7 +206,7 @@ function CitizenDashboard() {
           ))}
         </div>
 
-        {/* Quick Actions */}
+        {}
         <div style={{ marginBottom:'32px', animation: 'fadeInUp 0.6s ease-out 0.2s both' }}>
           <h2 style={{ fontSize:'18px', fontWeight:800, color:'var(--text-primary)', marginBottom:'18px', display:'flex', alignItems:'center', gap:'10px' }}>
             <span style={{ width:'8px', height:'8px', background:'var(--primary)', borderRadius:'50%' }}></span>
@@ -234,7 +233,7 @@ function CitizenDashboard() {
           </div>
         </div>
 
-        {/* Stats Grid */}
+        {}
         <div style={{ background:'var(--bg-card)', borderRadius:'20px', border:'1px solid var(--border)', boxShadow:'var(--shadow-card)', overflow:'hidden', marginBottom:'32px', animation: 'fadeInUp 0.6s ease-out 0.3s both' }}>
           <div style={{ padding:'24px', borderBottom:'1px solid var(--border)', background:'var(--bg-secondary)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
             <div>
@@ -279,7 +278,7 @@ function CitizenDashboard() {
           </div>
         </div>
 
-        {/* Challans Table */}
+        {}
         <div style={{ background:'var(--bg-card)', borderRadius:'20px', border:'1px solid var(--border)', boxShadow:'var(--shadow-card)', overflow:'hidden', marginBottom:'32px', animation: 'fadeInUp 0.6s ease-out 0.4s both' }}>
           <div style={{ padding:'24px', borderBottom:'1px solid var(--border)', background:'var(--bg-secondary)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
             <div>
@@ -343,7 +342,7 @@ function CitizenDashboard() {
           )}
         </div>
 
-        {/* Reports Table */}
+        {}
         <div style={{ background:'var(--bg-card)', borderRadius:'20px', border:'1px solid var(--border)', boxShadow:'var(--shadow-card)', overflow:'hidden' }}>
           <div style={{ padding:'24px', borderBottom:'1px solid var(--border)', background:'var(--bg-secondary)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
             <div>

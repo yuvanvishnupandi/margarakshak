@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 
 import { API_BASE_URL } from '../config';
 const API = API_BASE_URL;
-// Replaced by automated script
 
 const CrownIcon = ({ size = 22, color = '#f59e0b' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
@@ -62,7 +61,7 @@ function Leaderboard() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', fontFamily: 'inherit' }}>
 
-      {/* Hero Header */}
+      {}
       <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0c4a6e 100%)', padding: '110px 40px 90px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(99,102,241,0.10)', top: '-120px', left: '-100px', filter: 'blur(80px)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', width: '350px', height: '350px', borderRadius: '50%', background: 'rgba(6,182,212,0.09)', bottom: '-60px', right: '8%', filter: 'blur(60px)', pointerEvents: 'none' }} />
@@ -88,7 +87,7 @@ function Leaderboard() {
         </div>
       </div>
 
-      {/* Podium */}
+      {}
       {top3.length >= 3 && !search && (
         <div style={{ maxWidth: '860px', margin: '-44px auto 0', padding: '0 24px', position: 'relative', zIndex: 3 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px', alignItems: 'flex-end' }}>
@@ -118,7 +117,7 @@ function Leaderboard() {
         </div>
       )}
 
-      {/* Rankings Table */}
+      {}
       <div style={{ maxWidth: '860px', margin: '28px auto 56px', padding: '0 24px' }}>
         <div style={{ background: '#fff', borderRadius: '20px', border: '1.5px solid #e0e7ff', boxShadow: '0 4px 24px rgba(99,102,241,0.07)', overflow: 'hidden' }}>
           <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid #f0f2ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
