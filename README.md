@@ -1,4 +1,8 @@
-# Marga Rakshak - Smart Traffic Enforcement System
+<div align="center">
+  <img src="frontend/public/citizen_login_bg.png" alt="Marga Rakshak UI" width="600"/>
+  <h1>Marga Rakshak</h1>
+  <p><b>Smart Traffic Enforcement System</b></p>
+</div>
 
 **Live Production Deployment:** [https://margarakshak-xi.vercel.app](https://margarakshak-xi.vercel.app)  
 **Demo Video:** [Watch on DropBox](https://www.dropbox.com/scl/fi/olhgipdy6tnqgd7rynyvz/Screen-Recording-2026-05-07-095126.mp4?rlkey=us8acshyuceu60xhs9i9mjt5c&st=tacksy62&dl=0)
@@ -22,6 +26,37 @@ Officers get a dedicated dashboard to review reports submitted by citizens. You 
 - **Appeals:** Citizens can dispute challans they believe were issued in error.
 - **Live Notifications:** Get alerts when your report is verified or when you receive a challan.
 - **Analytics & Leaderboard:** See who the top reporters are and view traffic violation heatmaps.
+
+## Folder Structure (Beginner Friendly!)
+
+Here is how the project files are organized. It's split into three main parts: the database, the frontend (what the user sees), and the backend (the server).
+
+```text
+Traffic-Violation-Management-System/
+│
+├── frontend/               <-- Everything the user sees and interacts with (React + Vite)
+│   ├── public/             <-- Static files like images and icons
+│   ├── src/
+│   │   ├── components/     <-- Small reusable UI pieces (buttons, cards, navbars)
+│   │   ├── context/        <-- State management (theme, notifications)
+│   │   ├── pages/          <-- Full page layouts (CitizenDashboard, PoliceDashboard, etc)
+│   │   ├── App.jsx         <-- The main application routing setup
+│   │   └── config.js       <-- Configuration for the backend API URL
+│   └── package.json        <-- Frontend dependencies
+│
+├── backend/                <-- The server that handles logic and talks to the database (Node.js)
+│   ├── routes/             <-- API endpoints (auth, reports, challans, etc)
+│   ├── server.js           <-- The main starting point for the backend server
+│   └── package.json        <-- Backend dependencies
+│
+├── db/                     <-- Database scripts and schema files
+│   ├── schema.sql          <-- Instructions to build all the tables in the database
+│   └── triggers.sql        <-- Automated database logic (like trust score updates)
+│
+├── server/uploads/         <-- Where user-uploaded evidence photos and videos are stored
+│
+└── package.json            <-- The main project file to start both frontend and backend together
+```
 
 ## System Architecture
 
