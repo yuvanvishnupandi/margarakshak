@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/public/citizen_login_bg.png" alt="Marga Rakshak UI" width="600"/>
+  <img src="frontend/public/thumbnail.png" alt="Marga Rakshak" width="600"/>
   <h1>Marga Rakshak</h1>
   <p><b>Smart Traffic Enforcement System</b></p>
 </div>
