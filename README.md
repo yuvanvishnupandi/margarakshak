@@ -1,7 +1,6 @@
 <div align="center">
-  <img src="frontend/public/thumbnail.png" alt="Marga Rakshak" width="600"/>
-  <h1>Marga Rakshak</h1>
-  <p><b>Smart Traffic Enforcement System</b></p>
+  <img src="frontend/public/thumbnail.png" alt="Marga Rakshak Thumbnail" width="100%"/>
+  <h1>Marga Rakshak - Traffic Violation Management System</h1>
 </div>
 
 **Live Production Deployment:** [https://margarakshak-xi.vercel.app](https://margarakshak-xi.vercel.app)  
