@@ -28,6 +28,37 @@ function PoliceCommand({ user }) {
   const [topViolations, setTopViolations] = useState([])
   const [hotspots, setHotspots] = useState([])
   const [loading, setLoading] = useState(true)
+  const [logs, setLogs] = useState([])
+
+  // Simulate dynamic autonomous agent console logs
+  useEffect(() => {
+    const initialLogs = [
+      { text: '[SYSTEM] Marga Rakshak AI Core initialized.', color: '#94a3b8' }
+    ];
+    setLogs(initialLogs);
+    
+    const messages = [
+      { text: '[VISION AGENT] Scanning incoming reports queue...', color: '#38bdf8' },
+      { text: '[VISION AGENT] Detected 14 new reports in the last hour.', color: '#38bdf8' },
+      { text: '[RULE ENGINE] Cross-referencing detected plates with RTO database...', color: '#fcd34d' },
+      { text: '[RTO AGENT] Validated registration details for pending reports.', color: '#fcd34d' },
+      { text: '[DISPATCHER] Triaging reports - Average Confidence 94.2%.', color: '#c084fc' },
+      { text: '[DISPATCHER] Forwarding highest confidence reports to verified status.', color: '#c084fc' },
+      { text: '[SYSTEM] 3 reports automatically verified without human intervention.', color: '#22c55e', glow: true }
+    ];
+    
+    let currentIndex = 0;
+    const intervalId = setInterval(() => {
+      if (currentIndex < messages.length) {
+        setLogs(prev => [...prev, messages[currentIndex]]);
+        currentIndex++;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 2500); // add a new log every 2.5 seconds
+    
+    return () => clearInterval(intervalId);
+  }, []);
 
    useEffect(() => { fetchAll() }, [])
 
@@ -177,7 +208,23 @@ function PoliceCommand({ user }) {
           ))}
         </div>
 
-
+        {/* AUTONOMOUS AGENT CONSOLE */}
+        <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', marginBottom: '28px', color: '#38bdf8', fontFamily: 'monospace', fontSize: '13px', border: '1px solid #334155' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 10px #38bdf8' }}></div>
+            <span style={{ fontWeight: 700, color: '#f8fafc', textTransform: 'uppercase', letterSpacing: '1px' }}>Autonomous Agentic Workflow Console</span>
+          </div>
+          <div style={{ opacity: 0.8, lineHeight: 1.6 }}>
+            {logs.map((log, idx) => (
+              <p key={idx} style={{ color: log.color, marginTop: log.glow ? '8px' : '0', animation: 'fadeIn 0.5s ease-out' }} className={log.glow ? 'animate-pulse' : ''}>
+                {log.text}
+              </p>
+            ))}
+            {logs.length < 7 && (
+               <div style={{ display: 'inline-block', width: '8px', height: '14px', background: '#38bdf8', animation: 'pulse 1s infinite' }} />
+            )}
+          </div>
+        </div>
 
 
 
