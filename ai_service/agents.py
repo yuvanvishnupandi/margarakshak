@@ -15,10 +15,16 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_llm():
-    try:
-        return ChatGoogleGenerativeAI(model="gemini-2.5-flash")
-    except Exception as e:
-        return None
+    # Try models in order — if one quota is exhausted, fall to the next
+    for model_name in ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-flash-latest"]:
+        try:
+            llm = ChatGoogleGenerativeAI(model=model_name)
+            print(f"✅ AI Model loaded: {model_name}")
+            return llm
+        except Exception as e:
+            print(f"⚠️ Model {model_name} failed: {e}")
+            continue
+    return None
 
 class GraphState(TypedDict):
     """The state dictionary for the LangGraph workflow."""
@@ -124,11 +130,46 @@ def vision_triage_node(state: GraphState) -> GraphState:
             {"type": "image_url", "image_url": {"url": image_url}}
         ])
         
-        llm = get_llm()
-        if not llm:
-            raise Exception("API Key Missing! Please add GOOGLE_API_KEY to ai_service/.env")
-            
-        response = llm.invoke([message])
+        # Try each model in sequence — switch on 429 quota errors
+        models_to_try = [
+            ("gemini", "gemini-2.5-flash"),
+            ("gemini", "gemini-2.0-flash"),
+            ("gemini", "gemini-2.0-flash-lite"),
+            ("gemini", "gemini-flash-latest"),
+            ("openai", "gpt-4o-mini"),
+            ("mistral", "pixtral-12b-2409")
+        ]
+        
+        response = None
+        last_error = None
+        
+        from langchain_openai import ChatOpenAI
+        from langchain_mistralai import ChatMistralAI
+        
+        for provider, model_name in models_to_try:
+            try:
+                if provider == "gemini":
+                    llm = ChatGoogleGenerativeAI(model=model_name)
+                elif provider == "openai":
+                    llm = ChatOpenAI(model=model_name)
+                elif provider == "mistral":
+                    llm = ChatMistralAI(model=model_name)
+                    
+                print(f"🤖 Trying model: {provider}/{model_name}")
+                response = llm.invoke([message])
+                print(f"✅ Got response from: {provider}/{model_name}")
+                break
+            except Exception as model_err:
+                err_str = str(model_err).lower()
+                if "429" in err_str or "quota" in err_str or "exhausted" in err_str or "resource" in err_str or "insufficient_quota" in err_str or "unauthorized" in err_str or "key" in err_str:
+                    print(f"⚠️ {model_name} failed (Quota/Key issue), trying next model...")
+                    last_error = model_err
+                    continue
+                else:
+                    raise model_err
+        
+        if response is None:
+            raise last_error or Exception("All Gemini models exhausted their quota")
         
         # Parse JSON removing possible markdown blocks
         raw_text = response.content.replace("```json", "").replace("```", "").strip()
@@ -137,11 +178,11 @@ def vision_triage_node(state: GraphState) -> GraphState:
         error_str = str(e).lower()
         print(f"⚠️ AI Agent Exception: {str(e)}")
         if "429" in error_str or "quota" in error_str or "exhausted" in error_str:
-            print(f"🔀 Rate limit hit — using neutral fallback (no fake plate injected)")
+            print(f"🔀 All models quota exhausted — returning honest empty result")
         # In ALL error cases, return neutral result — never inject fake plate data
         parsed = {
             "is_valid_submission": False,
-            "rejection_reason": f"AI check failed: {str(e)[:120]}. Please ensure your Google API key in ai_service/.env is valid (must start with AIza).",
+            "rejection_reason": f"AI quota exhausted. All Gemini models are rate-limited. Please try again in a few minutes.",
             "license_plate_found": False,
             "extracted_plate": None,
             "violation_detected": None,

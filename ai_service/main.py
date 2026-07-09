@@ -121,20 +121,51 @@ async def chat_with_marga_mitra(req: ChatRequest):
         {"role": "user", "content": req.message}
     ]
     
-    try:
-        response = llm.invoke([HumanMessage(content=system_prompt + "\nUser says: " + req.message)])
-        reply_content = response.content if response.content else ""
-        if not reply_content.strip():
-            reply_content = "I apologize, but my safety filters prevented me from generating a response to that message. Please try rephrasing your request!"
-        return {"response": reply_content}
-    except Exception as e:
-        error_str = str(e)
-        if '429' in error_str or 'quota' in error_str.lower() or 'RESOURCE_EXHAUSTED' in error_str:
-            print(f"⚠️ Primary AI (Gemini) failed due to Rate Limit. 🔀 Routing to Secondary AI (OpenAI/Mistral Fallback)...")
-            fallback_response = local_fallback_agent(req.message, req.mode)
-            return {"response": fallback_response}
-        else:
-            return {"response": "I am currently undergoing system maintenance. Please try again later."}
+    models_to_try = [
+        ("gemini", "gemini-2.5-flash"),
+        ("gemini", "gemini-2.0-flash"),
+        ("openai", "gpt-4o-mini"),
+        ("mistral", "open-mistral-nemo")
+    ]
+    
+    from langchain_openai import ChatOpenAI
+    from langchain_mistralai import ChatMistralAI
+    from langchain_google_genai import ChatGoogleGenerativeAI
+    
+    response = None
+    last_error = None
+    for provider, model_name in models_to_try:
+        try:
+            if provider == "gemini":
+                llm_chat = ChatGoogleGenerativeAI(model=model_name)
+            elif provider == "openai":
+                llm_chat = ChatOpenAI(model=model_name)
+            elif provider == "mistral":
+                llm_chat = ChatMistralAI(model=model_name)
+            
+            print(f"🤖 Chatbot trying model: {provider}/{model_name}")
+            response = llm_chat.invoke([HumanMessage(content=system_prompt + "\nUser says: " + req.message)])
+            print(f"✅ Chatbot success: {provider}/{model_name}")
+            break
+        except Exception as e:
+            err_str = str(e).lower()
+            if "429" in err_str or "quota" in err_str or "exhausted" in err_str or "resource" in err_str or "insufficient_quota" in err_str or "unauthorized" in err_str or "key" in err_str:
+                print(f"⚠️ Chatbot {provider}/{model_name} failed (Quota/Key), falling back...")
+                last_error = e
+                continue
+            else:
+                last_error = e
+                break
+
+    if response is None:
+        print(f"⚠️ All AI providers failed. Using static fallback.")
+        fallback_response = local_fallback_agent(req.message, req.mode)
+        return {"response": fallback_response}
+        
+    reply_content = response.content if response.content else ""
+    if not reply_content.strip():
+        reply_content = "I apologize, but my safety filters prevented me from generating a response to that message. Please try rephrasing your request!"
+    return {"response": reply_content}
 
 @app.get("/api/ai/heatmap")
 async def get_predictive_heatmap():
