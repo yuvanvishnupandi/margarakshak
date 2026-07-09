@@ -1,18 +1,25 @@
-# Marga Rakshak
+<div align="center">
+  <img src="marga-rakshak-banner.svg" alt="Marga Rakshak Banner" width="500"/>
+</div>
 
-Government of Tamil Nadu – Smart Traffic Enforcement System
+<h3 align="center">Government of Tamil Nadu – Smart Traffic Enforcement System</h3>
 
-**Live Deployment:** https://margarakshak-xi.vercel.app  
-**Demo Video:** [Watch on DropBox](https://www.dropbox.com/scl/fi/olhgipdy6tnqgd7rynyvz/Screen-Recording-2026-05-07-095126.mp4?rlkey=us8acshyuceu60xhs9i9mjt5c&st=tacksy62&dl=0)
+<p align="center">
+  <a href="https://margarakshak-xi.vercel.app"><strong>🌐 Live Deployment</strong></a>
+  ·
+  <a href="https://www.dropbox.com/scl/fi/olhgipdy6tnqgd7rynyvz/Screen-Recording-2026-05-07-095126.mp4?rlkey=us8acshyuceu60xhs9i9mjt5c&st=tacksy62&dl=0"><strong>🎥 Demo Video</strong></a>
+</p>
 
-Marga Rakshak is a full-stack traffic violation management platform for citizens to report violations and for police officers to review, verify, and issue challans. The system includes AI-assisted report processing, vehicle registration, challan payment, appeals, and a rewards system.
+---
+
+Marga Rakshak is a full-stack traffic violation management platform that enables citizens to report violations and empowers police officers to review, verify, and issue challans. The system includes AI-assisted report processing, vehicle registration, challan payment, appeals, and a rewards system.
 
 ---
 
 ## 💻 Technology Stack
 
 | Layer | Technology |
-|-------|------------|
+|---|---|
 | Frontend | React.js, Vite |
 | Styling | CSS, Tailwind CSS |
 | Backend | Node.js, Express.js |
@@ -213,3 +220,9 @@ npm run dev
 ```cmd
 start.bat
 ```
+
+---
+
+<p align="center">
+  Built for safer roads and smarter enforcement — Government of Tamil Nadu
+</p>
