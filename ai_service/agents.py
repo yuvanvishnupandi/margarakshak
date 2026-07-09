@@ -135,27 +135,19 @@ def vision_triage_node(state: GraphState) -> GraphState:
         parsed = json.loads(raw_text)
     except Exception as e:
         error_str = str(e).lower()
+        print(f"⚠️ AI Agent Exception: {str(e)}")
         if "429" in error_str or "quota" in error_str or "exhausted" in error_str:
-            print(f"⚠️ Primary AI (Gemini) failed due to Rate Limit in Agent. 🔀 Routing to Fallback...")
-            parsed = {
-                "is_valid_submission": True,
-                "rejection_reason": "",
-                "license_plate_found": True,
-                "extracted_plate": "TN01AB1234",
-                "violation_detected": "Speeding",
-                "confidence_score": 99,
-                "auto_approve": True
-            }
-        else:
-            parsed = {
-                "is_valid_submission": False,
-                "rejection_reason": f"AI Processing Error: {str(e)}",
-                "license_plate_found": False,
-                "extracted_plate": None,
-                "violation_detected": None,
-                "confidence_score": None,
-                "auto_approve": False
-            }
+            print(f"🔀 Rate limit hit — using neutral fallback (no fake plate injected)")
+        # In ALL error cases, return neutral result — never inject fake plate data
+        parsed = {
+            "is_valid_submission": False,
+            "rejection_reason": f"AI check failed: {str(e)[:120]}. Please ensure your Google API key in ai_service/.env is valid (must start with AIza).",
+            "license_plate_found": False,
+            "extracted_plate": None,
+            "violation_detected": None,
+            "confidence_score": 0,
+            "auto_approve": False
+        }
     
     agent_state.vision_validation = ValidationResult(**parsed)
     return {"agent_state": agent_state}
