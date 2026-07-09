@@ -2,7 +2,7 @@
   <img src="marga-rakshak-banner.svg" alt="Marga Rakshak Banner" width="500"/>
 </div>
 
-<h3 align="center">Government of Tamil Nadu – Smart Traffic Enforcement System</h3>
+<h3 align="center">Marga Rakshak - AI-Driven Road Enforcement Platform</h3>
 
 <p align="center">
   <a href="https://margarakshak-xi.vercel.app"><strong>🌐 Live Deployment</strong></a>
