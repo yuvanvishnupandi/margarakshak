@@ -14,7 +14,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+def get_llm():
+    try:
+        return ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+    except Exception as e:
+        return None
 
 class GraphState(TypedDict):
     """The state dictionary for the LangGraph workflow."""
@@ -120,6 +124,10 @@ def vision_triage_node(state: GraphState) -> GraphState:
             {"type": "image_url", "image_url": {"url": image_url}}
         ])
         
+        llm = get_llm()
+        if not llm:
+            raise Exception("API Key Missing! Please add GOOGLE_API_KEY to ai_service/.env")
+            
         response = llm.invoke([message])
         
         # Parse JSON removing possible markdown blocks
