@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pydantic
+langchain
+langgraph
+langchain-google-genai
+google-generativeai
+geopy
+python-multipart
+requests
+langchain-openai
+langchain-mistralai

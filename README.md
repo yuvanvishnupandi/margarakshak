@@ -14,11 +14,12 @@ Citizens can seamlessly register vehicles, submit media evidence of offenses, tr
 ## Core Capabilities
 
 - **Secure Portals:** Independent, authenticated interfaces tailored specifically for everyday users and law enforcement.
-- **Evidence Submission:** Intuitive tools to capture and upload media for roadway offenses directly from the client.
+- **Evidence Submission & AI OCR Vision:** Intuitive tools to capture and upload media for roadway offenses. Features an advanced AI Vision Engine powered by Gemini 2.5 Flash for automated license plate extraction, violation detection, and fraud prevention.
+- **Predictive AI Hotspot Dispatcher:** A proactive dispatch engine that analyzes verified reports and generates real-time duty dispatch alerts for police officers, identifying crash hotspots before they happen.
+- **AskRakshak Voice AI Agent:** An interactive voice-powered conversational AI. Citizens can dispute challans by speaking into their microphone using the Web Speech API, while the AI transcribes and drafts legal summary briefs in real-time.
+- **Robust Multi-Model Fallback Router:** Enterprise-grade backend architecture that seamlessly routes AI traffic between multiple models (Gemini, OpenAI, Mistral) to ensure 99.9% uptime and zero rate-limit crashes.
 - **Fine Processing Lifecycle:** End-to-end flow from the moment an officer issues a ticket to the citizen's final payment.
 - **Gamified Reliability:** A dynamic scoring algorithm that boosts the reputation of honest reporters and penalizes false claims, issuing tangible rewards for positive community impact.
-- **Dispute Resolution:** A structured channel for users to contest tickets they believe were issued unfairly, complete with officer review workflows.
-- **Instant Alerts:** Automated status updates keeping users informed whenever their submissions are processed or new fines are issued.
 - **Data Insights:** Comprehensive dashboards featuring geographic heatmaps of offenses and public leaderboards to highlight top community contributors.
 
 ## System Architecture
@@ -30,6 +31,7 @@ graph TD
     %% Styling Definitions
     classDef client fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff;
     classDef server fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
+    classDef ai fill:#8b5cf6,stroke:#5b21b6,stroke-width:2px,color:#fff;
     classDef database fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff;
 
     %% Client Layer
@@ -46,6 +48,10 @@ graph TD
         ExpressAPI --- Controllers
     end
     
+    %% AI Python Microservice Layer
+    ReactApp -->|REST API| PythonAI[Python FastAPI\nLangGraph AI Orchestrator]:::ai
+    PythonAI -->|Multi-Model Router| LLMs([Gemini / OpenAI / Mistral]):::ai
+    
     subgraph "Persistence & Storage"
         TiDB[(TiDB Serverless\nDistributed MySQL)]:::database
         DiskStorage[(Local Disk\nMedia Uploads)]:::database
@@ -57,8 +63,9 @@ graph TD
 ```
 
 ### Technology Stack
-- **Frontend Development:** React 18, Vite, React Router, Tailwind CSS, Recharts, React Leaflet
-- **Backend Services:** Node.js, Express.js, JWT Authentication, Multer for file handling
+- **Frontend Development:** React 18, Vite, React Router, Tailwind CSS, Web Speech API
+- **Backend Services:** Node.js, Express.js, JWT Authentication, Python, FastAPI, LangGraph, LangChain
+- **AI Models:** Google Gemini 2.5 Flash, Multi-Model Routing Logic
 - **Database & Storage:** TiDB (Serverless MySQL)
 - **Hosting & CI/CD:** Vercel (Frontend), Render (Backend)
 
