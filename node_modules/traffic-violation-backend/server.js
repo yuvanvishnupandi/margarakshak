@@ -16,6 +16,7 @@ const rewardsRoutes      = require('./routes/rewards');
 const adminRoutes        = require('./routes/admin');
 const weatherRoutes      = require('./routes/weather');
 const hotspotRoutes      = require('./routes/hotspots');
+const aiRoutes           = require('./routes/ai');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -61,6 +62,7 @@ app.use('/api/citizen/rewards',       rewardsRoutes);
 app.use('/api/admin',                 adminRoutes);
 app.use('/api/weather',               weatherRoutes);
 app.use('/api/hotspots',              hotspotRoutes);
+app.use('/api/ai',                    aiRoutes);
 
 app.use((req, res) => {
   console.log('404:', req.method, req.url);
