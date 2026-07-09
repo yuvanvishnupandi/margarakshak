@@ -13,16 +13,46 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY 
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+async function tryModels(prompt, imagePart = null) {
+  const modelsToTry = [
+    'gemini-1.5-flash',
+    'gemini-1.5-flash-latest',
+    'gemini-1.5-pro',
+    'gemini-2.0-flash-exp',
+    'gemini-pro-vision'
+  ];
+
+  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+  let lastError = null;
+
+  for (const modelName of modelsToTry) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName });
+      
+      const payload = imagePart ? [prompt, imagePart] : [prompt];
+      const result = await model.generateContent(payload);
+      
+      const text = result.response.text();
+      if (text && text.trim()) return text;
+    } catch (err) {
+      lastError = err;
+      console.warn(`[AI] Model ${modelName} failed:`, err.message);
+      // If the model is not found (404), we continue to the next model in the list.
+      // If it's a 403 (Invalid API key), we should probably stop, but we'll keep trying just in case.
+    }
+  }
+  
+  throw lastError || new Error("All Gemini models failed.");
+}
+
 async function chatWithFallback(systemPrompt, userMessage) {
   if (GoogleGenerativeAI && GEMINI_API_KEY) {
     try {
-      const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // Use 1.5 flash for better stability
-      const result = await model.generateContent(`${systemPrompt}\n\nUser: ${userMessage}\nAskRakshak:`);
-      const text = result.response.text();
-      if (text && text.trim()) return text.trim();
+      const fullPrompt = `${systemPrompt}\n\nUser: ${userMessage}\nAskRakshak:`;
+      const text = await tryModels(fullPrompt);
+      return text.trim();
     } catch (err) {
-      console.warn('[AI] Gemini failed:', err.message);
+      console.warn('[AI Chat] All models failed:', err.message);
     }
   }
   return staticFallback(userMessage);
@@ -37,16 +67,12 @@ async function analyzeEvidenceImage(base64ImageUrl) {
       extracted_plate:     '',
       violation_detected:  '',
       confidence_score:    0,
-      rejection_reason:    'API Key missing on server. AI Vision requires GEMINI_API_KEY in Render environment.'
+      rejection_reason:    'API Key missing on server. AI Vision requires GEMINI_API_KEY.'
     };
   }
 
   if (GoogleGenerativeAI && match) {
     try {
-      const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-      // gemini-1.5-flash is extremely robust for vision
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
       const prompt = `You are a strict traffic violation AI. Analyse this image.
 Return ONLY valid JSON (no markdown, no explanation):
 {
@@ -66,8 +92,9 @@ Strict Rules:
         inlineData: { data: match[2], mimeType: `image/${match[1]}` }
       };
 
-      const result = await model.generateContent([prompt, imagePart]);
-      const raw = result.response.text().trim()
+      const rawText = await tryModels(prompt, imagePart);
+      
+      const raw = rawText.trim()
         .replace(/^```json\s*/i, '')
         .replace(/^```\s*/i, '')
         .replace(/\s*```$/, '')
@@ -88,7 +115,7 @@ Strict Rules:
         extracted_plate:     '',
         violation_detected:  '',
         confidence_score:    0,
-        rejection_reason:    `AI Vision Error: ${err.message}`
+        rejection_reason:    `AI Error: ${err.message}`
       };
     }
   }
@@ -98,33 +125,19 @@ Strict Rules:
     extracted_plate:     '',
     violation_detected:  '',
     confidence_score:    0,
-    rejection_reason:    'Invalid image format or server misconfiguration.'
+    rejection_reason:    'Invalid image format.'
   };
 }
 
 function staticFallback(message) {
   const msg = (message || '').toLowerCase();
-  if (msg.includes('pay') || msg.includes('fine') || msg.includes('challan')) {
-    return 'You can view and pay your pending challans from the "My Challans" tab on your dashboard.';
-  }
-  if (msg.includes('dispute') || msg.includes('wrong') || msg.includes('appeal')) {
-    return 'If you believe a challan was issued in error, go to "My Challans" and click the Dispute button to file an appeal.';
-  }
-  if (msg.includes('rule') || msg.includes('law') || msg.includes('speed')) {
-    return 'Traffic rules are governed by the Motor Vehicles Act, 1988. You can review all applicable rules under "Rules & Laws" in the navigation bar.';
-  }
-  if (msg.includes('report') || msg.includes('submit') || msg.includes('upload')) {
-    return 'To submit a violation report, go to "Submit Report", upload your evidence photo, fill in the vehicle number plate, and submit. The AI will analyse the image automatically.';
-  }
-  if (msg.includes('vehicle') || msg.includes('register')) {
-    return 'You can register and manage your vehicles under "My Vehicles" in your citizen dashboard.';
-  }
-  if (msg.includes('reward') || msg.includes('point') || msg.includes('trust')) {
-    return 'You earn Trust Points for every verified report submission. Redeem them for rewards in the Rewards section.';
-  }
-  if (msg.includes('hi') || msg.includes('hello') || msg.includes('hey') || msg.includes('namaste')) {
-    return 'Namaste! I am AskRakshak, your traffic enforcement AI assistant. How can I help you today?';
-  }
+  if (msg.includes('pay') || msg.includes('fine') || msg.includes('challan')) return 'You can view and pay your pending challans from the "My Challans" tab on your dashboard.';
+  if (msg.includes('dispute') || msg.includes('wrong') || msg.includes('appeal')) return 'If you believe a challan was issued in error, go to "My Challans" and click the Dispute button to file an appeal.';
+  if (msg.includes('rule') || msg.includes('law') || msg.includes('speed')) return 'Traffic rules are governed by the Motor Vehicles Act, 1988. You can review all applicable rules under "Rules & Laws" in the navigation bar.';
+  if (msg.includes('report') || msg.includes('submit') || msg.includes('upload')) return 'To submit a violation report, go to "Submit Report", upload your evidence photo, fill in the vehicle number plate, and submit. The AI will analyse the image automatically.';
+  if (msg.includes('vehicle') || msg.includes('register')) return 'You can register and manage your vehicles under "My Vehicles" in your citizen dashboard.';
+  if (msg.includes('reward') || msg.includes('point') || msg.includes('trust')) return 'You earn Trust Points for every verified report submission. Redeem them for rewards in the Rewards section.';
+  if (msg.includes('hi') || msg.includes('hello') || msg.includes('hey') || msg.includes('namaste')) return 'Namaste! I am AskRakshak, your traffic enforcement AI assistant. How can I help you today?';
   return 'I am AskRakshak, your AI assistant for Marga Rakshak. I can help you with challans, traffic rules, violation reports, and vehicle registration. What would you like to know?';
 }
 
