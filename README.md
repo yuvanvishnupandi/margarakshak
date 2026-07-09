@@ -3,10 +3,6 @@
 </div>
 
 <h3 align="center">Marga Rakshak — AI-Driven Road Enforcement Platform</h3>
-<p align="center">
-  <a href="https://margarakshak-xi.vercel.app">🌐 Live Demo</a> &nbsp;|&nbsp;
-  <a href="https://github.com/yuvanvishnupandi/margarakshak">📁 GitHub</a>
-</p>
 
 ---
 
