@@ -8,7 +8,7 @@ function Register() {
   const { success, error: showError } = useToast()
   const [formData, setFormData] = useState({
     full_name: '', email: '', phone_no: '', password: '',
-    plate_no: '', vehicle_type: '', vehicle_model: '', district: 'Sivagangai'
+    plate_no: '', vehicle_type: '', vehicle_model: '', district: 'Chennai'
   })
   const [loading, setLoading] = useState(false)
 
@@ -37,7 +37,7 @@ function Register() {
         })
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.detail || 'Registration failed')
+      if (!res.ok) throw new Error(data.error || data.detail || 'Registration failed')
       success('Account created successfully!')
       setTimeout(() => navigate('/'), 1500)
     } catch (err) {

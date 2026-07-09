@@ -40,7 +40,7 @@ router.post('/create', async (req, res) => {
     if (cit.account_status === 'Suspended' || cit.trust_score <= 0)
       return res.status(403).json({ error: 'Your account is suspended. You cannot submit reports.' });
     
-    const citizenDistrict = cit.district || 'Sivagangai';
+    const citizenDistrict = cit.district || 'Chennai';
 
     const [[veh]] = await db.execute(`SELECT plate_no FROM VEHICLES WHERE plate_no=?`, [plate_no.toUpperCase()]);
     if (!veh) {
@@ -92,7 +92,7 @@ router.post('/upload-evidence/:reportId', upload.single('file'), async (req, res
 
 router.get('/police/pending', authenticateToken, async (req, res) => {
   try {
-    const policeDistrict = req.user.district || 'Sivagangai';
+    const policeDistrict = req.user.district || 'Chennai';
     const badgeNo = req.user.badge_no || req.user.id;
     
     const [rows] = await db.execute(

@@ -154,7 +154,7 @@ router.post('/citizen/register', async (req, res) => {
   const fullName = String(full_name || '').trim();
   const phoneNo = phone_no ? String(phone_no).trim() : null;
   const plateNo = normalizePlate(plate_no);
-  const citizenDistrict = district ? String(district).trim() : 'Sivagangai';
+  const citizenDistrict = district ? String(district).trim() : 'Chennai';
 
   if (!fullName || !email || !password || !plateNo || !vehicle_type) {
     return res.status(400).json({
@@ -252,7 +252,7 @@ router.post('/police/register', async (req, res) => {
   const phoneNo = phone_no ? String(phone_no).trim() : null;
   const rank = String(officer_rank || '').trim() || 'Constable';
   const station = String(station_code || '').trim() || 'HQ001';
-  const policeDistrict = district ? String(district).trim() : 'Sivagangai';
+  const policeDistrict = district ? String(district).trim() : 'Chennai';
 
   if (!fullName || !email || !password) {
     return res.status(400).json({ error: 'full_name, email, and password are required.' });
