@@ -1,12 +1,16 @@
 <div align="center">
-  <img src="marga-rakshak-banner.svg" alt="Marga Rakshak Banner" width="500"/>
+  <img src="docs/marga-rakshak.jpg" alt="Marga Rakshak" width="600" style="border-radius:12px"/>
 </div>
 
-<h3 align="center">Marga Rakshak - AI-Driven Road Enforcement Platform</h3>
+<h3 align="center">Marga Rakshak — AI-Driven Road Enforcement Platform</h3>
+<p align="center">
+  <a href="https://margarakshak-xi.vercel.app">🌐 Live Demo</a> &nbsp;|&nbsp;
+  <a href="https://github.com/yuvanvishnupandi/margarakshak">📁 GitHub</a>
+</p>
 
 ---
 
-Marga Rakshak is a full-stack traffic violation management platform that enables citizens to report violations and empowers police officers to review, verify, and issue challans. The system includes AI-assisted report processing, vehicle registration, challan payment, appeals, and a rewards system.
+Marga Rakshak is a full-stack traffic violation management platform that enables citizens to report violations and empowers police officers to review, verify, and issue challans. The system includes AI-assisted report processing with Gemini vision, vehicle registration lookup, challan payment, appeals, and a rewards system.
 
 ---
 
@@ -14,13 +18,12 @@ Marga Rakshak is a full-stack traffic violation management platform that enables
 
 | Layer | Technology |
 |---|---|
-| Frontend | React.js, Vite |
-| Styling | CSS, Tailwind CSS |
+| Frontend | React.js, Vite, CSS |
 | Backend | Node.js, Express.js |
-| AI Service | Python, FastAPI |
-| Database | MySQL |
-| AI Models | Gemini 2.5 Flash, Groq |
+| AI Models | Google Gemini (Vision + Chat), Mistral AI |
+| Database | MySQL 8.0 |
 | Authentication | JWT |
+| Hosting | Vercel (Frontend), Render (Backend) |
 
 ---
 

@@ -12,14 +12,35 @@ async function analyzeWithGemini(base64ImageUrl) {
   const match = base64ImageUrl.match(/^data:image\/(\w+);base64,(.+)$/);
   if (!match) throw new Error('Invalid base64 image format');
 
-  const prompt = `You are a strict traffic violation AI. Analyse this image.
-Return ONLY valid JSON, no markdown, no explanation:
-{"is_valid_submission":true_or_false,"extracted_plate":"plate text or empty string","violation_detected":"type or empty","confidence_score":0_to_100,"rejection_reason":"reason or empty string"}
+  const prompt = `You are a traffic violation AI for Tamil Nadu, India. Your job is to analyse the given image strictly.
 
-Strict rules:
-- is_valid_submission = true ONLY if there is a clearly visible vehicle AND a readable license plate.
-- Random photos, people, deities, landscapes, blurry images: set is_valid_submission=false and rejection_reason="No clear vehicle or license plate detected".
-- violation_detected must be one of: Speeding, No Helmet, Triple Riding, No Seatbelt, Signal Jumping, Wrong Lane, Illegal Parking, Mobile Phone Use, Other`;
+IMPORTANT: You must return ONLY valid JSON with no markdown, no backticks, no explanation whatsoever. Just the raw JSON object.
+
+Required JSON structure:
+{"is_valid_submission":true,"extracted_plate":"","violation_detected":"","confidence_score":0,"rejection_reason":""}
+
+STRICT REJECTION RULES — set is_valid_submission=false if ANY of these are true:
+- The image shows a person, human face, deity, god, religious figure, or statue
+- The image shows a landscape, building, road without a vehicle, or random scene
+- The image is blurry, dark, or no vehicle is clearly visible
+- No license plate is visible in the image
+- The image is a screenshot, meme, or text document
+
+ACCEPTANCE RULES — set is_valid_submission=true ONLY if:
+- A motor vehicle (car, bus, truck, motorcycle, auto-rickshaw) is clearly visible
+- A Tamil Nadu license plate or any Indian license plate is present in the image
+
+PLATE EXTRACTION — if is_valid_submission=true:
+- extracted_plate: extract the EXACT text on the Indian license plate (e.g. "TN 01 AB 1234"). Use spaces between groups.
+- violation_detected: one of [Speeding, No Helmet, Triple Riding, No Seatbelt, Signal Jumping, Wrong Lane, Illegal Parking, Mobile Phone Use, Other]
+- confidence_score: 0-100 based on image clarity
+- rejection_reason: empty string ""
+
+If is_valid_submission=false:
+- extracted_plate: ""
+- violation_detected: ""
+- confidence_score: 0
+- rejection_reason: brief explanation why rejected`;
 
   // Try multiple model/api-version combinations
   const attempts = [
