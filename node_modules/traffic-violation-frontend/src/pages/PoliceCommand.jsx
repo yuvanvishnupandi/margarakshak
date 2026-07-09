@@ -179,28 +179,7 @@ function PoliceCommand({ user }) {
 
 
 
-        {/* AGENT CONSOLE */}
-        <div className="mt-8 bg-gray-900 rounded-xl p-4 font-mono text-sm shadow-xl border border-gray-700 h-[250px] overflow-y-auto">
-          <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-700">
-            <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <span className="text-gray-400 text-xs ml-2 uppercase font-bold tracking-widest">Autonomous Agentic Workflow Console</span>
-          </div>
-          <div className="space-y-2 text-green-400 text-xs sm:text-sm">
-            <p className="opacity-70" style={{ animation: 'fadeIn 0.5s ease-in-out' }}>[SYSTEM] Marga Rakshak AI Core initialized.</p>
-            <p className="opacity-70" style={{ animation: 'fadeIn 0.5s ease-in-out 1.5s both' }}>[VISION AGENT] Scanning incoming reports queue...</p>
-            <p className="text-purple-400" style={{ animation: 'fadeIn 0.5s ease-in-out 3s both' }}>[VISION AGENT] Detected {stats.pendingReviews + 14} new reports in the last hour.</p>
-            <p className="text-blue-400" style={{ animation: 'fadeIn 0.5s ease-in-out 4.5s both' }}>[RULE ENGINE] Cross-referencing detected plates with RTO database...</p>
-            <p className="text-blue-400" style={{ animation: 'fadeIn 0.5s ease-in-out 6s both' }}>[RTO AGENT] Validated registration details for all pending reports.</p>
-            <p className="text-yellow-400" style={{ animation: 'fadeIn 0.5s ease-in-out 7.5s both' }}>[DISPATCHER] Triaging reports - Average Confidence 94.2%.</p>
-            <p className="text-yellow-400" style={{ animation: 'fadeIn 0.5s ease-in-out 9s both' }}>[DISPATCHER] Forwarding highest confidence reports to Dashboard for final 1-click approval.</p>
-            <p className="opacity-70" style={{ animation: 'fadeIn 0.5s ease-in-out 10.5s both' }}>[SYSTEM] Waiting for manual review signals...</p>
-            <p className="animate-pulse">_</p>
-          </div>
-        </div>
+
 
         {/* AI HOTSPOT DISPATCHER */}
         <div style={{ marginTop: '28px', animation: 'fadeInUp 0.6s ease-out 0.4s both' }}>
