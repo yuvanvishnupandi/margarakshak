@@ -55,15 +55,16 @@ function MacTerminal() {
   useEffect(() => {
     const timer = setInterval(() => {
       if (indexRef.current < allLines.length) {
-        setLines(prev => [...prev, allLines[indexRef.current]])
-        indexRef.current++
+        const currentItem = allLines[indexRef.current];
+        setLines(prev => [...prev, currentItem]);
+        indexRef.current++;
       } else {
-        clearInterval(timer)
+        clearInterval(timer);
       }
-    }, 600)
-    return () => clearInterval(timer)
+    }, 600);
+    return () => clearInterval(timer);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (terminalRef.current) {
