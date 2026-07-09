@@ -340,12 +340,16 @@ const handleLogin = (data) => {
   )
 }
 
+import ErrorBoundary from './ErrorBoundary'
+
 export default function App() {
   return (
-    <ThemeProvider>
-      <ToastProvider>
-        <AppContent />
-      </ToastProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <ToastProvider>
+          <AppContent />
+        </ToastProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   )
 }
