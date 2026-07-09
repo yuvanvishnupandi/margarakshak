@@ -4,12 +4,6 @@
 
 <h3 align="center">Marga Rakshak - AI-Driven Road Enforcement Platform</h3>
 
-<p align="center">
-  <a href="https://margarakshak-xi.vercel.app"><strong>🌐 Live Deployment</strong></a>
-  ·
-  <a href="https://www.dropbox.com/scl/fi/olhgipdy6tnqgd7rynyvz/Screen-Recording-2026-05-07-095126.mp4?rlkey=us8acshyuceu60xhs9i9mjt5c&st=tacksy62&dl=0"><strong>🎥 Demo Video</strong></a>
-</p>
-
 ---
 
 Marga Rakshak is a full-stack traffic violation management platform that enables citizens to report violations and empowers police officers to review, verify, and issue challans. The system includes AI-assisted report processing, vehicle registration, challan payment, appeals, and a rewards system.
