@@ -35,11 +35,20 @@ async function analyzeWithGemini(base64ImageUrl) {
   const match = base64ImageUrl.match(/^data:image\/(\w+);base64,(.+)$/);
   if (!match) throw new Error("Invalid base64 image");
 
-  const models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-1.0-pro-vision-latest'];
+  // Try both v1 and v1beta endpoints with multiple model names
+  const attempts = [
+    { api: 'v1beta', model: 'gemini-1.5-flash' },
+    { api: 'v1',     model: 'gemini-1.5-flash' },
+    { api: 'v1beta', model: 'gemini-2.0-flash' },
+    { api: 'v1',     model: 'gemini-2.0-flash' },
+    { api: 'v1beta', model: 'gemini-1.5-pro' },
+    { api: 'v1',     model: 'gemini-1.5-pro' },
+    { api: 'v1beta', model: 'gemini-pro-vision' },
+  ];
   let lastError = "";
 
-  for (const model of models) {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`, {
+  for (const { api, model } of attempts) {
+    const res = await fetch(`https://generativelanguage.googleapis.com/${api}/models/${model}:generateContent?key=${GEMINI_API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -59,6 +68,32 @@ async function analyzeWithGemini(base64ImageUrl) {
     }
   }
   throw new Error(`Gemini failed all models. Last error: ${lastError}`);
+}
+
+async function chatWithGemini(systemPrompt, userMessage) {
+  if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY missing");
+  const textModels = [
+    { api: 'v1beta', model: 'gemini-1.5-flash' },
+    { api: 'v1',     model: 'gemini-1.5-flash' },
+    { api: 'v1beta', model: 'gemini-2.0-flash' },
+    { api: 'v1',     model: 'gemini-2.0-flash' },
+    { api: 'v1beta', model: 'gemini-1.5-pro' },
+  ];
+  let lastError = "";
+  for (const { api, model } of textModels) {
+    const res = await fetch(`https://generativelanguage.googleapis.com/${api}/models/${model}:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: `${systemPrompt}\n\nUser: ${userMessage}\nAskRakshak:` }] }] })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data.candidates[0].content.parts[0].text;
+    } else {
+      lastError = await res.text();
+    }
+  }
+  throw new Error(`Gemini chat failed. ${lastError}`);
 }
 
 async function chatWithOpenAI(systemPrompt, userMessage) {
@@ -111,12 +146,16 @@ router.post('/chat', async (req, res) => {
     
     let reply = "";
     try {
-      reply = await chatWithOpenAI(systemPrompt, message);
+      reply = await chatWithGemini(systemPrompt, message);
     } catch (e1) {
       try {
         reply = await chatWithMistral(systemPrompt, message);
       } catch (e2) {
-        reply = staticFallback(message);
+        try {
+          reply = await chatWithOpenAI(systemPrompt, message);
+        } catch (e3) {
+          reply = staticFallback(message);
+        }
       }
     }
     return res.json({ response: reply.trim() });
