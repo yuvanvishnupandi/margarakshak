@@ -101,7 +101,7 @@ async def chat_with_marga_mitra(req: ChatRequest):
     Feature 4 & 5: Conversational RAG and Floating Assistant
     """
     # Feature 4 Routing Logic
-    system_prompt = "You are Marga-Mitra, the helpful AI assistant for Marga Rakshak."
+    system_prompt = "You are AskRakshak, the helpful AI assistant for Marga Rakshak."
     
     if req.mode == "citizen":
         if "pay" in req.current_path.lower():

@@ -1,124 +1,94 @@
 <div align="center">
-  <img src="frontend/public/thumbnail.png" alt="Marga Rakshak Thumbnail" width="100%"/>
+  <img src="frontend/public/traffic_light_hd.png" alt="Marga Rakshak Logo" width="120" style="margin-bottom: 20px;"/>
+  <h1>Marga Rakshak</h1>
+  <p><strong>Government of Tamil Nadu – Smart Traffic Enforcement System</strong></p>
+  <p>An intelligent, agentic AI-powered traffic violation management platform.</p>
 </div>
+
+---
 
 **Live Production Deployment:** [https://margarakshak-xi.vercel.app](https://margarakshak-xi.vercel.app)  
 **Demo Video:** [Watch on DropBox](https://www.dropbox.com/scl/fi/olhgipdy6tnqgd7rynyvz/Screen-Recording-2026-05-07-095126.mp4?rlkey=us8acshyuceu60xhs9i9mjt5c&st=tacksy62&dl=0)
 
 ## Overview
 
-Marga Rakshak is an end-to-end traffic violation platform built to bridge the gap between everyday citizens and traffic authorities. By crowdsourcing violation reports, it simplifies enforcement workflows and helps maintain safer roads. 
+**Marga Rakshak** is a next-generation traffic enforcement platform designed to bridge the gap between citizens and traffic authorities. By crowdsourcing violation reports and processing them through an **Autonomous AI Agentic Workflow**, it drastically reduces the manual administrative burden on police departments while ensuring safer roads.
 
-Citizens can seamlessly register vehicles, submit media evidence of offenses, track fines, and build a trustworthy profile. The system actively incentivizes reliable reporting through gamified rewards. Meanwhile, Traffic Officers are equipped with a powerful administrative suite to evaluate submissions, issue automated fines, handle disputes, and monitor city-wide traffic behavior via data visualizations.
+Citizens can seamlessly register vehicles, submit media evidence of offenses, track fines, and build a trustworthy profile with gamified rewards. Traffic Officers are equipped with a powerful administrative suite, predictive intelligence, and automated AI assistance to evaluate submissions, issue fines, and monitor city-wide traffic behavior.
 
-## Core Capabilities
+## Core Capabilities & AI Agents
 
-- **Secure Portals:** Independent, authenticated interfaces tailored specifically for everyday users and law enforcement.
-- **Evidence Submission & AI OCR Vision:** Intuitive tools to capture and upload media for roadway offenses. Features an advanced AI Vision Engine powered by Gemini 2.5 Flash for automated license plate extraction, violation detection, and fraud prevention.
-- **Predictive AI Hotspot Dispatcher:** A proactive dispatch engine that analyzes verified reports and generates real-time duty dispatch alerts for police officers, identifying crash hotspots before they happen.
-- **AskRakshak Voice AI Agent:** An interactive voice-powered conversational AI. Citizens can dispute challans by speaking into their microphone using the Web Speech API, while the AI transcribes and drafts legal summary briefs in real-time.
-- **Robust Multi-Model Fallback Router:** Enterprise-grade backend architecture that seamlessly routes AI traffic between multiple models (Gemini, OpenAI, Mistral) to ensure 99.9% uptime and zero rate-limit crashes.
-- **Fine Processing Lifecycle:** End-to-end flow from the moment an officer issues a ticket to the citizen's final payment.
-- **Gamified Reliability:** A dynamic scoring algorithm that boosts the reputation of honest reporters and penalizes false claims, issuing tangible rewards for positive community impact.
-- **Data Insights:** Comprehensive dashboards featuring geographic heatmaps of offenses and public leaderboards to highlight top community contributors.
+Marga Rakshak utilizes a robust **Multi-Agent System** to automate the entire lifecycle of a traffic violation report.
+
+- 📸 **AI Vision Agent (Gemini 2.5 Flash):** Automatically scans uploaded evidence (images/videos) to extract license plate numbers, identify vehicle types, and detect specific violations (e.g., No Helmet, Over-speeding) with high accuracy.
+- ⚖️ **AI Rule Engine:** Validates the detected violations against the official Indian Motor Vehicles Act, automatically calculating the exact penalty amount and relevant sections.
+- 🗄️ **RTO Database Agent:** Cross-references extracted license plates with the live Regional Transport Office (RTO) database to ensure the vehicle is registered and retrieve the owner's details.
+- 🚨 **Predictive Hotspot Dispatcher:** A proactive intelligence engine that analyzes verified reports and generates real-time predictive duty dispatch alerts for police officers, identifying crash hotspots *before* they happen.
+- 💬 **AskRakshak (Conversational AI Assistant):** A contextual, floating AI assistant available across the platform. AskRakshak acts as a legal expert, helping citizens understand traffic laws, summarizing active challans, and assisting police officers with enforcement protocols.
+- 💻 **Autonomous Agentic Console:** A realistic, dynamic Mac-style terminal integrated into the Police Dashboard that provides officers with live, transparent insights into the real-time reasoning and actions of the AI agents.
 
 ## System Architecture
 
-Marga Rakshak is built on a robust, decoupled architecture separating the client-side application from the API services and data layer.
+Marga Rakshak is built on a modern, scalable microservices architecture.
 
-```mermaid
-graph TD
-    %% Styling Definitions
-    classDef client fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff;
-    classDef server fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
-    classDef ai fill:#8b5cf6,stroke:#5b21b6,stroke-width:2px,color:#fff;
-    classDef database fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff;
+### 1. Frontend (Client Layer)
+- **Framework:** React.js + Vite
+- **Styling:** Vanilla CSS + Tailwind CSS (for layout utility)
+- **Features:** Responsive design, animated Mac-terminal console, real-time toast notifications, distinct Citizen and Police portals.
 
-    %% Client Layer
-    Users([Citizens & Police]) -->|HTTPS Request| ReactApp[Vercel\nReact + Vite Frontend]
-    
-    %% API Layer
-    ReactApp -->|REST API / JSON| ExpressAPI[Render\nNode.js + Express Backend]
-    
-    subgraph "Backend Application (Express)"
-        ExpressAPI:::server
-        JWT[Authentication\nJWT Middleware]:::server
-        Controllers[Route Controllers\n& Business Logic]:::server
-        ExpressAPI --- JWT
-        ExpressAPI --- Controllers
-    end
-    
-    %% AI Python Microservice Layer
-    ReactApp -->|REST API| PythonAI[Python FastAPI\nLangGraph AI Orchestrator]:::ai
-    PythonAI -->|Multi-Model Router| LLMs([Gemini / OpenAI / Mistral]):::ai
-    
-    subgraph "Persistence & Storage"
-        TiDB[(TiDB Serverless\nDistributed MySQL)]:::database
-        DiskStorage[(Local Disk\nMedia Uploads)]:::database
-    end
+### 2. Backend (API Layer)
+- **Primary Server:** Node.js + Express.js (Port 5000)
+- **AI Microservice:** Python + FastAPI (Port 8000)
+- **Authentication:** JWT (JSON Web Tokens) with Role-Based Access Control (RBAC).
 
-    %% Flow Connections
-    Controllers <-->|SQL Queries / Read-Write| TiDB
-    Controllers <-->|File Stream I/O| DiskStorage
-```
+### 3. Database Layer
+- **Relational Database:** MySQL (PlanetScale / Local)
+- **Schema:** Optimized relational tables for `Users`, `Citizens`, `Police_Officers`, `Vehicles`, `Reports`, `Challans`, `Rules`, and `Notifications`.
 
-### Technology Stack
-- **Frontend Development:** React 18, Vite, React Router, Tailwind CSS, Web Speech API
-- **Backend Services:** Node.js, Express.js, JWT Authentication, Python, FastAPI, LangGraph, LangChain
-- **AI Models:** Google Gemini 2.5 Flash, Multi-Model Routing Logic
-- **Database & Storage:** TiDB (Serverless MySQL)
-- **Hosting & CI/CD:** Vercel (Frontend), Render (Backend)
+### 4. AI & Cloud Integrations
+- **AI Models:** Google Gemini 2.5 Flash (Vision & Reasoning), Groq (Fast Inference API)
+- **Routing:** Multi-Model Fallback Router ensuring 99.9% uptime by gracefully falling back between providers.
 
-## Project Structure
+## Key Workflows
 
-```text
-Traffic-Violation-Management-System/
-├── frontend/             # React application (UI and Views)
-│   ├── public/           # Static assets (images, icons)
-│   ├── src/
-│   │   ├── components/   # Reusable UI components
-│   │   ├── context/      # React context (State management)
-│   │   ├── pages/        # Page layouts and routing components
-│   │   ├── App.jsx       # Root application component
-│   │   └── config.js     # Environment configuration
-│   └── package.json      # Frontend dependencies
-├── backend/              # Node.js REST API server
-│   ├── routes/           # API route controllers
-│   ├── server.js         # Express server entry point
-│   └── package.json      # Backend dependencies
-├── db/                   # Database configuration
-│   ├── schema.sql        # SQL table definitions
-│   └── triggers.sql      # Automated SQL triggers
-├── server/uploads/       # Local storage for media evidence
-└── package.json          # Workspace configuration
-```
+### For Citizens:
+1. **Report a Violation:** Upload a photo/video of a traffic offense.
+2. **AI Pre-Processing:** The AI Vision Agent instantly extracts the license plate and violation type.
+3. **Earn Rewards:** Once verified by police, earn Trust Points which can be redeemed for rewards.
+4. **Manage Vehicles & Challans:** Register personal vehicles, view active challans, and read AI-generated summaries via AskRakshak.
 
-## Local Development Setup
+### For Police Officers:
+1. **Command Dashboard:** View predictive hotspots, total processed reports, and live AI agent logs.
+2. **One-Click Verification:** Review AI-processed reports. The AI has already identified the plate, rule, and fine amount. Officers simply click "Verify & Issue Challan".
+3. **Dispatch Management:** Acknowledge AI-recommended patrol dispatches for predicted high-risk zones.
 
-To run the project in a local development environment:
+## Local Setup Instructions
 
-1. **Clone the repository**
+**Prerequisites:** Node.js (v18+), Python (3.9+), and MySQL.
+
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/yuvanvishnupandi/Traffic-Violation-Management-System.git
    cd Traffic-Violation-Management-System
    ```
 
-2. **Install dependencies**
-   Install the root, frontend, and backend packages.
-   ```bash
-   npm install
-   cd frontend && npm install
-   cd ../backend && npm install
-   cd ..
-   ```
+2. **Database Setup:**
+   - Create a MySQL database named `traffic_violation_db`.
+   - Run the SQL schema provided in `backend/database_schema.sql`.
 
-3. **Configure environment variables**
-   - Create `backend/.env` containing your MySQL database credentials and `JWT_SECRET`.  
-   - Create `frontend/.env` containing `VITE_API_URL=http://localhost:5000`.
+3. **Environment Variables:**
+   - Create a `.env` file in the `backend/` directory with your MySQL credentials, JWT secret, and Google Gemini API Key.
+   - Create a `.env` file in the `ai_service/` directory with your Groq API Key and Google Gemini API Key.
 
-4. **Initialize development servers**
-   ```bash
-   npm run dev
+4. **Start the Application:**
+   Windows users can simply run the provided batch script to start all services simultaneously:
+   ```cmd
+   start.bat
    ```
-   *The Express API will run on port 5000, and the Vite development server will run on port 5173.*
- 
+   *Alternatively, start services manually:*
+   - Backend: `cd backend && npm install && npm start`
+   - AI Service: `cd ai_service && pip install -r requirements.txt && uvicorn main:app --reload --port 8000`
+   - Frontend: `cd frontend && npm install && npm run dev`
+
+---
+*Built with ❤️ for a safer tomorrow.*
