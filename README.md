@@ -10,7 +10,7 @@
 
 ---
 
-Marga Rakshak is a full-stack traffic violation management platform that enables citizens to report violations and empowers police officers to review, verify, and issue challans. The system includes AI-assisted report processing with Gemini vision, vehicle registration lookup, challan payment, appeals, and a rewards system.
+Margarakshak enables municipalities to enforce transit regulations at scale through a modular, three-tier architectural framework. By orchestrating vision-based AI agents, crowdsourced telemetry ingestion, and automated rule validation workflows, it creates a seamless pipeline from initial incident capture to final citation processing.
 
 ---
 
