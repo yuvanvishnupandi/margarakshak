@@ -17,7 +17,7 @@ async function chatWithFallback(systemPrompt, userMessage) {
   if (GoogleGenerativeAI && GEMINI_API_KEY) {
     try {
       const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // Use 1.5 flash for better stability
       const result = await model.generateContent(`${systemPrompt}\n\nUser: ${userMessage}\nAskRakshak:`);
       const text = result.response.text();
       if (text && text.trim()) return text.trim();
@@ -30,12 +30,24 @@ async function chatWithFallback(systemPrompt, userMessage) {
 
 async function analyzeEvidenceImage(base64ImageUrl) {
   const match = base64ImageUrl.match(/^data:image\/(\w+);base64,(.+)$/);
-  if (GoogleGenerativeAI && GEMINI_API_KEY && match) {
+  
+  if (!GEMINI_API_KEY) {
+    return {
+      is_valid_submission: false,
+      extracted_plate:     '',
+      violation_detected:  '',
+      confidence_score:    0,
+      rejection_reason:    'API Key missing on server. AI Vision requires GEMINI_API_KEY in Render environment.'
+    };
+  }
+
+  if (GoogleGenerativeAI && match) {
     try {
       const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+      // gemini-1.5-flash is extremely robust for vision
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-      const prompt = `You are a traffic violation AI. Analyse this image.
+      const prompt = `You are a strict traffic violation AI. Analyse this image.
 Return ONLY valid JSON (no markdown, no explanation):
 {
   "is_valid_submission": true or false,
@@ -44,9 +56,10 @@ Return ONLY valid JSON (no markdown, no explanation):
   "confidence_score": number from 0 to 100,
   "rejection_reason": "reason if invalid else empty string"
 }
-Rules:
-- is_valid_submission = true only if there is a clearly visible vehicle with a readable license plate
-- If blurry, no vehicle, no plate visible, or multiple vehicles: is_valid_submission = false
+
+Strict Rules:
+- is_valid_submission = true ONLY if there is a clearly visible vehicle AND a readable license plate.
+- If it is a random photo, a person, a deity, a landscape, blurry, or no plate is visible: is_valid_submission = false and set rejection_reason to "No clear vehicle or license plate detected".
 - violation_detected must be one of: Speeding, No Helmet, Triple Riding, No Seatbelt, Signal Jumping, Wrong Lane, Illegal Parking, Mobile Phone Use, Other`;
 
       const imagePart = {
@@ -70,15 +83,22 @@ Rules:
       };
     } catch (err) {
       console.warn('[AI Vision] Gemini vision failed:', err.message);
+      return {
+        is_valid_submission: false,
+        extracted_plate:     '',
+        violation_detected:  '',
+        confidence_score:    0,
+        rejection_reason:    `AI Vision Error: ${err.message}`
+      };
     }
   }
 
   return {
-    is_valid_submission: true,
+    is_valid_submission: false,
     extracted_plate:     '',
     violation_detected:  '',
-    confidence_score:    60,
-    rejection_reason:    ''
+    confidence_score:    0,
+    rejection_reason:    'Invalid image format or server misconfiguration.'
   };
 }
 
@@ -140,7 +160,7 @@ router.post('/process-evidence', async (req, res) => {
   } catch (err) {
     return res.json({
       status: 'success', is_fraud: false, fraud_reason: '',
-      vision_validation: { is_valid_submission: true, extracted_plate: '', violation_detected: '', confidence_score: 60, rejection_reason: '' },
+      vision_validation: { is_valid_submission: false, extracted_plate: '', violation_detected: '', confidence_score: 0, rejection_reason: `Server Error: ${err.message}` },
       challan: null, jurisdiction_id: 'RTO-TN01'
     });
   }
