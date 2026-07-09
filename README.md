@@ -58,7 +58,7 @@ graph TD
     AgentOrchestrator --> VisionAgent
     AgentOrchestrator --> RuleAgent
     AgentOrchestrator --> HotspotAgent
-    VisionAgent <--> Gemini API
+    VisionAgent <--> GeminiAPI[Gemini API]
 ```
 
 ---
