@@ -20,10 +20,10 @@ router.get('/predictive', authenticateToken, async (req, res) => {
     
     // Get actual locations with the most reports dynamically
     const [locRows] = await db.execute(
-      `SELECT location, COUNT(*) as incident_count 
+      `SELECT location_address, COUNT(*) as incident_count 
        FROM REPORTS 
-       WHERE district = ?
-       GROUP BY location ORDER BY incident_count DESC LIMIT 2`,
+       WHERE district = ? AND location_address IS NOT NULL AND location_address != ''
+       GROUP BY location_address ORDER BY incident_count DESC LIMIT 2`,
       [district]
     );
 
@@ -31,14 +31,14 @@ router.get('/predictive', authenticateToken, async (req, res) => {
     if (locRows.length >= 2) {
       baseHotspots = [
         { 
-          location: locRows[0].location || 'Anna Salai Junction', 
+          location: locRows[0].location_address || 'Anna Salai Junction', 
           riskLevel: 'Critical', 
           confidence: 94 + (locRows[0].incident_count % 5), 
           recommendedAction: 'Deploy Interceptor Vehicle', 
           peakTime: 'Today 18:00 - 21:00' 
         },
         { 
-          location: locRows[1].location || 'OMR Toll Plaza', 
+          location: locRows[1].location_address || 'OMR Toll Plaza', 
           riskLevel: 'High', 
           confidence: 85 + (locRows[1].incident_count % 5), 
           recommendedAction: 'Stationary Speed Camera Monitoring', 
