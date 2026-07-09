@@ -180,12 +180,12 @@ router.post('/citizen/register', async (req, res) => {
     }
 
     const [[existingVehicle]] = await conn.execute(
-      'SELECT plate_no FROM VEHICLES WHERE plate_no = ?',
+      'SELECT plate_no, citizen_id FROM VEHICLES WHERE plate_no = ?',
       [plateNo]
     );
-    if (existingVehicle) {
+    if (existingVehicle && existingVehicle.citizen_id !== null) {
       await conn.rollback();
-      return res.status(409).json({ error: 'Vehicle already registered.', plate_no: plateNo });
+      return res.status(409).json({ error: 'Vehicle already registered to an existing account.', plate_no: plateNo });
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
@@ -200,18 +200,34 @@ router.post('/citizen/register', async (req, res) => {
       `SHOW COLUMNS FROM VEHICLES LIKE 'citizen_id'`
     );
 
-    if (citizenIdColumn) {
-      await conn.execute(
-        `INSERT INTO VEHICLES (plate_no, vehicle_model, vehicle_type, owner_name, owner_type, citizen_id)
-         VALUES (?, ?, ?, ?, 'Individual', ?)`,
-        [plateNo, vehicle_model || 'Unknown', normalizeVehicleType(vehicle_type), fullName, citizenId]
-      );
+    if (existingVehicle) {
+      // Vehicle exists but citizen_id is null (placeholder from a report). Update it!
+      if (citizenIdColumn) {
+        await conn.execute(
+          `UPDATE VEHICLES SET vehicle_model = ?, vehicle_type = ?, owner_name = ?, citizen_id = ? WHERE plate_no = ?`,
+          [vehicle_model || 'Unknown', normalizeVehicleType(vehicle_type), fullName, citizenId, plateNo]
+        );
+      } else {
+        await conn.execute(
+          `UPDATE VEHICLES SET vehicle_model = ?, vehicle_type = ?, owner_name = ? WHERE plate_no = ?`,
+          [vehicle_model || 'Unknown', normalizeVehicleType(vehicle_type), fullName, plateNo]
+        );
+      }
     } else {
-      await conn.execute(
-        `INSERT INTO VEHICLES (plate_no, vehicle_model, vehicle_type, owner_name, owner_type)
-         VALUES (?, ?, ?, ?, 'Individual')`,
-        [plateNo, vehicle_model || 'Unknown', normalizeVehicleType(vehicle_type), fullName]
-      );
+      // New vehicle
+      if (citizenIdColumn) {
+        await conn.execute(
+          `INSERT INTO VEHICLES (plate_no, vehicle_model, vehicle_type, owner_name, owner_type, citizen_id)
+           VALUES (?, ?, ?, ?, 'Individual', ?)`,
+          [plateNo, vehicle_model || 'Unknown', normalizeVehicleType(vehicle_type), fullName, citizenId]
+        );
+      } else {
+        await conn.execute(
+          `INSERT INTO VEHICLES (plate_no, vehicle_model, vehicle_type, owner_name, owner_type)
+           VALUES (?, ?, ?, ?, 'Individual')`,
+          [plateNo, vehicle_model || 'Unknown', normalizeVehicleType(vehicle_type), fullName]
+        );
+      }
     }
 
     const user = {
