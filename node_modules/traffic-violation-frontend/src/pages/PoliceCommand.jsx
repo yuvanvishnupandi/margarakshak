@@ -190,14 +190,14 @@ function PoliceCommand({ user }) {
             <span className="text-gray-400 text-xs ml-2 uppercase font-bold tracking-widest">Autonomous Agentic Workflow Console</span>
           </div>
           <div className="space-y-2 text-green-400 text-xs sm:text-sm">
-            <p className="opacity-70">[SYSTEM] Marga Rakshak AI Core initialized.</p>
-            <p className="opacity-70">[VISION AGENT] Scanning incoming reports queue...</p>
-            <p className="text-purple-400">[VISION AGENT] Detected {stats.pendingReviews + 14} new reports in the last hour.</p>
-            <p className="text-blue-400">[RULE ENGINE] Cross-referencing detected plates with RTO database...</p>
-            <p className="text-blue-400">[RTO AGENT] Validated registration details for all pending reports.</p>
-            <p className="text-yellow-400">[DISPATCHER] Triaging reports - Average Confidence 94.2%.</p>
-            <p className="text-yellow-400">[DISPATCHER] Forwarding highest confidence reports to Dashboard for final 1-click approval.</p>
-            <p className="opacity-70">[SYSTEM] Waiting for manual review signals...</p>
+            <p className="opacity-70" style={{ animation: 'fadeIn 0.5s ease-in-out' }}>[SYSTEM] Marga Rakshak AI Core initialized.</p>
+            <p className="opacity-70" style={{ animation: 'fadeIn 0.5s ease-in-out 1.5s both' }}>[VISION AGENT] Scanning incoming reports queue...</p>
+            <p className="text-purple-400" style={{ animation: 'fadeIn 0.5s ease-in-out 3s both' }}>[VISION AGENT] Detected {stats.pendingReviews + 14} new reports in the last hour.</p>
+            <p className="text-blue-400" style={{ animation: 'fadeIn 0.5s ease-in-out 4.5s both' }}>[RULE ENGINE] Cross-referencing detected plates with RTO database...</p>
+            <p className="text-blue-400" style={{ animation: 'fadeIn 0.5s ease-in-out 6s both' }}>[RTO AGENT] Validated registration details for all pending reports.</p>
+            <p className="text-yellow-400" style={{ animation: 'fadeIn 0.5s ease-in-out 7.5s both' }}>[DISPATCHER] Triaging reports - Average Confidence 94.2%.</p>
+            <p className="text-yellow-400" style={{ animation: 'fadeIn 0.5s ease-in-out 9s both' }}>[DISPATCHER] Forwarding highest confidence reports to Dashboard for final 1-click approval.</p>
+            <p className="opacity-70" style={{ animation: 'fadeIn 0.5s ease-in-out 10.5s both' }}>[SYSTEM] Waiting for manual review signals...</p>
             <p className="animate-pulse">_</p>
           </div>
         </div>

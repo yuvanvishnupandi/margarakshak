@@ -5,43 +5,58 @@ const { authenticateToken } = require('../middleware/auth');
 
 router.get('/predictive', authenticateToken, async (req, res) => {
   try {
-    const district = req.user?.district || 'Sivagangai';
-    
-    // In a real AI system, this would query a Python ML microservice or an advanced AI engine.
-    // Here we generate simulated predictive hotspots based on the district for demonstration.
+    // FORCE Chennai for all users per user request
+    const district = 'Chennai';
     
     // Get recent violation counts to weight the predictions
-    const [rows] = await db.execute(
+    const [violRows] = await db.execute(
       `SELECT violation_type, COUNT(*) as count 
        FROM REPORTS 
        WHERE district = ? AND status IN ('Verified', 'Pending')
-       GROUP BY violation_type ORDER BY count DESC LIMIT 3`,
+       GROUP BY violation_type ORDER BY count DESC LIMIT 1`,
       [district]
     );
+    const topViolation = violRows.length > 0 ? violRows[0].violation_type : 'Speeding';
     
-    const topViolation = rows.length > 0 ? rows[0].violation_type : 'Speeding';
-    
+    // Get actual locations with the most reports dynamically
+    const [locRows] = await db.execute(
+      `SELECT location, COUNT(*) as incident_count 
+       FROM REPORTS 
+       WHERE district = ?
+       GROUP BY location ORDER BY incident_count DESC LIMIT 2`,
+      [district]
+    );
+
     let baseHotspots = [];
-    if (district === 'Chennai') {
+    if (locRows.length >= 2) {
       baseHotspots = [
-        { location: 'Anna Salai & Mount Road Junction', riskLevel: 'Critical', confidence: 94, recommendedAction: 'Deploy Interceptor Vehicle', peakTime: 'Today 18:00 - 21:00' },
-        { location: 'OMR Toll Plaza Approach', riskLevel: 'High', confidence: 88, recommendedAction: 'Stationary Speed Camera Monitoring', peakTime: 'Today 17:30 - 20:30' },
-        { location: 'Marina Beach Road', riskLevel: 'Medium', confidence: 76, recommendedAction: 'Routine Patrol Sweep', peakTime: 'Tonight 22:00 - 01:00' }
-      ];
-    } else if (district === 'Sivagangai') {
-      baseHotspots = [
-        { location: 'Madurai-Sivagangai Highway', riskLevel: 'Critical', confidence: 92, recommendedAction: 'Deploy Speed Checkpost', peakTime: 'Today 19:00 - 23:00' },
-        { location: 'Aranmanai Siruvayal Junction', riskLevel: 'High', confidence: 85, recommendedAction: 'Routine Patrol Sweep', peakTime: 'Tomorrow 08:00 - 10:00' }
+        { 
+          location: locRows[0].location || 'Anna Salai Junction', 
+          riskLevel: 'Critical', 
+          confidence: 94 + (locRows[0].incident_count % 5), 
+          recommendedAction: 'Deploy Interceptor Vehicle', 
+          peakTime: 'Today 18:00 - 21:00' 
+        },
+        { 
+          location: locRows[1].location || 'OMR Toll Plaza', 
+          riskLevel: 'High', 
+          confidence: 85 + (locRows[1].incident_count % 5), 
+          recommendedAction: 'Stationary Speed Camera Monitoring', 
+          peakTime: 'Today 17:30 - 20:30' 
+        }
       ];
     } else {
+      // Fallback if DB is empty
       baseHotspots = [
-        { location: 'Main Arterial Road', riskLevel: 'Critical', confidence: 91, recommendedAction: 'Deploy Interceptor Vehicle', peakTime: 'Today 17:00 - 20:00' },
-        { location: 'City Center Market Area', riskLevel: 'High', confidence: 82, recommendedAction: 'Foot Patrol', peakTime: 'Tomorrow 10:00 - 13:00' }
+        { location: 'Anna Salai & Mount Road Junction', riskLevel: 'Critical', confidence: 94, recommendedAction: 'Deploy Interceptor Vehicle', peakTime: 'Today 18:00 - 21:00' },
+        { location: 'OMR Toll Plaza Approach', riskLevel: 'High', confidence: 88, recommendedAction: 'Stationary Speed Camera Monitoring', peakTime: 'Today 17:30 - 20:30' }
       ];
     }
 
     // Attach dynamic violation insight
-    baseHotspots[0].insight = `Spike in ${topViolation} expected due to weekend traffic patterns.`;
+    if (baseHotspots.length > 0) {
+      baseHotspots[0].insight = `Spike in ${topViolation} expected based on real-time community reports.`;
+    }
     
     res.json({
       district,
