@@ -54,13 +54,11 @@ router.post('/create', async (req, res) => {
     return res.status(400).json({ error: 'citizen_id, plate_no, violation_type required.' });
   try {
     const [[cit]] = await db.execute(
-      `SELECT citizen_id, account_status, trust_score, district FROM CITIZENS WHERE citizen_id=?`, [citizen_id]
+      `SELECT citizen_id, account_status, trust_score FROM CITIZENS WHERE citizen_id=?`, [citizen_id]
     );
     if (!cit) return res.status(404).json({ error: 'Citizen not found.' });
     if (cit.account_status === 'Suspended' || cit.trust_score <= 0)
       return res.status(403).json({ error: 'Your account is suspended. You cannot submit reports.' });
-    
-    const citizenDistrict = cit.district || 'Chennai';
 
     const [[veh]] = await db.execute(`SELECT plate_no FROM VEHICLES WHERE plate_no=?`, [plate_no.toUpperCase()]);
     if (!veh) {

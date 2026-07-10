@@ -38,21 +38,28 @@ db.getConnection()
   .then(async conn => {
     console.log('Master Database Connected & Active.');
     
-    // Auto-migrate missing columns
-    try {
-      await conn.execute("ALTER TABLE REPORTS ADD COLUMN district VARCHAR(100) DEFAULT 'Chennai'");
-      console.log("Migration: Added 'district' column.");
-    } catch(e) {}
-    
-    try {
-      await conn.execute("ALTER TABLE REPORTS ADD COLUMN locked_by VARCHAR(50) DEFAULT NULL");
-      console.log("Migration: Added 'locked_by' column.");
-    } catch(e) {}
+    // Auto-migrate missing columns for ALL tables
+    const queries = [
+      "ALTER TABLE REPORTS ADD COLUMN district VARCHAR(100) DEFAULT 'Chennai'",
+      "ALTER TABLE reports ADD COLUMN district VARCHAR(100) DEFAULT 'Chennai'",
+      "ALTER TABLE REPORTS ADD COLUMN locked_by VARCHAR(50) DEFAULT NULL",
+      "ALTER TABLE reports ADD COLUMN locked_by VARCHAR(50) DEFAULT NULL",
+      "ALTER TABLE REPORTS ADD COLUMN locked_at DATETIME DEFAULT NULL",
+      "ALTER TABLE reports ADD COLUMN locked_at DATETIME DEFAULT NULL",
+      "ALTER TABLE CITIZENS ADD COLUMN district VARCHAR(100) DEFAULT 'Chennai'",
+      "ALTER TABLE citizens ADD COLUMN district VARCHAR(100) DEFAULT 'Chennai'",
+      "ALTER TABLE POLICE_OFFICERS ADD COLUMN district VARCHAR(100) DEFAULT 'Chennai'",
+      "ALTER TABLE police_officers ADD COLUMN district VARCHAR(100) DEFAULT 'Chennai'"
+    ];
 
-    try {
-      await conn.execute("ALTER TABLE REPORTS ADD COLUMN locked_at DATETIME DEFAULT NULL");
-      console.log("Migration: Added 'locked_at' column.");
-    } catch(e) {}
+    for (let q of queries) {
+      try {
+        await conn.execute(q);
+        console.log("Migration SUCCESS: " + q);
+      } catch (e) {
+        // Ignore errors (column exists, table doesn't exist, etc.)
+      }
+    }
 
     conn.release();
   })
