@@ -137,34 +137,6 @@ The AI service is designed as a collection of specialized agents. Each agent per
 
 ---
 
-## 📊 Violation Processing State Diagram
-
-```mermaid
-stateDiagram-v2
-
-[*] --> EvidenceUploaded
-
-EvidenceUploaded --> AIProcessing
-
-AIProcessing --> RuleValidation
-
-RuleValidation --> PendingReview
-
-PendingReview --> Approved
-
-PendingReview --> Rejected
-
-Approved --> ChallanGenerated
-
-ChallanGenerated --> CitizenNotified
-
-CitizenNotified --> [*]
-
-Rejected --> [*]
-```
-
----
-
 ## 🚀 Local Setup
 
 ### Prerequisites
