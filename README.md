@@ -321,7 +321,6 @@ start.bat
 <br />
 
 <h2 id="environment-variables">Environment variables</h2>
-
 <details>
 <summary><b>Full reference</b></summary>
 
