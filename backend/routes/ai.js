@@ -80,12 +80,18 @@ If is_valid_submission=false:
         return JSON.parse(cleaned);
       }
       const errBody = await res.text();
-      lastError = `${model}@${api}: ${errBody.substring(0,100)}`;
+      const thisErr = `${model}@${api}: ${errBody.substring(0,100)}`;
+      lastError = lastError ? `${lastError} | ${thisErr}` : thisErr;
+      
+      // If it's an API key error, don't bother trying other models
+      if (errBody.includes('API_KEY_INVALID') || errBody.includes('API key not valid')) {
+        throw new Error(`Invalid Gemini API Key: ${errBody.substring(0,100)}`);
+      }
     } catch (e) {
-      lastError = e.message;
+      lastError = lastError ? `${lastError} | ${e.message}` : e.message;
     }
   }
-  throw new Error(`Gemini vision failed all models. Last: ${lastError}`);
+  throw new Error(`Gemini vision failed. Errors: ${lastError}`);
 }
 
 // ─── OpenAI Vision (Fallback) ─────────────────────────────────────────────────
