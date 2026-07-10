@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/marga-rakshak.png" alt="Marga Rakshak" width="500" style="border-radius:12px"/>
+  <img src="frontend/src/assets/marga-rakshak3.png" alt="Marga Rakshak" width="500" style="border-radius:12px"/>
 </div>
 
 <h3 align="center">Marga Rakshak — AI-Driven Road Enforcement Platform</h3>
