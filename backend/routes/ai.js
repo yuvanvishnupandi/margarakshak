@@ -240,16 +240,9 @@ router.post('/process-evidence', async (req, res) => {
         vision = await analyzeWithOpenAI(image_url);
       } catch (e2) {
         visionError += ' | ' + e2.message;
-        // If both fail, return a permissive response so the image is not blocked
-        // Police will manually review it
-        vision = {
-          is_valid_submission: true,
-          extracted_plate: '',
-          violation_detected: '',
-          confidence_score: 50,
-          rejection_reason: ''
-        };
-        console.warn('[AI Vision] All providers failed, allowing image for manual review:', visionError);
+        console.error("AI Vision completely failed:", visionError);
+        // STRICT MODE: Do not accept images if AI is completely down or failing.
+        return res.status(500).json({ error: `AI Verification Failed. Please check your API keys or try again later. Details: ${visionError}` });
       }
     }
 
