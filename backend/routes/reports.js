@@ -28,6 +28,26 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
+router.get('/migrate', async (req, res) => {
+  let log = [];
+  try {
+    await db.execute("ALTER TABLE REPORTS ADD COLUMN district VARCHAR(100) DEFAULT 'Chennai'");
+    log.push("Added 'district' column.");
+  } catch (e) { log.push("district: " + e.code); }
+  
+  try {
+    await db.execute("ALTER TABLE REPORTS ADD COLUMN locked_by VARCHAR(50) DEFAULT NULL");
+    log.push("Added 'locked_by' column.");
+  } catch (e) { log.push("locked_by: " + e.code); }
+
+  try {
+    await db.execute("ALTER TABLE REPORTS ADD COLUMN locked_at DATETIME DEFAULT NULL");
+    log.push("Added 'locked_at' column.");
+  } catch (e) { log.push("locked_at: " + e.code); }
+
+  res.json({ status: "Migration script finished", log });
+});
+
 router.post('/create', async (req, res) => {
   const { citizen_id, plate_no, violation_type, location_address, location_coords, description } = req.body;
   if (!citizen_id || !plate_no || !violation_type)
