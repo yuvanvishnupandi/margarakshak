@@ -225,8 +225,10 @@ function SubmitReport() {
         success('Photo added. AI verification unavailable — will be reviewed manually by police.')
       }
     } catch (err) {
-      // AI service completely unreachable — accept image and warn
-      success('Photo added. AI check skipped (service offline) — will be reviewed manually by police.')
+      // AI service completely unreachable or threw an error
+      showError(`AI Verification Error: ${err.message || 'Service offline'}. Photo rejected.`)
+      setImagePreviews(prev => prev.filter(p => p !== base64String))
+      setEvidenceImages(prev => prev.filter(f => f !== file))
     } finally {
       setAiAnalyzingCount(prev => prev - 1)
     }
