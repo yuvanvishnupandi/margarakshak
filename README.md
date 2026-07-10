@@ -8,13 +8,13 @@
 <p>An AI-powered mobility enforcement platform — with computer vision, automated evidence processing, e-challan management, analytics, and role-based administration.</p>
 <br />
 
-<a href="https://margarakshak-xi.vercel.app"><img alt="Demo" src="https://img.shields.io/badge/Demo-try-111827?style=for-the-badge" /></a>
-&nbsp;
-<a href="https://github.com/yuvanvishnupandi/margarakshak"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-repo-181717?style=for-the-badge&logo=github&logoColor=white" /></a>
-<br />
-<a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-6B7280?style=flat-square" /></a>
-<a href="https://github.com/yuvanvishnupandi/margarakshak">
-<a href="https://github.com/yuvanvishnupandi/margarakshak/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/yuvanvishnupandi/margarakshak?style=flat-square&color=6B7280" /></a>
+<a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-8B5CF6?style=flat-square&labelColor=1F2937" /></a>
+ 
+<a href="https://github.com/yuvanvishnupandi/margarakshak/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/yuvanvishnupandi/margarakshak?style=flat-square&color=F59E0B&labelColor=1F2937&label=Stars" /></a>
+ 
+<a href="https://github.com/yuvanvishnupandi/margarakshak/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/yuvanvishnupandi/margarakshak?style=flat-square&color=22C55E&labelColor=1F2937&label=Last%20Commit" /></a>
+
+
 
 </div>
 
