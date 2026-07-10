@@ -2,8 +2,6 @@
   <img src="docs/marga-rakshak.png" alt="Marga Rakshak" width="500" style="border-radius:12px"/>
 </div>
 
-<h3 align="center">Marga Rakshak — AI-Driven Road Enforcement Platform</h3>
-
 ---
 
 Margarakshak enables municipalities to enforce transit regulations at scale through a modular, three-tier architectural framework. By orchestrating vision-based AI agents, crowdsourced telemetry ingestion, and automated rule validation workflows, it creates a seamless pipeline from initial incident capture to final citation processing.
