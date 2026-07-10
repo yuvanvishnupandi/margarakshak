@@ -215,17 +215,18 @@ function SubmitReport() {
             }
           })
         } else {
-          showError(`AI Rejected: ${validation.rejection_reason || 'No number plate found'}`)
+          // AI rejected this image — show error and remove it
+          showError(`AI Rejected: ${validation.rejection_reason || 'No number plate found. Please upload a clear vehicle photo.'}`)
           setImagePreviews(prev => prev.filter(p => p !== base64String))
           setEvidenceImages(prev => prev.filter(f => f !== file))
         }
       } else {
-        showError(`AI Rejected: AI failed to return a vision analysis`)
-        setImagePreviews(prev => prev.filter(p => p !== base64String))
-        setEvidenceImages(prev => prev.filter(f => f !== file))
+        // AI returned no validation object — accept image but warn user
+        success('Photo added. AI verification unavailable — will be reviewed manually by police.')
       }
     } catch (err) {
-      showError(`AI Verification Failed: ${err.message}`)
+      // AI service completely unreachable — accept image and warn
+      success('Photo added. AI check skipped (service offline) — will be reviewed manually by police.')
     } finally {
       setAiAnalyzingCount(prev => prev - 1)
     }

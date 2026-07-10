@@ -1,1 +1,0 @@
-{"response":"Namaste! I am AskRakshak, currently running on our backup server array (Mistral/OpenAI failover cluster) because our primary AI quota is temporarily exhausted. I am fully operational and here to help you today!"}

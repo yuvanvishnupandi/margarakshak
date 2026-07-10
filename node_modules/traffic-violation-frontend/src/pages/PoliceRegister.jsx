@@ -7,7 +7,7 @@ function PoliceRegister() {
   const navigate = useNavigate()
   const { success, error: showError } = useToast()
   const [formData, setFormData] = useState({
-    full_name: '', email: '', phone_no: '', password: '', confirm_password: '', district: 'Sivagangai'
+    full_name: '', email: '', phone_no: '', password: '', confirm_password: '', district: 'Chennai'
   })
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})

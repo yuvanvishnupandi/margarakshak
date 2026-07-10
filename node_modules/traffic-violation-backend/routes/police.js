@@ -6,11 +6,29 @@ const router = express.Router();
 
 router.get('/pending', authenticateToken, requirePolice, async (req, res) => {
   try {
-    const [rows] = await db.execute('SELECT * FROM Pending_Reports_Dashboard');
+    let rows;
+    try {
+      // Try the VIEW first
+      [rows] = await db.execute('SELECT * FROM Pending_Reports_Dashboard');
+    } catch (viewErr) {
+      // VIEW doesn't exist on this DB — fall back to direct query
+      [rows] = await db.execute(`
+        SELECT 
+          r.report_id, r.plate_no, r.violation_type, r.status,
+          r.location_address, r.description, r.evidence_path,
+          r.date_reported, r.district,
+          c.full_name AS citizen_name, c.phone AS citizen_phone,
+          c.trust_score
+        FROM REPORTS r
+        JOIN CITIZENS c ON r.citizen_id = c.citizen_id
+        WHERE r.status = 'Pending'
+        ORDER BY r.date_reported DESC
+      `);
+    }
     res.json(rows);
   } catch (err) {
     console.error('Fetch pending reports error:', err);
-    res.status(500).json({ error: 'Failed to fetch pending reports.' });
+    res.status(500).json({ error: 'Failed to fetch pending reports: ' + err.message });
   }
 });
 
@@ -114,8 +132,16 @@ router.patch('/reject/:id', authenticateToken, requirePolice, async (req, res) =
 
 router.get('/officer-performance', async (req, res) => {
   try {
-    
-    const [rows] = await db.execute('SELECT * FROM Officer_Performance_View ORDER BY verified_count DESC LIMIT 5');
+    let rows;
+    try {
+      [rows] = await db.execute('SELECT * FROM Officer_Performance_View ORDER BY verified_count DESC LIMIT 5');
+    } catch (viewErr) {
+      [rows] = await db.execute(`
+        SELECT badge_no, COUNT(*) as verified_count 
+        FROM REPORTS WHERE status='Verified' AND reviewed_by IS NOT NULL
+        GROUP BY reviewed_by ORDER BY verified_count DESC LIMIT 5
+      `);
+    }
     res.json({ success: true, data: rows });
   } catch (err) {
     console.error('Officer performance error:', err);

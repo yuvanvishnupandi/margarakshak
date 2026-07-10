@@ -10,6 +10,15 @@
     <title>Marga Rakshak | Government of Tamil Nadu – Smart Traffic Enforcement System</title>
   </head>
   <body>
+    <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        document.body.innerHTML = '<div style="padding: 50px; background: white; color: red; z-index: 99999; position: relative;"><h2>Global Error!</h2><pre>' + message + '\n' + (error ? error.stack : '') + '</pre></div>';
+        return true;
+      };
+      window.addEventListener('unhandledrejection', function(event) {
+        document.body.innerHTML = '<div style="padding: 50px; background: white; color: red; z-index: 99999; position: relative;"><h2>Unhandled Promise Rejection!</h2><pre>' + (event.reason ? event.reason.stack || event.reason : event) + '</pre></div>';
+      });
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

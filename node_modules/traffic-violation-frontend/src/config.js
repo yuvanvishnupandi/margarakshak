@@ -1,6 +1,8 @@
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 
+  (window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://margarakshak-backend.onrender.com');
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
-export const AI_BASE_URL = import.meta.env.VITE_AI_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : API_BASE_URL)
+export const AI_BASE_URL = import.meta.env.VITE_AI_URL || 
+  (window.location.hostname === 'localhost' ? 'http://localhost:8000' : API_BASE_URL);
 
 export const API_ENDPOINTS = {
   
@@ -26,4 +28,4 @@ export const API_ENDPOINTS = {
   FLAG_OVERDUE: `${API_BASE_URL}/api/trust/flag-overdue`,
 }
 
-export default API_BASE_URL
+export default API_BASE_URL;

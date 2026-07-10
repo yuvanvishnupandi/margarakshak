@@ -552,27 +552,11 @@ function MyChallans({ user }) {
               <div className="border border-gray-200 rounded-xl overflow-hidden flex flex-col h-[280px]">
                 <div className="bg-blue-50 p-3 border-b border-gray-200 flex items-center justify-between">
                    <div className="flex items-center gap-2">
-                     <span className={`w-2 h-2 rounded-full ${isAiSpeaking ? 'bg-green-500 animate-ping' : 'bg-blue-600 animate-pulse'}`}></span>
+                     <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
                      <span className="text-sm font-semibold text-blue-900">
-                       AskRakshak Voice AI {isAiSpeaking ? '(Speaking...)' : ''}
+                       AskRakshak AI Summary
                      </span>
                    </div>
-                   <button 
-                     onClick={toggleVoiceListening}
-                     className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${isListening ? 'bg-red-100 text-red-600 border border-red-200 shadow-inner' : 'bg-blue-600 text-white shadow-md hover:bg-blue-700'}`}
-                   >
-                     {isListening ? (
-                       <>
-                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-ping"></span>
-                         Stop Listening
-                       </>
-                     ) : (
-                       <>
-                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3z"></path><path strokeLinecap="round" strokeLinejoin="round" d="M19 10v2a7 7 0 01-14 0v-2M12 18.5v3.5M8 22h8"></path></svg>
-                         Start Voice AI
-                       </>
-                     )}
-                   </button>
                 </div>
                 
                 <div className="flex-1 bg-gray-50 p-4 overflow-y-auto flex flex-col gap-3">
