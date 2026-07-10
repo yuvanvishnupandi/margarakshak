@@ -32,8 +32,8 @@
     <td><img src="frontend/src/assets/img14.jpeg" width="400" style="border-radius:8px"/></td>
   </tr>
   <tr>
-    <td><img src="frontend/src/assets/img6.jpeg" width="400" style="border-radius:8px"/></td>
     <td><img src="frontend/src/assets/img13.jpeg" width="400" style="border-radius:8px"/></td>
+    <td><img src="frontend/src/assets/img17.jpeg" width="400" style="border-radius:8px"/></td>
   </tr>
   
 </table>
