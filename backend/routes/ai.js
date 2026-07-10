@@ -123,6 +123,35 @@ async function analyzeWithOpenAI(base64ImageUrl) {
   return JSON.parse(cleaned);
 }
 
+// ─── Mistral Vision (Fallback) ────────────────────────────────────────────────
+
+async function analyzeWithMistral(base64ImageUrl) {
+  if (!MISTRAL_API_KEY) throw new Error('MISTRAL_API_KEY not set');
+  const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${MISTRAL_API_KEY}` },
+    body: JSON.stringify({
+      model: 'pixtral-12b-2409',
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'text', text: 'You are a strict traffic violation AI. Analyse this image. Return ONLY valid JSON: {"is_valid_submission":true/false,"extracted_plate":"text or empty","violation_detected":"type or empty","confidence_score":0-100,"rejection_reason":"reason or empty"}. is_valid_submission=true ONLY if there is a clearly visible vehicle AND readable license plate. Random photos/deities/landscapes: false.' },
+          { type: 'image_url', image_url: base64ImageUrl }
+        ]
+      }],
+      response_format: { type: 'json_object' }
+    })
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Mistral error: ${body.substring(0,150)}`);
+  }
+  const data = await res.json();
+  const rawText = data.choices[0].message.content;
+  const cleaned = rawText.trim().replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/\s*```$/,'').trim();
+  return JSON.parse(cleaned);
+}
+
 // ─── Text Chat Functions ──────────────────────────────────────────────────────
 
 async function chatWithGemini(systemPrompt, userMessage) {
@@ -237,18 +266,23 @@ router.post('/process-evidence', async (req, res) => {
     let vision = null;
     let visionError = '';
 
-    // Gemini → OpenAI → accept gracefully
+    // Gemini → Mistral → OpenAI
     try {
       vision = await analyzeWithGemini(image_url);
     } catch (e1) {
       visionError = e1.message;
       try {
-        vision = await analyzeWithOpenAI(image_url);
+        vision = await analyzeWithMistral(image_url);
       } catch (e2) {
         visionError += ' | ' + e2.message;
-        console.error("AI Vision completely failed:", visionError);
-        // STRICT MODE: Do not accept images if AI is completely down or failing.
-        return res.status(500).json({ error: `AI Verification Failed. Please check your API keys or try again later. Details: ${visionError}` });
+        try {
+          vision = await analyzeWithOpenAI(image_url);
+        } catch (e3) {
+          visionError += ' | ' + e3.message;
+          console.error("AI Vision completely failed:", visionError);
+          // STRICT MODE: Do not accept images if AI is completely down or failing.
+          return res.status(500).json({ error: `AI Verification Failed. Please check your API keys or try again later. Details: ${visionError}` });
+        }
       }
     }
 
