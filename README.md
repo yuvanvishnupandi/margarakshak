@@ -1,10 +1,16 @@
 <div align="center">
-  <img src="docs/marga-rakshak.png" alt="Marga Rakshak" width="500" style="border-radius:12px"/>
+  <img src="docs/marga-rakshak.jpg" alt="Marga Rakshak" width="500" style="border-radius:12px"/>
 </div>
+
+<h3 align="center">Marga Rakshak — AI-Driven Road Enforcement Platform</h3>
+<p align="center">
+  <a href="https://margarakshak-xi.vercel.app">🌐 Live Demo</a> &nbsp;|&nbsp;
+  <a href="https://github.com/yuvanvishnupandi/margarakshak">📁 GitHub</a>
+</p>
 
 ---
 
-Margarakshak enables municipalities to enforce transit regulations at scale through a modular, three-tier architectural framework. By orchestrating vision-based AI agents, crowdsourced telemetry ingestion, and automated rule validation workflows, it creates a seamless pipeline from initial incident capture to final citation processing.
+Marga Rakshak is a full-stack traffic violation management platform that enables citizens to report violations and empowers police officers to review, verify, and issue challans. The system includes AI-assisted report processing with Gemini vision, vehicle registration lookup, challan payment, appeals, and a rewards system.
 
 ---
 
@@ -132,6 +138,34 @@ The AI service is designed as a collection of specialized agents. Each agent per
 
 - **AskRakshak Assistant**
   - Answers user queries related to traffic rules, challans, and reporting procedures.
+
+---
+
+## 📊 Violation Processing State Diagram
+
+```mermaid
+stateDiagram-v2
+
+[*] --> EvidenceUploaded
+
+EvidenceUploaded --> AIProcessing
+
+AIProcessing --> RuleValidation
+
+RuleValidation --> PendingReview
+
+PendingReview --> Approved
+
+PendingReview --> Rejected
+
+Approved --> ChallanGenerated
+
+ChallanGenerated --> CitizenNotified
+
+CitizenNotified --> [*]
+
+Rejected --> [*]
+```
 
 ---
 
