@@ -42,7 +42,7 @@
 
 
 ---
-## What you get
+## Key Functionalities
 <div align="center">
 <img src="frontend/src/assets/readme1.png" alt="Marga Rakshak — overview" width="100%" />
 
