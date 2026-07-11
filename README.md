@@ -188,7 +188,7 @@ CHATBOT --> OpenAIAPI[OpenAI API]
 
 <br />
 
-## 🔄 Traffic violation processing workflow
+## raffic violation processing workflow
 
 The following sequence diagram illustrates how a citizen report is processed from submission to challan generation.
 
@@ -217,7 +217,7 @@ Backend-->>Citizen: Notify report status
 
 <br />
 
-## 🔄 Core data flow
+## Core data flow
 
 1. Citizen uploads traffic violation evidence through the portal.
 2. The backend stores the uploaded media and forwards it to the AI service.
