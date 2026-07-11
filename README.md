@@ -188,7 +188,7 @@ CHATBOT --> OpenAIAPI[OpenAI API]
 
 <br />
 
-## raffic violation processing workflow
+## Traffic violation processing workflow
 
 The following sequence diagram illustrates how a citizen report is processed from submission to challan generation.
 
