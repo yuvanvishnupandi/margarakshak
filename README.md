@@ -8,13 +8,44 @@
 <p>An AI-powered mobility enforcement platform — with computer vision, automated evidence processing, e-challan management, analytics, and role-based administration.</p>
 <br />
 
-<a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-8B5CF6?style=flat-square&labelColor=1F2937" /></a>
- 
-<a href="https://github.com/yuvanvishnupandi/margarakshak/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/yuvanvishnupandi/margarakshak?style=flat-square&color=F59E0B&labelColor=1F2937&label=Stars" /></a>
- 
-<a href="https://github.com/yuvanvishnupandi/margarakshak/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/yuvanvishnupandi/margarakshak?style=flat-square&color=22C55E&labelColor=1F2937&label=Last%20Commit" /></a>
 
+<p align="center">
 
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+
+<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"/>
+
+<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"/>
+
+<img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express"/>
+
+<img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI"/>
+
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
+
+<img src="https://img.shields.io/badge/Gemini_AI-8E75B2?style=for-the-badge&logo=google&logoColor=white" alt="Gemini AI"/>
+
+<img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI"/>
+
+<img src="https://img.shields.io/badge/Mistral_AI-FF7000?style=for-the-badge&logo=mistralai&logoColor=white" alt="Mistral AI"/>
+
+<img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT"/>
+
+<img src="https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS"/>
+
+<img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel"/>
+
+<img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black" alt="Render"/>
+
+<img src="https://img.shields.io/github/stars/yuvanvishnupandi/margarakshak?style=for-the-badge" alt="Stars"/>
+
+<img src="https://img.shields.io/github/forks/yuvanvishnupandi/margarakshak?style=for-the-badge" alt="Forks"/>
+
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="MIT License"/>
+
+<img src="https://img.shields.io/github/last-commit/yuvanvishnupandi/margarakshak?style=for-the-badge" alt="Last Commit"/>
+
+</p>
 
 </div>
 
