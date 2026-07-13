@@ -5,7 +5,7 @@
 <br />
 
 <div align="center">
-<p>An AI-powered mobility enforcement platform — with computer vision, automated evidence processing, e-challan management, analytics, and role-based administration.</p>
+<p>An AI-powered mobility enforcement platform with computer vision, automated evidence processing, e-challan management, analytics, and role-based administration.</p>
 <br />
 
 
