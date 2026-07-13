@@ -148,26 +148,137 @@ Create a MySQL database named `traffic_violation_db`, import the schema from `ba
 
 <br />
 
-## Tech stack
+## 🛠️ Tech Stack
 
-<div align="center">
+<table align="center">
+<tr>
 
-![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
-![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=flat-square&logo=googlegemini&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-10A37F?style=flat-square&logo=openai&logoColor=white)
-![Mistral](https://img.shields.io/badge/Mistral_AI-FA520F?style=flat-square&logo=mistralai&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
-![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white)
+<td align="center" width="180" height="180">
+<a href="https://react.dev/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/react.svg" width="90"/><br><br>
+<b>React</b>
+</a>
+</td>
 
-</div>
+<td align="center" width="180" height="180">
+<a href="https://vitejs.dev/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vite.svg" width="90"/><br><br>
+<b>Vite</b>
+</a>
+</td>
 
-Frontend on React + Vite. Backend on Express.js with JWT auth. AI service runs independently on FastAPI, orchestrating Gemini Vision for plate/violation detection and Groq for the AskRakshak chat assistant. Data in MySQL 8.0.
+<td align="center" width="180" height="180">
+<a href="https://nodejs.org/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg" width="90"/><br><br>
+<b>Node.js</b>
+</a>
+</td>
 
+<td align="center" width="180" height="180">
+<a href="https://expressjs.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/express.svg" width="90"/><br><br>
+<b>Express</b>
+</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td align="center" width="180" height="180">
+<a href="https://fastapi.tiangolo.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/fastapi.svg" width="90"/><br><br>
+<b>FastAPI</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://www.mysql.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/mysql.svg" width="90"/><br><br>
+<b>MySQL</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/javascript.svg" width="90"/><br><br>
+<b>JavaScript</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://ai.google.dev/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/googlegemini.svg" width="90"/><br><br>
+<b>Gemini</b>
+</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td align="center" width="180" height="180">
+<a href="https://mistral.ai/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/mistralai.svg" width="90"/><br><br>
+<b>Mistral AI</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://tailwindcss.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/tailwindcss.svg" width="90"/><br><br>
+<b>Tailwind CSS</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://jwt.io/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/jsonwebtokens.svg" width="90"/><br><br>
+<b>JWT</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://vercel.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vercel.svg" width="90"/><br><br>
+<b>Vercel</b>
+</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td align="center" width="180" height="180">
+<a href="https://render.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/render.svg" width="90"/><br><br>
+<b>Render</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://git-scm.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/git.svg" width="90"/><br><br>
+<b>Git</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://github.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/github.svg" width="90"/><br><br>
+<b>GitHub</b>
+</a>
+</td>
+
+<td align="center" width="180" height="180">
+<a href="https://www.postman.com/">
+<img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/postman.svg" width="90"/><br><br>
+<b>Postman</b>
+</a>
+</td>
+
+</tr>
+</table>
 <br />
 
 <h2 id="architecture">🏛️ Overall system architecture</h2>
